@@ -1,9 +1,15 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer: 
+  errors: 
+    avoid_print: error
+    always_use_package_imports: error
+    avoid_relative_lib_imports: error
+
 linter:
 
   rules:
-    avoid_print: true
-    always_use_package_imports: true
-    avoid_relative_lib_imports: true
+    - avoid_print
+    - always_use_package_imports
+    - avoid_relative_lib_imports
 
