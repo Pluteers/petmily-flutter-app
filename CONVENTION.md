@@ -13,8 +13,8 @@
 - 신규 기능을 작업하기 위한 이슈가 등록된 상태라면 해당 브랜치를 생성합니다.
 
   ```bash
-  $ git branch # 현재 브랜치를 확인합니다.
-  $ git branch -d feat/issue-name # 브랜치를 생성하고 스위치합니다.
+  $git branch # 현재 브랜치를 확인합니다.
+  $git branch -d feat/issue-name # 브랜치를 생성하고 스위치합니다.
   ```
 
 1.2. `styl/issue-name`
@@ -22,8 +22,8 @@
 - UI / UX 작업을 하기 위한 이슈가 등록된 상태라면 해당 브랜치를 생성합니다.
 
   ```bash
-    $ git branch # 현재 브랜치를 확인합니다.
-    $ git branch -d styl/issue-name # 브랜치를 생성하고 스위치합니다.
+  $git branch # 현재 브랜치를 확인합니다.
+  $git branch -d styl/issue-name # 브랜치를 생성하고 스위치합니다.
   ```
 
 1.3.  `test/drive+version-code`
@@ -33,8 +33,8 @@
 - feat, styl 브랜치를 병합하고 통합 테스트를 진행하는 브랜치입니다.
 
   ```bash
-  $ git branch # 현재 브랜치를 확인합니다.
-  $ git branch -d test/drive+version-code # 예) drive+1
+  $git branch # 현재 브랜치를 확인합니다.
+  $git branch -d test/drive+version-code # 예) drive+1
   ```
 
 1.4.  `release/version+version-code`
@@ -44,8 +44,8 @@
 - 통합 테스트 완료 후 내용이 병합된 main 브랜치에서 분기됩니다.
 
   ```bash
-  $ git branch # 현재 브랜치를 확인합니다.
-  $ git branch -d test/version+version-code # 예) 1.0.0+1
+  $git branch # 현재 브랜치를 확인합니다.
+  $git branch -d test/version+version-code # 예) 1.0.0+1
   ```
 
 ---
@@ -147,3 +147,22 @@ $git commit -m "delete(#n): 불필요한 파일 삭제"
 
 $git commit -m "docs(#n): 문서 추가"
 ```
+
+## Dart
+
+- Dart 언어와 관련해서 문서화가 필요한 내용은 이 부분에 추가됩니다.
+- analyze 설정과 관련해서도 이 부분에 추가할 예정입니다.
+
+## Flutter
+
+- Flutter SDK는 업데이트 주기가 매우 잦습니다.
+- 네이티브 코드를 대응하기 위한 것도 있겠으나, 최적화도 꾸준하게 작업하고 있는 것 같습니다.
+- 따라서 주기적으로 갱신 여부를 확인해줍시다.
+  ```bash
+  $flutter doctor -v
+  $flutter upgrade
+  ```
+- 이제 스키아 엔진에서 Impeller 엔진으로 교체한다고 합니다.
+- iOS에서 더 좋은 성능을 보여준다고 합니다.
+
+
