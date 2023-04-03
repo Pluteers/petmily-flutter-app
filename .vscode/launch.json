@@ -4,20 +4,38 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        /*
         {
-            "name": "petmily",
+            "name": "petmily (emulator)",
             "request": "launch",
-            "type": "dart"
+            "program": "lib/main.dart",
+            "type": "dart",
+            "args": ["--debug-emulator"],
+            "flutterMode": "debug",
+            "console": "debugConsole"
+        },
+        */
+        {
+            "name": "petmily (simulator)",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "type": "dart",
+            "deviceId": "1F5BED5A-CD15-4434-8C59-E49778C771CE",
+            "args": ["--debug-simulator"],
+            "flutterMode": "debug",
+            "console": "debugConsole"
         },
         {
             "name": "petmily (profile mode)",
             "request": "launch",
+            "program": "lib/main.dart",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
             "name": "petmily (release mode)",
             "request": "launch",
+            "program": "lib/main.dart",
             "type": "dart",
             "flutterMode": "release"
         }
