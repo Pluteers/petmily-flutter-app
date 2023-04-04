@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:petmily/utilities/dynamic_theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,6 +15,9 @@ class MainApp extends StatelessWidget {
     return DynamicColorBuilder(
       builder: (ColorScheme? lightColorScheme, ColorScheme? darkColorScheme) =>
           MaterialApp(
+        theme: DynamicTheme.lightTheme(lightColorScheme),
+        darkTheme: DynamicTheme.darkTheme(darkColorScheme),
+        themeMode: ThemeMode.light,
         home: Scaffold(
           body: Center(
             child: Column(
