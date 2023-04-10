@@ -6,36 +6,56 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
     List<ImageData> imageDataList = [
       ImageData(
-        imagePath: "assets/images/test.webp",
+        imagePath: "assets/images/image1.png",
+        name: "Image 1",
+        description: "This is the first image.",
+      ),
+      ImageData(
+        imagePath: "assets/images/image1.png",
         name: "Image 1",
         description: "This is the first image.",
       ),
     ];
     return Scaffold(
+      backgroundColor: dynamicColor.background,
+      appBar: AppBar(
+        title: SizedBox(width: _width, child: const Text('channel')),
+      ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: GridView(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        child: SizedBox(
+          height: _height * 0.7,
+          child: GridView.count(
             crossAxisCount: 2,
-            childAspectRatio: 0.8,
+            children: List.generate(imageDataList.length, (index) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: dynamicColor.error, width: 1)),
+                  child: Column(
+                    children: [
+                      Container(
+                          alignment: Alignment.topLeft,
+                          height: _height * 0.15,
+                          decoration: BoxDecoration(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(imageDataList[index].name),
+                          )),
+                      Text(imageDataList[index].description),
+                    ],
+                  ),
+                ),
+              );
+            }),
           ),
-          children: imageDataList.map((imageData) {
-            return Container(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Image.asset(imageData.imagePath),
-                  const SizedBox(height: 8.0),
-                  Text(imageData.name),
-                  Text(imageData.description),
-                ],
-              ),
-            );
-          }).toList(),
         ),
-      )),
+      ),
       bottomNavigationBar: BottomAppBar(
         color: dynamicColor.surfaceVariant,
       ),
