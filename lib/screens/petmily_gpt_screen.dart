@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
-class PetmiliyGPTScreen extends StatelessWidget {
-  const PetmiliyGPTScreen({super.key});
+class PetmilyGPTScreen extends StatelessWidget {
+  const PetmilyGPTScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
