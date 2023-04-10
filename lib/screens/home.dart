@@ -11,12 +11,12 @@ class HomeScreen extends StatelessWidget {
     List<ImageData> imageDataList = [
       ImageData(
         imagePath: "assets/images/image1.png",
-        name: "Image 1",
+        name: "CTG01",
         description: "This is the first image.",
       ),
       ImageData(
         imagePath: "assets/images/image1.png",
-        name: "Image 1",
+        name: "CTG02",
         description: "This is the first image.",
       ),
     ];
@@ -35,19 +35,31 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: dynamicColor.error, width: 1)),
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      image: AssetImage(
+                          imageDataList[index].imagePath), // 이미지 파일 경로
+                      fit: BoxFit.cover, // 이미지 채우는 방법
+                    ),
+                  ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          alignment: Alignment.topLeft,
-                          height: _height * 0.15,
-                          decoration: BoxDecoration(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(imageDataList[index].name),
+                          width: _width,
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: dynamicColor.primary,
+                          ),
+                          child: Text(
+                            imageDataList[index].name,
+                            style: TextStyle(color: dynamicColor.onPrimary),
                           )),
-                      Text(imageDataList[index].description),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(imageDataList[index].description),
+                      ),
                     ],
                   ),
                 ),
