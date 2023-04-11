@@ -27,7 +27,19 @@ class ChannelScreen extends StatelessWidget {
         ]),
       ),
       bottomNavigationBar: BottomAppBar(
+        height: 80,
         color: dynamicColor.surfaceVariant,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: dynamicColor.secondary,
+        elevation: 0,
+        onPressed: () {},
+        tooltip: 'Add',
+        child: Icon(
+          Icons.add,
+          color: dynamicColor.onSecondary,
+        ),
       ),
     );
   }
