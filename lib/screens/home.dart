@@ -20,6 +20,26 @@ class HomeScreen extends StatelessWidget {
         name: "CTG02",
         description: "This is the first image.",
       ),
+      ImageData(
+        imagePath: "assets/images/image1.png",
+        name: "CTG03",
+        description: "This is the first image.",
+      ),
+      ImageData(
+        imagePath: "assets/images/image1.png",
+        name: "CTG04",
+        description: "This is the first image.",
+      ),
+      ImageData(
+        imagePath: "assets/images/image1.png",
+        name: "CTG05",
+        description: "This is the first image.",
+      ),
+      ImageData(
+        imagePath: "assets/images/image1.png",
+        name: "CTG06",
+        description: "This is the first image.",
+      ),
     ];
     return Scaffold(
       backgroundColor: dynamicColor.background,
@@ -30,7 +50,8 @@ class HomeScreen extends StatelessWidget {
         child: SizedBox(
           height: _height * 0.7,
           child: GridView.count(
-            crossAxisCount: 2,
+            //메인화면 그리드 뷰
+            crossAxisCount: 2, //한 줄에 들어가는 컨텐츠 숫자
             children: List.generate(imageDataList.length, (index) {
               return Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -49,10 +70,13 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Container(
                             width: _width,
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: dynamicColor.primary,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                              ),
+                              color: dynamicColor.primary.withOpacity(0.9),
                             ),
                             child: Text(
                               imageDataList[index].name,
@@ -80,7 +104,19 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
+        height: 80,
         color: dynamicColor.surfaceVariant,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: dynamicColor.secondary,
+        elevation: 0,
+        onPressed: () {},
+        tooltip: 'Add',
+        child: Icon(
+          Icons.add,
+          color: dynamicColor.onSecondary,
+        ),
       ),
     );
   }
