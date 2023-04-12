@@ -48,19 +48,20 @@ class ChannelScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(children: [
           Container(
+              margin: const EdgeInsets.only(left: 20),
               width: _width,
-              alignment: Alignment.center,
+              alignment: Alignment.topLeft,
               child: VariableText(
                 value: channelId,
                 size: 35,
-                wght: 900,
+                wght: 500,
                 wdth: 100,
                 color: dynamicColor.primary,
               )),
           Container(
               width: _width,
-              padding: const EdgeInsets.only(right: 10),
-              alignment: Alignment.topRight,
+              padding: const EdgeInsets.only(left: 20),
+              alignment: Alignment.topLeft,
               child: VariableText(
                 value: "총 ~ 건",
                 size: 11,
