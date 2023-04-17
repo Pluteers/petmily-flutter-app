@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:petmily/login/screens/login_petmiliy_view.dart';
+import 'package:petmily/signup/screens/signup_view.dart';
 import 'package:provider/provider.dart';
 import 'package:petmily/login/services/login_viewmodel.dart';
 
@@ -108,7 +109,7 @@ class _LoginView extends StatelessWidget {
                 // 회원가입 화면으로 이동
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPetmiliyView()),
+                  MaterialPageRoute(builder: (context) => SignupView()),
                 );
               },
             ),

@@ -52,7 +52,10 @@ class _SignupViewState extends State<SignupView> {
             ElevatedButton(
               child: Text("Sign up", style: TextStyle(fontSize: 21)),
               onPressed: () {
-                // 회원가입
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginView()),
+                );
               },
             ),
           ],
