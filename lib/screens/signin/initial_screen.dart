@@ -59,6 +59,8 @@ class _InitialWidgetState extends State<InitialWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
+                  constraints:
+                      const BoxConstraints(maxWidth: 40.0, maxHeight: 40.0),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -73,6 +75,8 @@ class _InitialWidgetState extends State<InitialWidget> {
                   ),
                 ),
                 IconButton(
+                  constraints:
+                      const BoxConstraints(maxWidth: 40.0, maxHeight: 40.0),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -87,6 +91,8 @@ class _InitialWidgetState extends State<InitialWidget> {
                   ),
                 ),
                 IconButton(
+                  constraints:
+                      const BoxConstraints(maxWidth: 40.0, maxHeight: 40.0),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -103,10 +109,14 @@ class _InitialWidgetState extends State<InitialWidget> {
               ],
             ),
             const SizedBox(height: 20.0),
-            ElevatedButton(
+            OutlinedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0))),
+              ),
               child: const VariableText(
-                value: "Petmiliy계정으로 접속",
-                size: 20.0,
+                value: "Petmiliy 계정으로 접속",
+                size: 15.0,
                 wght: 400.0,
               ),
               onPressed: () {
@@ -119,10 +129,14 @@ class _InitialWidgetState extends State<InitialWidget> {
               },
             ),
             const SizedBox(height: 20.0),
-            ElevatedButton(
+            OutlinedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0))),
+              ),
               child: const VariableText(
-                value: "Petmiliy계정 만들기",
-                size: 20.0,
+                value: "Petmiliy 계정 만들기",
+                size: 15.0,
                 wght: 400.0,
               ),
               onPressed: () {
