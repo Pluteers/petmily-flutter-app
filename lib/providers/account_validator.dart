@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class LoginViewModel extends ChangeNotifier {
+class AccountValidator extends ChangeNotifier {
   String email = '';
   String password = '';
 
