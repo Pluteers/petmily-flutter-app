@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:petmily/services/authentication.dart';
 import 'package:petmily/screens/signin/petmily_signin_screen.dart';
+import 'package:petmily/widgets/variable_text.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -13,52 +12,89 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Signup")),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        controller: scrollController,
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
-              child: Text(
-                "Sign up",
-                style: TextStyle(
-                  fontSize: 24,
-                ),
+            const Center(
+              child: VariableText(value: "회원가입", size: 24.0, wght: 300.0),
+            ),
+            const SizedBox(height: 32.0),
+
+            Form(
+              autovalidateMode: AutovalidateMode.always,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: emailController,
+                    obscureText: true,
+                  ),
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: false,
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 32),
 
-            /// 이메일
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(hintText: "e-mail"),
-            ),
-
-            /// 비밀번호
-            TextField(
-              controller: passwordController,
-              obscureText: false,
-              decoration: InputDecoration(hintText: "password"),
-            ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32.0),
 
             /// 회원가입 버튼
             ElevatedButton(
-              child: Text("Sign up", style: TextStyle(fontSize: 21)),
+              child: const VariableText(value: "등록하기", size: 24.0, wght: 500.0),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PetmilySigninScreen()),
+                      builder: (context) => const PetmilySigninScreen()),
                 );
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTextFormFieldWidget extends StatelessWidget {
+  const CustomTextFormFieldWidget({
+    Key? key,
+    this.labelText,
+    this.hintText,
+    this.errorText,
+    required this.controller,
+    required this.textInputType,
+    required this.validater,
+  }) : super(key: key);
+
+  final String? labelText;
+  final String? hintText;
+  final String? errorText;
+  final TextEditingController controller;
+  final TextInputType textInputType;
+  final String? Function(String?) validater;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: TextFormField(
+        controller: controller,
+        keyboardType: textInputType,
+        validator: validater,
+        obscureText: false,
+        decoration: InputDecoration(
+          labelText: labelText ?? "",
+          errorText: errorText ?? "",
+          hintText: hintText ?? "",
         ),
       ),
     );
