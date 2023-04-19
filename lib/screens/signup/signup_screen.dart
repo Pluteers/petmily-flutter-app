@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:petmily/services/authentication.dart';
 import 'package:petmily/screens/signin/petmily_signin_screen.dart';
 
-class SignupView extends StatefulWidget {
-  const SignupView({Key? key}) : super(key: key);
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignupView> createState() => _SignupViewState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupViewState extends State<SignupView> {
+class _SignupScreenState extends State<SignupScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
