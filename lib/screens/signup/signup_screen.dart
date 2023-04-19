@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:petmily/signup/services/auth_service.dart';
-import 'package:petmily/login/screens/login_view.dart';
+import 'package:petmily/services/authentication.dart';
+import 'package:petmily/screens/signin/petmily_signin_screen.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({Key? key}) : super(key: key);
@@ -54,7 +53,8 @@ class _SignupViewState extends State<SignupView> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginView()),
+                  MaterialPageRoute(
+                      builder: (context) => PetmilySigninScreen()),
                 );
               },
             ),

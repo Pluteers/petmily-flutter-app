@@ -1,11 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:petmily/login/screens/login_petmiliy_view.dart';
-import 'package:petmily/signup/screens/signup_view.dart';
 import 'package:provider/provider.dart';
-import 'package:petmily/login/services/login_viewmodel.dart';
+import 'package:petmily/screens/signin/local_signin_screen.dart';
+import 'package:petmily/screens/signup/signup_screen.dart';
+import 'package:petmily/services/login_viewmodel.dart';
 
-class LoginView extends StatelessWidget {
+class PetmilySigninScreen extends StatelessWidget {
+  const PetmilySigninScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -26,20 +28,20 @@ class _LoginView extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Petmiliy',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 45.0),
             ),
-            Text(
+            const Text(
               '우리가 만드는 반려동물 캔버스',
               style: TextStyle(fontSize: 22.0),
             ),
-            SizedBox(
+            const SizedBox(
               height: 60.0,
             ),
             Row(

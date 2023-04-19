@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:petmily/login/screens/login_view.dart';
+import 'package:petmily/screens/signin/petmily_signin_screen.dart';
 
 class LoginPetmiliyView extends StatefulWidget {
   const LoginPetmiliyView({Key? key}) : super(key: key);
@@ -52,7 +51,8 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginView()),
+                  MaterialPageRoute(
+                      builder: (context) => PetmilySigninScreen()),
                 );
               },
             ),
