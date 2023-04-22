@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petmily/providers/account_validator.dart';
-import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
+import 'package:petmily/providers/local_authenticator.dart';
 import 'package:petmily/screens/signin/local_signin_screen.dart';
 import 'package:petmily/screens/signup/signup_screen.dart';
+import 'package:petmily/widgets/variable_text.dart';
 
 class InitialScreen extends StatelessWidget {
   const InitialScreen({Key? key}) : super(key: key);
@@ -13,27 +13,44 @@ class InitialScreen extends StatelessWidget {
     Color surfaceColor = Theme.of(context).colorScheme.surface;
 
     return ChangeNotifierProvider(
-      create: (context) => AccountValidator(),
+      create: (context) => LocalAuthenticator(),
       child: Scaffold(
         backgroundColor: surfaceColor,
-        body: const InitialWidget(),
+        body: const InitialContentWidget(),
       ),
     );
   }
 }
 
-class InitialWidget extends StatefulWidget {
-  const InitialWidget({super.key});
+class InitialContentWidget extends StatefulWidget {
+  const InitialContentWidget({super.key});
 
   @override
-  State<InitialWidget> createState() => _InitialWidgetState();
+  State<InitialContentWidget> createState() => _InitialContentWidgetState();
 }
 
-class _InitialWidgetState extends State<InitialWidget> {
+class _InitialContentWidgetState extends State<InitialContentWidget> {
+  Color? primaryColor;
+  Image? googleIcon;
+  Image? naverIcon;
+  Image? kakaoIcon;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    primaryColor = Theme.of(context).colorScheme.primary;
+    googleIcon = Image.asset("assets/images/ic_google.png");
+    naverIcon = Image.asset("assets/images/ic_naver.png");
+    kakaoIcon = Image.asset("assets/images/ic_kakao.png");
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    //final accountValidator = Provider.of<AccountValidator>(context);
-    Color primaryColor = Theme.of(context).colorScheme.primary;
     return Container(
       alignment: Alignment.center,
       child: Padding(
@@ -65,14 +82,11 @@ class _InitialWidgetState extends State<InitialWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LocalSigninScreen()),
+                        builder: (context) => const LocalSigninScreen(),
+                      ),
                     );
                   },
-                  icon: Image.asset(
-                    'assets/images/ic_google.png',
-                    width: 30,
-                    height: 30,
-                  ),
+                  icon: googleIcon!,
                 ),
                 IconButton(
                   constraints:
@@ -81,14 +95,11 @@ class _InitialWidgetState extends State<InitialWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LocalSigninScreen()),
+                        builder: (context) => const LocalSigninScreen(),
+                      ),
                     );
                   },
-                  icon: Image.asset(
-                    'assets/images/ic_naver.png',
-                    width: 30,
-                    height: 30,
-                  ),
+                  icon: naverIcon!,
                 ),
                 IconButton(
                   constraints:
@@ -97,25 +108,25 @@ class _InitialWidgetState extends State<InitialWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LocalSigninScreen()),
+                        builder: (context) => const LocalSigninScreen(),
+                      ),
                     );
                   },
-                  icon: Image.asset(
-                    'assets/images/ic_kakao.png',
-                    width: 30,
-                    height: 30,
-                  ),
+                  icon: kakaoIcon!,
                 ),
               ],
             ),
             const SizedBox(height: 20.0),
             OutlinedButton(
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0))),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
               ),
               child: const VariableText(
-                value: "Petmiliy 계정으로 접속",
+                value: "Petmiliy 계정으로 로그인",
                 size: 15.0,
                 wght: 400.0,
               ),
@@ -131,11 +142,14 @@ class _InitialWidgetState extends State<InitialWidget> {
             const SizedBox(height: 20.0),
             OutlinedButton(
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0))),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
               ),
               child: const VariableText(
-                value: "Petmiliy 계정 만들기",
+                value: "Petmiliy 계정 생성하기",
                 size: 15.0,
                 wght: 400.0,
               ),
@@ -152,5 +166,10 @@ class _InitialWidgetState extends State<InitialWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
