@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:petmily/screens/signin/petmily_signin_screen.dart';
+import 'package:petmily/screens/signin/initial_screen.dart';
 
-class LoginPetmiliyView extends StatefulWidget {
-  const LoginPetmiliyView({Key? key}) : super(key: key);
+class LocalSigninScreen extends StatefulWidget {
+  const LocalSigninScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginPetmiliyView> createState() => _LoginPetmiliyViewState();
+  State<LocalSigninScreen> createState() => _LocalSigninScreenState();
 }
 
-class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
+class _LocalSigninScreenState extends State<LocalSigninScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login")),
+      appBar: AppBar(title: const Text("Login")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
+            const Center(
               child: Text(
                 "Log in",
                 style: TextStyle(
@@ -29,30 +29,31 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                 ),
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
 
             /// 이메일
             TextField(
               controller: emailController,
-              decoration: InputDecoration(hintText: "e-mail"),
+              decoration: const InputDecoration(hintText: "e-mail"),
             ),
 
             /// 비밀번호
             TextField(
               controller: passwordController,
               obscureText: false,
-              decoration: InputDecoration(hintText: "password"),
+              decoration: const InputDecoration(hintText: "password"),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
 
             /// 로그인 버튼
             ElevatedButton(
-              child: Text("Log in", style: TextStyle(fontSize: 21)),
+              child: const Text("Log in", style: TextStyle(fontSize: 21)),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PetmilySigninScreen()),
+                    builder: (context) => const InitialScreen(),
+                  ),
                 );
               },
             ),
