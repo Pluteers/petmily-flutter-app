@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petmily/screens/signin/petmily_signin_screen.dart';
+import 'package:petmily/screens/signin/initial_screen.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -27,8 +27,10 @@ class _SignupScreenState extends State<SignupScreen> {
             const Center(
               child: VariableText(value: "회원가입", size: 24.0, wght: 300.0),
             ),
+
             const SizedBox(height: 32.0),
 
+            //TODO: Global key 필요해요.
             Form(
               autovalidateMode: AutovalidateMode.always,
               child: Column(
@@ -54,7 +56,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const PetmilySigninScreen()),
+                    builder: (context) => const InitialScreen(),
+                  ),
                 );
               },
             ),
