@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:petmily/screens/channel.dart';
 
+import 'package:petmily/widgets/variable_text.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     List<ImageData> imageDataList = [
       ImageData(
         imagePath: "assets/images/image1.png",
@@ -44,65 +46,23 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: dynamicColor.background,
       appBar: AppBar(
-        title: SizedBox(width: _width, child: const Text('channel')),
-      ),
-      body: SafeArea(
-        child: SizedBox(
-          height: _height * 0.7,
-          child: GridView.count(
-            //메인화면 그리드 뷰
-            crossAxisCount: 2, //한 줄에 들어가는 컨텐츠 숫자
-            children: List.generate(imageDataList.length, (index) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: GestureDetector(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: AssetImage(
-                            imageDataList[index].imagePath), // 이미지 파일 경로
-                        fit: BoxFit.cover, // 이미지 채우는 방법
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            width: _width,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15),
-                              ),
-                              color: dynamicColor.primary.withOpacity(0.9),
-                            ),
-                            child: Text(
-                              imageDataList[index].name,
-                              style: TextStyle(color: dynamicColor.onPrimary),
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(imageDataList[index].description),
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChannelScreen(
-                                  channelId: imageDataList[index].name,
-                                )));
-                  },
-                ),
-              );
-            }),
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: width,
+            child: VariableText(
+              value: "채널",
+              color: dynamicColor.primary,
+              size: 40.0,
+              wght: 300.0,
+            ),
           ),
         ),
       ),
+      body: SafeArea(
+          child: HomeGrideView(
+        imageDataList: imageDataList,
+      )),
       bottomNavigationBar: BottomAppBar(
         height: 80,
         color: dynamicColor.surfaceVariant,
@@ -133,4 +93,73 @@ class ImageData {
     required this.name,
     required this.description,
   });
+}
+
+//메인화면 그리드 뷰
+class HomeGrideView extends StatelessWidget {
+  const HomeGrideView({super.key, required this.imageDataList});
+  final imageDataList;
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final dynamicColor = Theme.of(context).colorScheme;
+    return SizedBox(
+      height: height * 0.7,
+      child: GridView.count(
+        crossAxisCount: 2, //한 줄에 들어가는 컨텐츠 숫자
+        children: List.generate(imageDataList.length, (index) {
+          return Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: GestureDetector(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image:
+                        AssetImage(imageDataList[index].imagePath), // 이미지 파일 경로
+                    fit: BoxFit.cover, // 이미지 채우는 방법
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                        width: width,
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
+                          color: dynamicColor.primary.withOpacity(0.9),
+                        ),
+                        child: VariableText(
+                          value: imageDataList[index].name,
+                          size: 18,
+                          color: dynamicColor.onPrimary,
+                          wght: 500,
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(imageDataList[index].description),
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChannelScreen(
+                              channelId: imageDataList[index].name,
+                            )));
+              },
+            ),
+          );
+        }),
+      ),
+    );
+  }
 }
