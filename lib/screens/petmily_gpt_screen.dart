@@ -1,5 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:petmily/providers/petmily_gpt_generator.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
 class PetmilyGPTScreen extends StatelessWidget {
@@ -7,55 +9,81 @@ class PetmilyGPTScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dynamicColor = Theme.of(context).colorScheme;
-    if (Platform.isIOS) {
-      ///TODO: 쿠퍼티노 디자인을 적용해야 합니다.
-      return const Scaffold(
-        body: Text("iOS"),
-      );
-    } else {
-      ///머티리얼 디자인을 적용합니다.
-      return Scaffold(
-        backgroundColor: dynamicColor.surface,
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              HeaderContentWidget(
-                color: dynamicColor.surfaceVariant,
-              ),
-              const TipContentWidget(),
-              const BodyContentWidget(),
-            ],
-          ),
+    return ChangeNotifierProvider(
+      create: (context) => PetmilyGPTGenerator(),
+      child: const PetmilyGPTContentWidget(),
+    );
+  }
+}
+
+class PetmilyGPTContentWidget extends StatefulWidget {
+  const PetmilyGPTContentWidget({super.key});
+
+  @override
+  State<PetmilyGPTContentWidget> createState() =>
+      _PetmilyGPTContentWidgetState();
+}
+
+class _PetmilyGPTContentWidgetState extends State<PetmilyGPTContentWidget> {
+  Color? kPrimaryColor;
+  Color? kSurfaceColor;
+  Color? kSurfaceTintColor;
+  Color? kSurfaceVariantColor;
+
+  @override
+  void didChangeDependencies() {
+    kPrimaryColor = Theme.of(context).colorScheme.primary;
+    kSurfaceColor = Theme.of(context).colorScheme.surface;
+    kSurfaceTintColor = Theme.of(context).colorScheme.surfaceTint;
+    kSurfaceVariantColor = Theme.of(context).colorScheme.surfaceVariant;
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kSurfaceColor,
+      //resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            HeaderContentWidget(
+              color: kSurfaceVariantColor,
+            ),
+            const TipContentWidget(),
+            const BodyContentWidget(),
+          ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: dynamicColor.surfaceVariant,
-          elevation: 2.0,
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                onPressed: () {
-                  //TODO: 이전 화면으로 이동하도록 구성해야 합니다.
-                },
-                icon: const Icon(Icons.arrow_back_rounded),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: kSurfaceVariantColor,
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 4.0,
+        elevation: 2.0,
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              onPressed: () {
+                //TODO: 이전 화면으로 이동하도록 구성해야 합니다.
+              },
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color: kPrimaryColor,
+                size: 10.0,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        persistentFooterButtons: const <Widget>[
-          //TODO: Form field를 적용할 수 있도록 시도해봅니다.
-        ],
-      );
-    }
+      ),
+    );
   }
 }
 
 class HeaderContentWidget extends StatelessWidget {
   const HeaderContentWidget({Key? key, required this.color}) : super(key: key);
 
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -90,14 +118,14 @@ class TipContentWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         padding: const EdgeInsets.all(8.0),
-        width: 370.0,
+        width: 360.0,
         height: 35,
         decoration: BoxDecoration(
           color: dynamicColor.tertiaryContainer,
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
               Icons.tips_and_updates,
@@ -107,7 +135,7 @@ class TipContentWidget extends StatelessWidget {
             VariableText(
               value: "부적절한 단어나 다른 주제의 질문은 답변하지 않습니다.",
               color: dynamicColor.tertiary,
-              size: 15.0,
+              size: 12.0,
               wght: 500.0,
             ),
           ],
@@ -125,12 +153,34 @@ class BodyContentWidget extends StatefulWidget {
 }
 
 class _BodyContentWidgetState extends State<BodyContentWidget> {
-  final _inputTextController = TextEditingController();
-  final _bodyContentScrollController = ScrollController();
-  final bool isLoading = false;
+  TextEditingController inputController = TextEditingController();
+  ScrollController bodyContentScrollController = ScrollController();
+  bool isBottomAppBarVisible = true;
+  bool isLoading = false;
+  bool isTyping = false;
+
+  ///스크롤의 변화를 감지할 수 있도록 합니다.
+  void scrollHandler() {
+    if (bodyContentScrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (isBottomAppBarVisible) {
+        setState(() {
+          isBottomAppBarVisible = false;
+        });
+      }
+    } else {
+      if (!isBottomAppBarVisible) {
+        setState(() {
+          isBottomAppBarVisible = true;
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState;
+    bodyContentScrollController.addListener(scrollHandler);
   }
 
   @override
@@ -140,12 +190,17 @@ class _BodyContentWidgetState extends State<BodyContentWidget> {
       child: Column(
         children: [
           SingleChildScrollView(
+            controller: bodyContentScrollController,
+            reverse: true,
             child: inputOutputListView(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              inputFormField(),
+              GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: inputFormField(),
+              ),
               sendButton(),
             ],
           ),
@@ -156,7 +211,9 @@ class _BodyContentWidgetState extends State<BodyContentWidget> {
 
   @override
   void dispose() {
-    _inputTextController.clear();
+    bodyContentScrollController.removeListener(scrollHandler);
+    bodyContentScrollController.dispose();
+    inputController.clear();
     super.dispose();
   }
 
@@ -164,7 +221,7 @@ class _BodyContentWidgetState extends State<BodyContentWidget> {
     return Expanded(
       child: TextFormField(
         textCapitalization: TextCapitalization.sentences,
-        controller: _inputTextController,
+        controller: inputController,
         decoration: InputDecoration(
           fillColor: Theme.of(context).colorScheme.surfaceVariant,
           filled: true,
@@ -203,10 +260,7 @@ class _BodyContentWidgetState extends State<BodyContentWidget> {
           height: 380.0,
           child: Center(
             child: VariableText(
-              value: "대화를 시작하면 내용이 나타납니다.",
-              size: 12.0,
-              wght: 300.0,
-            ),
+                value: "대화를 시작하면 내용이 나타납니다.", size: 12.0, wght: 300.0),
           ),
         ),
       ],
