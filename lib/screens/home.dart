@@ -10,7 +10,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     List<ImageData> imageDataList = [
       ImageData(
         imagePath: "assets/images/image1.png",
@@ -45,23 +44,26 @@ class HomeScreen extends StatelessWidget {
     ];
     return Scaffold(
       backgroundColor: dynamicColor.background,
-      appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            width: width,
-            child: VariableText(
-              value: "채널",
-              color: dynamicColor.primary,
-              size: 40.0,
-              wght: 300.0,
+      body: SafeArea(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: width,
+              child: VariableText(
+                value: "채널",
+                color: dynamicColor.primary,
+                size: 40.0,
+                wght: 300.0,
+              ),
             ),
           ),
-        ),
-      ),
-      body: SafeArea(
-          child: HomeGrideView(
-        imageDataList: imageDataList,
+          HomeGrideView(
+            imageDataList: imageDataList,
+          ),
+        ],
       )),
       bottomNavigationBar: BottomAppBar(
         height: 80,
@@ -71,7 +73,9 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: dynamicColor.secondary,
         elevation: 0,
-        onPressed: () {},
+        onPressed: () {
+          //TODO : 카테고리 추가 가능하도록 구현
+        },
         tooltip: 'Add',
         child: Icon(
           Icons.add,
