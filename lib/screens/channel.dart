@@ -53,9 +53,8 @@ class ChannelScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: VariableText(
                 value: channelId,
-                size: 35,
-                wght: 500,
-                wdth: 100,
+                size: 40,
+                wght: 300,
                 color: dynamicColor.primary,
               )),
           Container(
@@ -63,10 +62,9 @@ class ChannelScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20),
               alignment: Alignment.topLeft,
               child: VariableText(
-                value: "총 ~ 건",
-                size: 11,
-                wght: 900,
-                wdth: 100,
+                value: "총 ${channelImageDataList.length} 건",
+                size: 14,
+                wght: 300,
                 color: dynamicColor.onSurface,
               )),
           const SizedBox(
@@ -74,30 +72,70 @@ class ChannelScreen extends StatelessWidget {
           ),
           SizedBox(
             height: _height * 0.7,
-            width: _width * 0.9,
+            width: _width,
             child: ListView.builder(
-                itemCount: 5,
+                itemCount: channelImageDataList.length,
                 itemBuilder: (context, index) {
                   return Card(
                     margin: const EdgeInsets.all(10),
+                    color: dynamicColor
+                        .surfaceVariant, //? figma surface-container 라고 되어 있는데 dynamicColor에 없는듯
+                    elevation: 0,
                     child: Column(
                       children: [
                         Container(
+                            width: _width,
+                            alignment: Alignment.topLeft,
+                            padding: const EdgeInsets.only(left: 10, top: 10),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.person),
+                                Text('User Id $index'),
+                              ],
+                            )),
+                        Container(
                           margin: const EdgeInsets.all(10),
-                          width: _width * 0.8,
-                          height: 200,
+                          alignment: Alignment.centerLeft,
+                          width: _width,
+                          height: 150,
                           decoration: BoxDecoration(
                             image: DecorationImage(
+                              // alignment: Alignment.topLeft,
                               image: AssetImage(channelImageDataList[index]
                                   .imagePath), // 이미지 파일 경로
                               fit: BoxFit.fitHeight, // 이미지 채우는 방법
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 50,
-                          child: Center(child: Text('Elevated Card $index')),
+                        Container(
+                          width: _width,
+                          alignment: Alignment.topLeft,
+                          padding: const EdgeInsets.only(left: 10, bottom: 10),
+                          child: Text('Elevated Card Title $index'),
                         ),
+                        Container(
+                          width: _width,
+                          alignment: Alignment.topLeft,
+                          padding: const EdgeInsets.only(left: 10, bottom: 10),
+                          child: Text('Elevated Card SubTitle $index'),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Row(
+                            children: const [
+                              Expanded(
+                                flex: 2,
+                                child: SizedBox(),
+                              ),
+                              Expanded(
+                                child: Text("Favorites"),
+                              ),
+                              Expanded(
+                                child: Text("Comments"),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   );
