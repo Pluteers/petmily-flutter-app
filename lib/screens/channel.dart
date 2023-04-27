@@ -9,37 +9,28 @@ class ChannelScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<ImageData> channelImageDataList = [
-      ImageData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG01",
-        description: "This is the first image.",
-      ),
-      ImageData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG02",
-        description: "This is the first image.",
-      ),
-      ImageData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG03",
-        description: "This is the first image.",
-      ),
-      ImageData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG04",
-        description: "This is the first image.",
-      ),
-      ImageData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG05",
-        description: "This is the first image.",
-      ),
-      ImageData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG06",
-        description: "This is the first image.",
-      ),
+    List<PostData> channelPostList = [
+      PostData(
+          postWriter: "user01",
+          postImagePath: "assets/images/image1.png",
+          postTitle: "postTitle",
+          postSubTitle: "postSubTitle",
+          postFavoriteCount: 3,
+          postCommentCount: 2),
+      PostData(
+          postWriter: "user02",
+          postImagePath: "assets/images/image1.png",
+          postTitle: "postTitle",
+          postSubTitle: "postSubTitle",
+          postFavoriteCount: 5,
+          postCommentCount: 6),
+      PostData(
+          postWriter: "user98",
+          postImagePath: "assets/images/image1.png",
+          postTitle: "postTitle",
+          postSubTitle: "postSubTitle",
+          postFavoriteCount: 12,
+          postCommentCount: 5),
     ];
     final dynamicColor = Theme.of(context).colorScheme;
     final _width = MediaQuery.of(context).size.width;
@@ -62,7 +53,7 @@ class ChannelScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20),
               alignment: Alignment.topLeft,
               child: VariableText(
-                value: "총 ${channelImageDataList.length} 건",
+                value: "총 ${channelPostList.length} 건",
                 size: 14,
                 wght: 300,
                 color: dynamicColor.onSurface,
@@ -74,7 +65,7 @@ class ChannelScreen extends StatelessWidget {
             height: _height * 0.7,
             width: _width,
             child: ListView.builder(
-                itemCount: channelImageDataList.length,
+                itemCount: channelPostList.length,
                 itemBuilder: (context, index) {
                   return Card(
                     margin: const EdgeInsets.all(10),
@@ -90,7 +81,7 @@ class ChannelScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 const Icon(Icons.person),
-                                Text('User Id $index'),
+                                Text(channelPostList[index].postWriter),
                               ],
                             )),
                         Container(
@@ -101,8 +92,8 @@ class ChannelScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               // alignment: Alignment.topLeft,
-                              image: AssetImage(channelImageDataList[index]
-                                  .imagePath), // 이미지 파일 경로
+                              image: AssetImage(channelPostList[index]
+                                  .postImagePath), // 이미지 파일 경로
                               fit: BoxFit.fitHeight, // 이미지 채우는 방법
                             ),
                           ),
@@ -111,27 +102,43 @@ class ChannelScreen extends StatelessWidget {
                           width: _width,
                           alignment: Alignment.topLeft,
                           padding: const EdgeInsets.only(left: 10, bottom: 10),
-                          child: Text('Elevated Card Title $index'),
+                          child: Text(channelPostList[index].postTitle),
                         ),
                         Container(
                           width: _width,
                           alignment: Alignment.topLeft,
                           padding: const EdgeInsets.only(left: 10, bottom: 10),
-                          child: Text('Elevated Card SubTitle $index'),
+                          child: Text(channelPostList[index].postSubTitle),
                         ),
                         Container(
-                          padding: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(bottom: 10, right: 10),
                           child: Row(
-                            children: const [
-                              Expanded(
+                            children: [
+                              const Expanded(
                                 flex: 2,
                                 child: SizedBox(),
                               ),
                               Expanded(
-                                child: Text("Favorites"),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                        "${channelPostList[index].postFavoriteCount}"),
+                                    const Text("Favorites"),
+                                  ],
+                                ),
                               ),
                               Expanded(
-                                child: Text("Comments"),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                        "${channelPostList[index].postCommentCount}"),
+                                    const Text("Comments"),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -160,4 +167,22 @@ class ChannelScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class PostData {
+  final String postWriter;
+  final String postImagePath;
+  final String postTitle;
+  final String postSubTitle;
+  final int postFavoriteCount;
+  final int postCommentCount;
+
+  // Constructor for the class
+  PostData(
+      {required this.postWriter,
+      required this.postImagePath,
+      required this.postTitle,
+      required this.postSubTitle,
+      required this.postFavoriteCount,
+      required this.postCommentCount});
 }
