@@ -10,36 +10,30 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
-    List<ImageData> imageDataList = [
-      ImageData(
+    List<CategoryData> categoryDataList = [
+      CategoryData(
         imagePath: "assets/images/image1.png",
         name: "CTG01",
-        description: "This is the first image.",
       ),
-      ImageData(
+      CategoryData(
         imagePath: "assets/images/image1.png",
         name: "CTG02",
-        description: "This is the first image.",
       ),
-      ImageData(
+      CategoryData(
         imagePath: "assets/images/image1.png",
         name: "CTG03",
-        description: "This is the first image.",
       ),
-      ImageData(
+      CategoryData(
         imagePath: "assets/images/image1.png",
         name: "CTG04",
-        description: "This is the first image.",
       ),
-      ImageData(
+      CategoryData(
         imagePath: "assets/images/image1.png",
         name: "CTG05",
-        description: "This is the first image.",
       ),
-      ImageData(
+      CategoryData(
         imagePath: "assets/images/image1.png",
         name: "CTG06",
-        description: "This is the first image.",
       ),
     ];
     return Scaffold(
@@ -61,7 +55,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           HomeGrideView(
-            imageDataList: imageDataList,
+            CategoryDataList: categoryDataList,
           ),
         ],
       )),
@@ -86,23 +80,21 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class ImageData {
+class CategoryData {
   final String imagePath;
   final String name;
-  final String description;
 
   // Constructor for the class
-  ImageData({
+  CategoryData({
     required this.imagePath,
     required this.name,
-    required this.description,
   });
 }
 
 //메인화면 그리드 뷰
 class HomeGrideView extends StatelessWidget {
-  const HomeGrideView({super.key, required this.imageDataList});
-  final imageDataList;
+  const HomeGrideView({super.key, required this.CategoryDataList});
+  final CategoryDataList;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +105,7 @@ class HomeGrideView extends StatelessWidget {
       height: height * 0.7,
       child: GridView.count(
         crossAxisCount: 2, //한 줄에 들어가는 컨텐츠 숫자
-        children: List.generate(imageDataList.length, (index) {
+        children: List.generate(CategoryDataList.length, (index) {
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
@@ -121,8 +113,8 @@ class HomeGrideView extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                    image:
-                        AssetImage(imageDataList[index].imagePath), // 이미지 파일 경로
+                    image: AssetImage(
+                        CategoryDataList[index].imagePath), // 이미지 파일 경로
                     fit: BoxFit.cover, // 이미지 채우는 방법
                   ),
                 ),
@@ -140,15 +132,11 @@ class HomeGrideView extends StatelessWidget {
                           color: dynamicColor.primary.withOpacity(0.9),
                         ),
                         child: VariableText(
-                          value: imageDataList[index].name,
+                          value: CategoryDataList[index].name,
                           size: 18,
                           color: dynamicColor.onPrimary,
                           wght: 500,
                         )),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(imageDataList[index].description),
-                    ),
                   ],
                 ),
               ),
@@ -157,7 +145,7 @@ class HomeGrideView extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ChannelScreen(
-                              channelId: imageDataList[index].name,
+                              channelId: CategoryDataList[index].name,
                             )));
               },
             ),
