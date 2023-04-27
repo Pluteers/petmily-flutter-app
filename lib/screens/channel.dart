@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petmily/main.dart';
-import 'package:petmily/screens/home.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
 class ChannelScreen extends StatelessWidget {
-  final channelId;
   const ChannelScreen({super.key, this.channelId});
+  final channelId;
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +31,14 @@ class ChannelScreen extends StatelessWidget {
           postCommentCount: 5),
     ];
     final dynamicColor = Theme.of(context).colorScheme;
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: Column(children: [
           Container(
               margin: const EdgeInsets.only(left: 20),
-              width: _width,
+              width: width,
               alignment: Alignment.topLeft,
               child: VariableText(
                 value: channelId,
@@ -49,7 +47,7 @@ class ChannelScreen extends StatelessWidget {
                 color: dynamicColor.primary,
               )),
           Container(
-              width: _width,
+              width: width,
               padding: const EdgeInsets.only(left: 20),
               alignment: Alignment.topLeft,
               child: VariableText(
@@ -62,8 +60,8 @@ class ChannelScreen extends StatelessWidget {
             height: 30,
           ),
           SizedBox(
-            height: _height * 0.7,
-            width: _width,
+            height: height * 0.7,
+            width: width,
             child: ListView.builder(
                 itemCount: channelPostList.length,
                 itemBuilder: (context, index) {
@@ -75,7 +73,7 @@ class ChannelScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                            width: _width,
+                            width: width,
                             alignment: Alignment.topLeft,
                             padding: const EdgeInsets.only(left: 10, top: 10),
                             child: Row(
@@ -87,7 +85,7 @@ class ChannelScreen extends StatelessWidget {
                         Container(
                           margin: const EdgeInsets.all(10),
                           alignment: Alignment.centerLeft,
-                          width: _width,
+                          width: width,
                           height: 150,
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -99,13 +97,13 @@ class ChannelScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: _width,
+                          width: width,
                           alignment: Alignment.topLeft,
                           padding: const EdgeInsets.only(left: 10, bottom: 10),
                           child: Text(channelPostList[index].postTitle),
                         ),
                         Container(
-                          width: _width,
+                          width: width,
                           alignment: Alignment.topLeft,
                           padding: const EdgeInsets.only(left: 10, bottom: 10),
                           child: Text(channelPostList[index].postSubTitle),
