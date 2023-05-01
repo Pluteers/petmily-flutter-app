@@ -11,6 +11,9 @@ dependencies:
     sdk: flutter
   dynamic_color: ^1.6.2
   go_router: ^6.5.3
+  provider: ^6.0.1
+  firebase_auth: ^4.4.0
+
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +28,7 @@ flutter:
       fonts:
         - asset: assets/font/PretendardVariable.ttf
 
+  assets:
+  - assets/images/ic_google.png
+  - assets/images/ic_kakao.png
+  - assets/images/ic_naver.png

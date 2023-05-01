@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:petmily/login/screens/login_view.dart';
 import 'package:petmily/utilities/dynamic_theme.dart';
 
 void main() {
@@ -18,7 +19,9 @@ class MainApp extends StatelessWidget {
         theme: DynamicTheme.lightTheme(lightColorScheme),
         darkTheme: DynamicTheme.darkTheme(darkColorScheme),
         themeMode: ThemeMode.light,
-        home: Scaffold(
+        home: LoginView(),
+        /*Scaffold(
+         
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -50,7 +53,7 @@ class MainApp extends StatelessWidget {
               ],
             ),
           ),
-        ),
+        ),*/
       ),
     );
   }
