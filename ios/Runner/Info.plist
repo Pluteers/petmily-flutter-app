@@ -28,6 +28,17 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<!-- 카카오 common -->
+		<string>kakaoc906dc51f4a859838fa4b82caae37a41</string>
+		<!-- 카카오톡 로그인 -->
+		<string>kakaokompassauth</string>
+		<string>storykompassauth</string>
+		<!-- 카카오링크 -->
+		<string>kakaolink</string>
+		<string>kakaotalk</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
