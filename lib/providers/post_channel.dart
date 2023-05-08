@@ -4,24 +4,34 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+
+final dio = Dio();
 
 class PostChannel {
   static TextEditingController channelTitleController = TextEditingController();
 
   static Future<void> postChannel(category) async {
     var accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzUyNzQyMSwiZW1haWwiOiJ0ZXN0MkBuYXZlci5jb20ifQ.tc902bfif5Gq_xXpSFQ6wBpPw1uSAx_7-TXztHk5puziBEi6vDJvYmFd1kiD5Maj8zC7_tOEa968vNRPkZ8JCQ";
-    var response = await http.post(
-        Uri.parse("http://petmily.duckdns.org/post/channel"),
-        headers: {
-          "Authorization": "Bearer " + accessToken,
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(
-            {"channelName": channelTitleController.text, "categoryId": "1"}));
-    //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzUxOTUxMSwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.RVKa1_gtl_jMmQu6oHuiM7Fna8AxmnGFiKx8eTYLwMVmHSYnjA5NgtK9VRhUmWcVqhfT15dlEUpVgDL-20nSdQ
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzU0ODc4MiwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.695ZHvXIJzsRet2BKluBhTTVBoqkN1pBmszSOva6xFxa0__7phktJYvobq9WWnARYx57WarddZ6tm2D5LbmU9Q";
+    // dio.options.headers["Authorization"] = "Bearer $accessToken";
+    // dio.options.headers["Content-Type"] = "application/json";
 
-    final responseData = json.decode(utf8.decode(response.bodyBytes));
+    var response = await dio.post(
+      "http://petmily.duckdns.org/post/channel",
+      data: {
+        'channelName': channelTitleController.text,
+        'categoryId': '1',
+      },
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer ' + accessToken,
+          'Content-Type': 'application/json'
+        },
+      ),
+    );
+
+    final responseData = response.data;
     var resData = responseData;
     log('channelPostSuccess : $resData');
   }
