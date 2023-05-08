@@ -17,7 +17,7 @@ class PostChannel {
       "http://petmily.duckdns.org/post/channel",
       data: {
         'channelName': channelTitleController.text,
-        'categoryId': '1',
+        'categoryId': category,
       },
       options: Options(
         headers: {
