@@ -4,9 +4,16 @@ import 'package:petmily/screens/channel.dart';
 
 import 'package:petmily/widgets/variable_text.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'package:petmily/providers/post_channel.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
@@ -44,7 +51,8 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         onPressed: () {
           //TODO : 카테고리 추가 가능하도록 구현
-          getChannel();
+          // postChannel();
+          editChannel(context);
         },
         tooltip: 'Add',
         child: Icon(
@@ -54,6 +62,77 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void editChannel(_) async {
+  String selectedDropdown = "1";
+  return await showDialog(
+      context: _,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text('채널 생성'),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return SizedBox(
+                height: 200,
+                child: Column(
+                  children: [
+                    TextFormField(
+                        controller: PostChannel.channelTitleController,
+                        decoration: const InputDecoration(
+                          labelText: '채널 이름',
+                          labelStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                        )),
+                    Row(
+                      children: [
+                        const Expanded(child: Text("카테고리")),
+                        Expanded(
+                          child: DropdownButton(
+                            value: selectedDropdown,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedDropdown = value!;
+                              });
+                            },
+                            items: [
+                              DropdownMenuItem(
+                                value: "1",
+                                child: Text("강아지의 일상"),
+                              ),
+                              DropdownMenuItem(
+                                value: "2",
+                                child: Text("고양이의 일상"),
+                              ),
+                              DropdownMenuItem(
+                                value: "3",
+                                child: Text("일상"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  PostChannel.postChannel(selectedDropdown);
+                },
+                child: const Text('채널 추가')),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(_);
+                },
+                child: const Text('취소'))
+          ],
+        );
+      });
 }
 
 // 메인화면 그리드 뷰
