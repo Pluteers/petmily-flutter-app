@@ -12,32 +12,7 @@ class HomeScreen extends StatelessWidget {
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    // List<CategoryData> categoryDataList = [
-    //   CategoryData(
-    //     imagePath: "assets/images/image1.png",
-    //     name: "CTG01",
-    //   ),
-    //   CategoryData(
-    //     imagePath: "assets/images/image1.png",
-    //     name: "CTG02",
-    //   ),
-    //   CategoryData(
-    //     imagePath: "assets/images/image1.png",
-    //     name: "CTG03",
-    //   ),
-    //   CategoryData(
-    //     imagePath: "assets/images/image1.png",
-    //     name: "CTG04",
-    //   ),
-    //   CategoryData(
-    //     imagePath: "assets/images/image1.png",
-    //     name: "CTG05",
-    //   ),
-    //   CategoryData(
-    //     imagePath: "assets/images/image1.png",
-    //     name: "CTG06",
-    //   ),
-    // ];
+
     return Scaffold(
       backgroundColor: dynamicColor.background,
       body: SafeArea(
@@ -159,51 +134,5 @@ class _HomeGrideViewState extends State<HomeGrideView> {
             }
           }),
     );
-    // children: List.generate(CategoryDataList.length, (index) {
-    //   return Padding(
-    //     padding: const EdgeInsets.all(10.0),
-    //     child: GestureDetector(
-    //       child: Container(
-    //         decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.circular(15),
-    //           image: DecorationImage(
-    //             image: AssetImage(
-    //                 CategoryDataList[index].imagePath), // 이미지 파일 경로
-    //             fit: BoxFit.cover, // 이미지 채우는 방법
-    //           ),
-    //         ),
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Container(
-    //                 width: width,
-    //                 padding: const EdgeInsets.all(5),
-    //                 decoration: BoxDecoration(
-    //                   borderRadius: const BorderRadius.only(
-    //                     topLeft: Radius.circular(15),
-    //                     topRight: Radius.circular(15),
-    //                   ),
-    //                   color: dynamicColor.primary.withOpacity(0.9),
-    //                 ),
-    //                 child: VariableText(
-    //                   value: CategoryDataList[index].name,
-    //                   size: 18,
-    //                   color: dynamicColor.onPrimary,
-    //                   wght: 500,
-    //                 )),
-    //           ],
-    //         ),
-    //       ),
-    //       onTap: () {
-    //         Navigator.push(
-    //             context,
-    //             MaterialPageRoute(
-    //                 builder: (context) => ChannelScreen(
-    //                       channelId: CategoryDataList[index].name,
-    //                     )));
-    //       },
-    //     ),
-    //   );
-    // }),
   }
 }
