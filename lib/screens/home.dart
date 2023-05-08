@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petmily/providers/get_channel.dart';
 import 'package:petmily/screens/channel.dart';
 
 import 'package:petmily/widgets/variable_text.dart';
@@ -10,32 +11,33 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
-    List<CategoryData> categoryDataList = [
-      CategoryData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG01",
-      ),
-      CategoryData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG02",
-      ),
-      CategoryData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG03",
-      ),
-      CategoryData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG04",
-      ),
-      CategoryData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG05",
-      ),
-      CategoryData(
-        imagePath: "assets/images/image1.png",
-        name: "CTG06",
-      ),
-    ];
+    final height = MediaQuery.of(context).size.height;
+    // List<CategoryData> categoryDataList = [
+    //   CategoryData(
+    //     imagePath: "assets/images/image1.png",
+    //     name: "CTG01",
+    //   ),
+    //   CategoryData(
+    //     imagePath: "assets/images/image1.png",
+    //     name: "CTG02",
+    //   ),
+    //   CategoryData(
+    //     imagePath: "assets/images/image1.png",
+    //     name: "CTG03",
+    //   ),
+    //   CategoryData(
+    //     imagePath: "assets/images/image1.png",
+    //     name: "CTG04",
+    //   ),
+    //   CategoryData(
+    //     imagePath: "assets/images/image1.png",
+    //     name: "CTG05",
+    //   ),
+    //   CategoryData(
+    //     imagePath: "assets/images/image1.png",
+    //     name: "CTG06",
+    //   ),
+    // ];
     return Scaffold(
       backgroundColor: dynamicColor.background,
       body: SafeArea(
@@ -54,9 +56,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          HomeGrideView(
-            CategoryDataList: categoryDataList,
-          ),
+          HomeGrideView(),
         ],
       )),
       bottomNavigationBar: BottomAppBar(
@@ -69,6 +69,7 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         onPressed: () {
           //TODO : 카테고리 추가 가능하도록 구현
+          getChannel();
         },
         tooltip: 'Add',
         child: Icon(
@@ -80,78 +81,129 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class CategoryData {
-  final String imagePath;
-  final String name;
+// 메인화면 그리드 뷰
+class HomeGrideView extends StatefulWidget {
+  const HomeGrideView({super.key});
 
-  // Constructor for the class
-  CategoryData({
-    required this.imagePath,
-    required this.name,
-  });
+  @override
+  State<HomeGrideView> createState() => _HomeGrideViewState();
 }
 
-//메인화면 그리드 뷰
-class HomeGrideView extends StatelessWidget {
-  const HomeGrideView({super.key, required this.CategoryDataList});
-  final CategoryDataList;
-
+class _HomeGrideViewState extends State<HomeGrideView> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final dynamicColor = Theme.of(context).colorScheme;
+
     return SizedBox(
+      width: width * .9,
       height: height * 0.7,
-      child: GridView.count(
-        crossAxisCount: 2, //한 줄에 들어가는 컨텐츠 숫자
-        children: List.generate(CategoryDataList.length, (index) {
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: GestureDetector(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
-                    image: AssetImage(
-                        CategoryDataList[index].imagePath), // 이미지 파일 경로
-                    fit: BoxFit.cover, // 이미지 채우는 방법
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                        width: width,
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                          color: dynamicColor.primary.withOpacity(0.9),
+      child: FutureBuilder(
+          future: getChannel(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return GridView.builder(
+                itemCount: snapshot.data!.data!.length,
+                itemBuilder: (context, index) {
+                  var channelTitle = snapshot.data!.data![index].channelName;
+                  var channelId = snapshot.data!.data![index].channelId;
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: dynamicColor.primaryContainer,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          child: Container(
+                              width: width,
+                              height: 50,
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: dynamicColor.primary,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
+                                  )),
+                              child: VariableText(
+                                value: "$channelTitle",
+                                size: 18,
+                                color: dynamicColor.onPrimary,
+                                wght: 500,
+                              )),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChannelScreen(
+                                          channelId: channelId,
+                                        )));
+                          },
                         ),
-                        child: VariableText(
-                          value: CategoryDataList[index].name,
-                          size: 18,
-                          color: dynamicColor.onPrimary,
-                          wght: 500,
-                        )),
-                  ],
+                      ],
+                    ),
+                  );
+                },
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+                  childAspectRatio: 1 / 1.3, //item 의 가로 1, 세로 1.5 의 비율
+                  mainAxisSpacing: 10, //수평 Padding
+                  crossAxisSpacing: 10, //수직 Padding
                 ),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChannelScreen(
-                              channelId: CategoryDataList[index].name,
-                            )));
-              },
-            ),
-          );
-        }),
-      ),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
+    // children: List.generate(CategoryDataList.length, (index) {
+    //   return Padding(
+    //     padding: const EdgeInsets.all(10.0),
+    //     child: GestureDetector(
+    //       child: Container(
+    //         decoration: BoxDecoration(
+    //           borderRadius: BorderRadius.circular(15),
+    //           image: DecorationImage(
+    //             image: AssetImage(
+    //                 CategoryDataList[index].imagePath), // 이미지 파일 경로
+    //             fit: BoxFit.cover, // 이미지 채우는 방법
+    //           ),
+    //         ),
+    //         child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: [
+    //             Container(
+    //                 width: width,
+    //                 padding: const EdgeInsets.all(5),
+    //                 decoration: BoxDecoration(
+    //                   borderRadius: const BorderRadius.only(
+    //                     topLeft: Radius.circular(15),
+    //                     topRight: Radius.circular(15),
+    //                   ),
+    //                   color: dynamicColor.primary.withOpacity(0.9),
+    //                 ),
+    //                 child: VariableText(
+    //                   value: CategoryDataList[index].name,
+    //                   size: 18,
+    //                   color: dynamicColor.onPrimary,
+    //                   wght: 500,
+    //                 )),
+    //           ],
+    //         ),
+    //       ),
+    //       onTap: () {
+    //         Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //                 builder: (context) => ChannelScreen(
+    //                       channelId: CategoryDataList[index].name,
+    //                     )));
+    //       },
+    //     ),
+    //   );
+    // }),
   }
 }
