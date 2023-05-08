@@ -96,7 +96,7 @@ void editChannel(_) async {
                                 selectedDropdown = value!;
                               });
                             },
-                            items: [
+                            items: const [
                               DropdownMenuItem(
                                 value: "1",
                                 child: Text("강아지의 일상"),
