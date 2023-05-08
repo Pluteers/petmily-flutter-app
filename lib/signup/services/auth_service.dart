@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthService extends ChangeNotifier {
-  get http => null;
+  get dio => null;
 
   void signUp({
     required String email,
@@ -12,7 +12,7 @@ class AuthService extends ChangeNotifier {
     required Function(String err) onError,
   }) async {
     final url = Uri.parse('http://petmily.duckdns.org/sign-up');
-    final response = await http.post(url, body: {
+    final response = await dio.post(url, data: {
       'email': email,
       'nickname': nickname,
       'password': password,
@@ -49,7 +49,7 @@ class AuthService extends ChangeNotifier {
 
     // 로그인 시도
     final url = Uri.parse('http://petmily.duckdns.org/login');
-    final response = await http.post(url, body: {
+    final response = await dio.post(url, data: {
       'email': email,
       'password': password,
     });

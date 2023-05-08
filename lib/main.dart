@@ -73,3 +73,16 @@ Widget testVariableFonts(String text, double wght, double wdth, double grad) {
     ),
   );
 }
+
+class HomeWidget extends StatelessWidget {
+  const HomeWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text("로그인 성공"),
+      ),
+    );
+  }
+}
