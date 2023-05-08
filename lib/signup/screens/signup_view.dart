@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petmily/utilities/dynamic_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'package:petmily/signup/services/auth_service.dart';
@@ -14,9 +15,11 @@ class SignupView extends StatefulWidget {
 class _SignupViewState extends State<SignupView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController nicknameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final dynamicColor = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: Text("Signup")),
       body: SingleChildScrollView(
@@ -29,6 +32,7 @@ class _SignupViewState extends State<SignupView> {
                 "Sign up",
                 style: TextStyle(
                   fontSize: 24,
+                  color: dynamicColor.primary,
                 ),
               ),
             ),
@@ -38,6 +42,12 @@ class _SignupViewState extends State<SignupView> {
             TextField(
               controller: emailController,
               decoration: InputDecoration(hintText: "e-mail"),
+            ),
+
+            /// 닉네임
+            TextField(
+              controller: nicknameController,
+              decoration: InputDecoration(hintText: "nickname"),
             ),
 
             /// 비밀번호

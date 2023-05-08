@@ -22,6 +22,7 @@ class _LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<LoginViewModel>(context);
+    final dynamicColor = Theme.of(context).colorScheme;
 
     return Container(
       alignment: Alignment.center,
@@ -33,11 +34,14 @@ class _LoginView extends StatelessWidget {
           children: [
             Text(
               'Petmiliy',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 45.0),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 45.0,
+                  color: dynamicColor.primary),
             ),
             Text(
               '우리가 만드는 반려동물 캔버스',
-              style: TextStyle(fontSize: 22.0),
+              style: TextStyle(fontSize: 22.0, color: dynamicColor.primary),
             ),
             SizedBox(
               height: 60.0,
