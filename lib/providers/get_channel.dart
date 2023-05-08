@@ -1,24 +1,22 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:dio/dio.dart';
 
-import 'package:http/http.dart' as http;
-
+final dio = Dio();
 Future<GetChannel> getChannel() async {
   var accessToken =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzUyNzQyMSwiZW1haWwiOiJ0ZXN0MkBuYXZlci5jb20ifQ.tc902bfif5Gq_xXpSFQ6wBpPw1uSAx_7-TXztHk5puziBEi6vDJvYmFd1kiD5Maj8zC7_tOEa968vNRPkZ8JCQ";
-  var response = await http.get(
-    Uri.parse("http://petmily.duckdns.org/post/channel"),
-    headers: {
-      "Authorization": "Bearer " + accessToken,
-    },
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzU0ODc4MiwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.695ZHvXIJzsRet2BKluBhTTVBoqkN1pBmszSOva6xFxa0__7phktJYvobq9WWnARYx57WarddZ6tm2D5LbmU9Q";
+  dio.options.headers["authorization"] = "Bearer $accessToken";
+  var response = await dio.get(
+    ("http://petmily.duckdns.org/post/channel"),
   );
-  //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzUxOTUxMSwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.RVKa1_gtl_jMmQu6oHuiM7Fna8AxmnGFiKx8eTYLwMVmHSYnjA5NgtK9VRhUmWcVqhfT15dlEUpVgDL-20nSdQ
 
-  final responseData = json.decode(utf8.decode(response.bodyBytes));
+  final responseData = response.data;
   var resData = responseData;
   log('channelSuccess : $resData');
 
-  return GetChannel.fromJson(responseData);
+  final getChannelModel = GetChannel.fromJson(resData);
+  return getChannelModel;
 }
 
 class GetChannel {
