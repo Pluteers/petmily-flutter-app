@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 Future<GetChannel> getChannel() async {
   var accessToken =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzUyMzc4OSwiZW1haWwiOiJ0ZXN0MkBuYXZlci5jb20ifQ.e0UPecdFW4OuyxAgmvuazRUL1hYHW9FdtaVAUp5VoOXt7rC-HIbS91ARwNixoCVniO7sjx3xKtUH4GCbfiL5TQ";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzUyNzQyMSwiZW1haWwiOiJ0ZXN0MkBuYXZlci5jb20ifQ.tc902bfif5Gq_xXpSFQ6wBpPw1uSAx_7-TXztHk5puziBEi6vDJvYmFd1kiD5Maj8zC7_tOEa968vNRPkZ8JCQ";
   var response = await http.get(
     Uri.parse("http://petmily.duckdns.org/post/channel"),
     headers: {
