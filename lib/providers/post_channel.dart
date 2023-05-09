@@ -9,10 +9,10 @@ class PostChannel {
 
   static Future<void> postChannel(category) async {
     var accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4MzU0ODc4MiwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.695ZHvXIJzsRet2BKluBhTTVBoqkN1pBmszSOva6xFxa0__7phktJYvobq9WWnARYx57WarddZ6tm2D5LbmU9Q";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NDgxMjI1NiwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.pEG7RJAy4CK7go9keWwaYDGiIePZm613hp-CLLVA8NucH1QKYs_RWNAenQNf_Nmq4uQB9m8MIJIRet4bk21IHA";
 
     var response = await dio.post(
-      "http://petmily.duckdns.org/post/channel",
+      "http://petmily.duckdns.org/channel",
       data: {
         'channelName': channelTitleController.text,
         'categoryId': category,
