@@ -1,25 +1,40 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 final dio = Dio();
-Future<GetChannel> getChannel() async {
-  var accessToken =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NDgxMjI1NiwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.pEG7RJAy4CK7go9keWwaYDGiIePZm613hp-CLLVA8NucH1QKYs_RWNAenQNf_Nmq4uQB9m8MIJIRet4bk21IHA";
 
-  var response = await dio.get(("http://petmily.duckdns.org/channel"),
-      options: Options(
-        headers: {
-          'Authorization': 'Bearer ' + accessToken,
-          'Content-Type': 'application/json'
-        },
-      ));
+class GetChannelData extends ChangeNotifier {
+  static List<Data> _dataList = [];
 
-  final responseData = response.data;
-  var resData = responseData;
-  log('channelSuccess : $resData');
+  List<Data> get data => _dataList;
 
-  final getChannelModel = GetChannel.fromJson(resData);
-  return getChannelModel;
+  void setData(List<Data> dataList) {
+    _dataList = dataList;
+    notifyListeners();
+  }
+
+  Future<void> getChannel() async {
+    var accessToken =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NDgxMjI1NiwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.pEG7RJAy4CK7go9keWwaYDGiIePZm613hp-CLLVA8NucH1QKYs_RWNAenQNf_Nmq4uQB9m8MIJIRet4bk21IHA";
+
+    var response = await dio.get(("http://petmily.duckdns.org/channel"),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+          },
+        ));
+
+    final responseData = response.data;
+    var resData = responseData;
+    log('channelSuccess : $resData');
+
+    final getChannelModel = GetChannel.fromJson(resData);
+
+    _dataList = getChannelModel.data!;
+    notifyListeners();
+  }
 }
 
 class GetChannel {
