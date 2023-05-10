@@ -21,7 +21,7 @@ class GetChannelData extends ChangeNotifier {
     var response = await dio.get(("http://petmily.duckdns.org/channel"),
         options: Options(
           headers: {
-            'Authorization': 'Bearer ' + accessToken,
+            'Authorization': 'Bearer $accessToken',
             'Content-Type': 'application/json'
           },
         ));
