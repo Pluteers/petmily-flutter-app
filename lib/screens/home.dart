@@ -5,6 +5,7 @@ import 'package:petmily/screens/channel.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
 import 'package:petmily/providers/post_channel.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +15,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<GetChannelData>(context, listen: false).getChannel();
+  }
+
   @override
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
@@ -123,6 +130,7 @@ void editChannel(_) async {
             TextButton(
                 onPressed: () {
                   PostChannel.postChannel(selectedDropdown);
+                  Navigator.pop(_);
                 },
                 child: const Text('채널 추가')),
             TextButton(
@@ -150,68 +158,69 @@ class _HomeGrideViewState extends State<HomeGrideView> {
     final width = MediaQuery.of(context).size.width;
     final dynamicColor = Theme.of(context).colorScheme;
 
-    return SizedBox(
-      width: width * .9,
-      height: height * 0.7,
-      child: FutureBuilder(
-          future: getChannel(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return GridView.builder(
-                itemCount: snapshot.data!.data!.length,
-                itemBuilder: (context, index) {
-                  var channelTitle = snapshot.data!.data![index].channelName;
-                  var channelId = snapshot.data!.data![index].channelId;
-                  return Container(
-                    decoration: BoxDecoration(
-                        color: dynamicColor.primaryContainer,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          child: Container(
-                              width: width,
-                              height: 50,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: dynamicColor.primary,
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                  )),
-                              child: VariableText(
-                                value: "$channelTitle",
-                                size: 18,
-                                color: dynamicColor.onPrimary,
-                                wght: 500,
-                              )),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChannelScreen(
-                                          channelId: channelId,
-                                        )));
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-                  childAspectRatio: 1 / 1.3, //item 의 가로 1, 세로 1.5 의 비율
-                  mainAxisSpacing: 10, //수평 Padding
-                  crossAxisSpacing: 10, //수직 Padding
-                ),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+    return ChangeNotifierProvider(
+      create: (context) => GetChannelData(),
+      child: SizedBox(
+        width: width * .9,
+        height: height * 0.7,
+        child: Consumer<GetChannelData>(builder: (context, getChannel, child) {
+          if (getChannel.data.isNotEmpty) {
+            return GridView.builder(
+              itemCount: getChannel.data.length,
+              itemBuilder: (context, index) {
+                var channelTitle = getChannel.data[index].channelName;
+                var channelId = getChannel.data[index].channelId;
+                return Container(
+                  decoration: BoxDecoration(
+                      color: dynamicColor.primaryContainer,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        child: Container(
+                            width: width,
+                            height: 50,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: dynamicColor.primary,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
+                                )),
+                            child: VariableText(
+                              value: "$channelTitle",
+                              size: 18,
+                              color: dynamicColor.onPrimary,
+                              wght: 500,
+                            )),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChannelScreen(
+                                        channelId: channelId,
+                                      )));
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+                childAspectRatio: 1 / 1.3, //item 의 가로 1, 세로 1.5 의 비율
+                mainAxisSpacing: 10, //수평 Padding
+                crossAxisSpacing: 10, //수직 Padding
+              ),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        }),
+      ),
     );
   }
 }
