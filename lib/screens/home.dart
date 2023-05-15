@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:petmily/providers/get_channel.dart';
-import 'package:petmily/screens/channel.dart';
+import 'package:petmily/screens/post/post_list.dart';
 
 import 'package:petmily/widgets/variable_text.dart';
 
@@ -31,10 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Container(
                 width: width,
-                height: 60,
+                height: 80,
+                alignment: Alignment.centerLeft,
                 child: VariableText(
                   value: "채널",
                   color: dynamicColor.primary,
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            HomeGrideView(),
+            const HomeGrideView(),
           ],
         )),
         bottomNavigationBar: BottomAppBar(
@@ -55,9 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: dynamicColor.secondary,
           elevation: 0,
           onPressed: () {
-            //TODO : 카테고리 추가 가능하도록 구현
-            // postChannel();
-            editChannel(context);
+            editChannel(context); //카테고리 추가
           },
           tooltip: 'Add',
           child: Icon(
@@ -70,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+/**카테고리 추가 메소드 */
 void editChannel(_) async {
   String selectedDropdown = "1";
   return await showDialog(
@@ -221,11 +221,12 @@ class _HomeGrideViewState extends State<HomeGrideView> {
                             MaterialPageRoute(
                                 builder: (context) => ChannelScreen(
                                       channelId: channelId,
+                                      channelTitle: channelTitle,
                                     )));
                       },
                     ),
                     SizedBox(
-                      height: 130,
+                      height: 120,
                     ),
                     Container(
                       width: width,
