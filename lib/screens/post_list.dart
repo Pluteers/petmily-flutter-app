@@ -1,30 +1,13 @@
+
 import 'package:flutter/material.dart';
-import 'package:petmily/providers/get_post.dart';
+import 'package:petmily/providers/get_postlist.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
-class ChannelScreen extends StatefulWidget {
-  const ChannelScreen({super.key, this.channelId});
+class ChannelScreen extends StatelessWidget {
+  ChannelScreen({super.key, required this.channelId});
   final channelId;
 
-  @override
-  State<ChannelScreen> createState() => _ChannelScreenState();
-}
-
-class _ChannelScreenState extends State<ChannelScreen> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   Provider.of<GetPostData>(context, listen: false).getPost(widget.channelId);
-  // }
-
-  // @override
-  // void dispose() {
-  //   // TODO: implement initState
-  //   super.dispose();
-  //   Provider.of<GetPostData>(context, listen: false).getPost(widget.channelId);
-  // }
   final getPostList = GetPostData();
 
   @override
@@ -60,7 +43,6 @@ class _ChannelScreenState extends State<ChannelScreen> {
       child: Scaffold(
         body: SafeArea(child:
             Consumer<GetPostData>(builder: (context, getPostList, child) {
-          var channelListLength = getPostList.data.length;
           return Column(children: [
             Container(
                 margin: const EdgeInsets.only(left: 20),
@@ -76,14 +58,17 @@ class _ChannelScreenState extends State<ChannelScreen> {
             SizedBox(
                 height: height - 180,
                 child: FutureBuilder(
-                  future: getPostList.getPost(widget.channelId),
+                  future: getPostList.getPost(channelId),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: dynamicColor.primary,
+                        ),
                       );
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
+                      var channelListLength = snapshot.data!.length;
                       return Column(
                         children: [
                           Container(
