@@ -36,7 +36,7 @@ class GetChannelData extends ChangeNotifier {
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      log("$e");
+      log("ChannelList Get Error : $e");
     }
   }
 }
