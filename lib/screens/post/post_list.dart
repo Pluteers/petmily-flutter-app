@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petmily/providers/get_postlist.dart';
+import 'package:petmily/screens/post/add_post.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
@@ -100,6 +101,7 @@ class ChannelScreen extends StatelessWidget {
                                   //     .substring(0, 10);
                                   var postWriter =
                                       snapshot.data![index].nickname;
+                                  var postId = snapshot.data![index].id;
                                   return Card(
                                     margin: const EdgeInsets.all(10),
                                     color: dynamicColor.surfaceVariant,
@@ -209,6 +211,12 @@ class ChannelScreen extends StatelessWidget {
           onPressed: () {
             // getPost(channelId);
             /** 포스트 생성 메소드 */
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddPostScreen(
+                          channelId: channelId,
+                        )));
           },
           tooltip: 'Add',
           child: Icon(
