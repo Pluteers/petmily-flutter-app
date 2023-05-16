@@ -20,7 +20,6 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
   Widget build(BuildContext context) {
     return Consumer<AuthService>(builder: (context, authService, child) {
       return Scaffold(
-        appBar: AppBar(title: Text("Login")),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -45,7 +44,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
               /// 비밀번호
               TextField(
                 controller: passwordController,
-                obscureText: false,
+                obscureText: true,
                 decoration: InputDecoration(hintText: "password"),
               ),
               SizedBox(height: 32),

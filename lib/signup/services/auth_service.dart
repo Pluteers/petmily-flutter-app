@@ -1,8 +1,11 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthService extends ChangeNotifier {
-  get dio => null;
+  final dio = Dio();
 
   void signUp({
     required String email,
@@ -11,7 +14,7 @@ class AuthService extends ChangeNotifier {
     required Function() onSuccess,
     required Function(String err) onError,
   }) async {
-    final url = Uri.parse('http://petmily.duckdns.org/sign-up');
+    final url = 'http://petmily.duckdns.org/sign-up';
     final response = await dio.post(url, data: {
       'email': email,
       'nickname': nickname,
@@ -29,6 +32,7 @@ class AuthService extends ChangeNotifier {
       onSuccess();
     } else {
       onError("회원가입에 실패했습니다.");
+      log(response.statusCode.toString());
     }
   }
 
@@ -48,10 +52,11 @@ class AuthService extends ChangeNotifier {
     }
 
     // 로그인 시도
-    final url = Uri.parse('http://petmily.duckdns.org/login');
+    final url = 'http://petmily.duckdns.org/login';
     final response = await dio.post(url, data: {
       'email': email,
       'password': password,
     });
+    onSuccess();
   }
 }

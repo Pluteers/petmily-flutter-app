@@ -2,10 +2,21 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:petmily/login/screens/login_view.dart';
+import 'package:petmily/signup/services/auth_service.dart';
 import 'package:petmily/utilities/dynamic_theme.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthService()),
+      ],
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

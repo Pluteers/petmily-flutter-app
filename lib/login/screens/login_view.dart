@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:petmily/login/screens/login_petmiliy_view.dart';
+import 'package:petmily/main.dart';
 import 'package:petmily/signup/screens/signup_view.dart';
 import 'package:provider/provider.dart';
 import 'package:petmily/login/services/login_viewmodel.dart';
@@ -53,8 +54,7 @@ class _LoginView extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPetmiliyView()),
+                      MaterialPageRoute(builder: (context) => HomeWidget()),
                     );
                   },
                   icon: Image.asset(
@@ -68,7 +68,7 @@ class _LoginView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginPetmiliyView()),
+                          builder: (context) => LoginPetmiliyView()),
                     );
                   },
                   icon: Image.asset(
@@ -82,7 +82,7 @@ class _LoginView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginPetmiliyView()),
+                          builder: (context) => LoginPetmiliyView()),
                     );
                   },
                   icon: Image.asset(
