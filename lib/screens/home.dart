@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: dynamicColor.secondary,
           elevation: 0,
           onPressed: () {
-            editChannel(context); //카테고리 추가
+            addChannel(context); //카테고리 추가
           },
           tooltip: 'Add',
           child: Icon(
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 /**카테고리 추가 메소드 */
-void editChannel(_) async {
+void addChannel(_) async {
   String selectedDropdown = "1";
   return await showDialog(
       context: _,
