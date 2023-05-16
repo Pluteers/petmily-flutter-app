@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:petmily/login/screens/login_view.dart';
+import 'package:petmily/mypage/services/mypage_service.dart';
 import 'package:petmily/signup/services/auth_service.dart';
 import 'package:petmily/utilities/dynamic_theme.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,9 @@ class MainApp extends StatelessWidget {
         theme: DynamicTheme.lightTheme(lightColorScheme),
         darkTheme: DynamicTheme.darkTheme(darkColorScheme),
         themeMode: ThemeMode.light,
-        home: LoginView(),
+        home: MyPageScreen(
+          accessToken: '',
+        ),
         /*Scaffold(
          
           body: Center(
