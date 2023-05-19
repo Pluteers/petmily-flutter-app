@@ -22,7 +22,7 @@ class InitialScreen extends StatelessWidget {
 }
 
 class InitialContentWidget extends StatefulWidget {
-  const InitialContentWidget({super.key});
+  const InitialContentWidget({Key? key}) : super(key: key);
 
   @override
   State<InitialContentWidget> createState() => _InitialContentWidgetState();
@@ -30,11 +30,7 @@ class InitialContentWidget extends StatefulWidget {
 
 class _InitialContentWidgetState extends State<InitialContentWidget> {
   Color? primaryColor;
-  Image? googleIcon;
-  Image? naverIcon;
-  Image? kakaoIcon;
-
-  bool isKakaoTalkInstalled = false;
+  Image? kakaoNarrow;
 
   late SocialProvider socialProvider;
 
@@ -47,10 +43,13 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
   void didChangeDependencies() {
     socialProvider = Provider.of<SocialProvider>(context);
     primaryColor = Theme.of(context).colorScheme.primary;
-    googleIcon = Image.asset("assets/images/ic_google.png");
-    naverIcon = Image.asset("assets/images/ic_naver.png");
-    kakaoIcon = Image.asset("assets/images/ic_kakao.png");
+    kakaoNarrow = Image.asset("assets/images/kakao_login_large_narrow.png");
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -79,33 +78,6 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  constraints:
-                      const BoxConstraints(maxWidth: 50.0, maxHeight: 50.0),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LocalSigninScreen(),
-                      ),
-                    );
-                  },
-                  icon: googleIcon!,
-                ),
-                const SizedBox(width: 20.0),
-                IconButton(
-                  constraints:
-                      const BoxConstraints(maxWidth: 50.0, maxHeight: 50.0),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LocalSigninScreen(),
-                      ),
-                    );
-                  },
-                  icon: naverIcon!,
-                ),
                 const SizedBox(width: 20.0),
                 IconButton(
                   constraints:
@@ -114,10 +86,10 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
                     await socialProvider.login();
                     if (socialProvider.authenticateState ==
                         AuthenticateState.success) {
-                      log("카카오 로그인 성공");
+                      log("카카오 로그인에 성공했습니다.");
                     }
                   },
-                  icon: kakaoIcon!,
+                  icon: kakaoNarrow!,
                 ),
               ],
             ),
@@ -148,10 +120,5 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
