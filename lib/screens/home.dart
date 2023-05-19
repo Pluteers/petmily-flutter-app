@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           HomeGrideView(
-            CategoryDataList: categoryDataList,
+            categoryDataList: categoryDataList,
           ),
         ],
       )),
@@ -93,8 +93,8 @@ class CategoryData {
 
 //메인화면 그리드 뷰
 class HomeGrideView extends StatelessWidget {
-  const HomeGrideView({super.key, required this.CategoryDataList});
-  final CategoryDataList;
+  const HomeGrideView({super.key, required this.categoryDataList});
+  final dynamic categoryDataList;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class HomeGrideView extends StatelessWidget {
       height: height * 0.7,
       child: GridView.count(
         crossAxisCount: 2, //한 줄에 들어가는 컨텐츠 숫자
-        children: List.generate(CategoryDataList.length, (index) {
+        children: List.generate(categoryDataList.length, (index) {
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
@@ -114,7 +114,7 @@ class HomeGrideView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
                     image: AssetImage(
-                        CategoryDataList[index].imagePath), // 이미지 파일 경로
+                        categoryDataList[index].imagePath), // 이미지 파일 경로
                     fit: BoxFit.cover, // 이미지 채우는 방법
                   ),
                 ),
@@ -132,7 +132,7 @@ class HomeGrideView extends StatelessWidget {
                           color: dynamicColor.primary.withOpacity(0.9),
                         ),
                         child: VariableText(
-                          value: CategoryDataList[index].name,
+                          value: categoryDataList[index].name,
                           size: 18,
                           color: dynamicColor.onPrimary,
                           wght: 500,
@@ -145,7 +145,7 @@ class HomeGrideView extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ChannelScreen(
-                              channelId: CategoryDataList[index].name,
+                              channelId: categoryDataList[index].name,
                             )));
               },
             ),

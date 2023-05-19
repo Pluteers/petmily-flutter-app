@@ -3,7 +3,7 @@ import 'package:petmily/widgets/variable_text.dart';
 
 class ChannelScreen extends StatelessWidget {
   const ChannelScreen({super.key, this.channelId});
-  final channelId;
+  final dynamic channelId;
 
   @override
   Widget build(BuildContext context) {
