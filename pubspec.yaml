@@ -11,6 +11,10 @@ dependencies:
     sdk: flutter
   dynamic_color: ^1.6.2
   go_router: ^6.5.3
+  provider: ^6.0.5
+  kakao_flutter_sdk: ^1.4.2
+  dio: ^4.0.6
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -20,7 +24,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/
+    - assets/images/kakao_login_large_narrow.png
+
   # Variable 폰트를 사용합니다.
   fonts:
     - family: "PretendardVariation"
