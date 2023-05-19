@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:petmily/providers/social_provider.dart';
-import 'package:petmily/screens/signin/local_signin_screen.dart';
+
+import 'package:petmily/providers/login_provider.dart';
+import 'package:petmily/screens/local/signin_screen.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
 class InitialScreen extends StatelessWidget {
@@ -12,7 +14,7 @@ class InitialScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Color surfaceColor = Theme.of(context).colorScheme.surface;
     return ChangeNotifierProvider(
-      create: (context) => SocialProvider(),
+      create: (context) => LoginProvider(),
       child: Scaffold(
         backgroundColor: surfaceColor,
         body: const InitialContentWidget(),
@@ -32,7 +34,7 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
   Color? primaryColor;
   Image? kakaoNarrow;
 
-  late SocialProvider socialProvider;
+  late LoginProvider loginProvider;
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
 
   @override
   void didChangeDependencies() {
-    socialProvider = Provider.of<SocialProvider>(context);
+    loginProvider = Provider.of<LoginProvider>(context);
     primaryColor = Theme.of(context).colorScheme.primary;
     kakaoNarrow = Image.asset("assets/images/kakao_login_large_narrow.png");
     super.didChangeDependencies();
@@ -64,7 +66,7 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
           children: [
             VariableText(
               value: "Petmiliy",
-              size: 45.0,
+              size: 50.0,
               wght: 700.0,
               color: primaryColor,
             ),
@@ -74,26 +76,19 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
               wght: 300.0,
               color: primaryColor,
             ),
-            const SizedBox(height: 160.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(width: 20.0),
-                IconButton(
-                  constraints:
-                      const BoxConstraints(maxWidth: 50.0, maxHeight: 50.0),
-                  onPressed: () async {
-                    await socialProvider.login();
-                    if (socialProvider.authenticateState ==
-                        AuthenticateState.success) {
-                      log("카카오 로그인에 성공했습니다.");
-                    }
-                  },
-                  icon: kakaoNarrow!,
-                ),
-              ],
+            const SizedBox(height: 200.0),
+            IconButton(
+              constraints:
+                  const BoxConstraints(maxWidth: 175.0, maxHeight: 80.0),
+              onPressed: () async {
+                await loginProvider.kakaoLogin();
+                if (loginProvider.loginStatus == LoginStatus.success) {
+                  log("카카오 로그인에 성공했습니다.");
+                }
+              },
+              icon: kakaoNarrow!,
             ),
-            const SizedBox(height: 60.0),
+            const SizedBox(height: 20.0),
             OutlinedButton(
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(
@@ -103,17 +98,30 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
                 ),
               ),
               child: const VariableText(
-                value: "Petmiliy 계정으로 시작하기",
+                value: "이메일로 시작하기",
                 size: 15.0,
                 wght: 400.0,
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LocalSigninScreen(),
-                  ),
-                );
+                Theme.of(context).platform == TargetPlatform.iOS
+                    ? Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                            create: (context) => LoginProvider(),
+                            child: const SignInScreen(),
+                          ),
+                        ),
+                      )
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                            create: (context) => LoginProvider(),
+                            child: const SignInScreen(),
+                          ),
+                        ),
+                      );
               },
             ),
           ],
