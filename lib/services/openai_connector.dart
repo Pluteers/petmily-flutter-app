@@ -2,7 +2,6 @@ import "dart:developer";
 import "dart:io";
 import "dart:convert";
 import "package:http/http.dart" as http;
-import "package:petmily/providers/chat_provider.dart";
 import "package:petmily/utilities/constants.dart";
 
 const String initalPromptValue = "반려동물과 관련된 질문에 한 문장으로만 짧게 답변하세요.";
