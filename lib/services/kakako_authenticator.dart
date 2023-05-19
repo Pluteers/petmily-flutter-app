@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:petmily/utilities/constants.dart';
 
 class KakaoAuthenticator {
+  static const domain = Constants.domain;
   Future<bool> loginWithKakao() async {
     try {
       final bool installed = await isKakaoTalkInstalled();
@@ -39,7 +41,7 @@ class KakaoAuthenticator {
     try {
       final dio = Dio();
       final response = await dio.post(
-        "http://petmily.duckdns.org/login/oauth2/code/kakao",
+        domain + Constants.kakao,
         options: Options(
           headers: {
             "Content-Type": "application/json",
