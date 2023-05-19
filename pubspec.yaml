@@ -25,6 +25,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/kakao_login_large_narrow.png
+
   # Variable 폰트를 사용합니다.
   fonts:
     - family: "PretendardVariation"
