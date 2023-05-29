@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:petmily/providers/detail_post_provider.dart';
+import 'package:petmily/services/detail_post_service.dart';
 import 'package:petmily/services/get_commentList.dart';
 import 'package:petmily/services/post_postLike.dart';
 import 'package:petmily/widgets/variable_text.dart';
@@ -27,22 +27,25 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
       appBar: AppBar(),
       body: SafeArea(
         child: SizedBox(
-            width: width,
-            height: height,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ChangeNotifierProvider<DetailPostProvider>.value(
-                    value: DetailPostProvider(),
-                    child: PostDetail(
-                        channelId: widget.channelId, postId: widget.postId),
-                  ),
-                  PostComment(
-                    postId: widget.postId,
-                  )
-                ],
+          width: width,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 3,
+                child: ChangeNotifierProvider<DetailPostProvider>.value(
+                  value: DetailPostProvider(),
+                  child: PostDetail(
+                      channelId: widget.channelId, postId: widget.postId),
+                ),
               ),
-            )),
+              Expanded(
+                  flex: 2,
+                  child: PostComment(
+                    postId: widget.postId,
+                  ))
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         height: 80,
@@ -83,7 +86,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: dynamicColor.secondary,
         onPressed: () {
-          GetCommentList().getCommentList(widget.postId);
+          GetCommentList.getCommentList(widget.postId);
         },
         tooltip: 'Add',
         child: FaIcon(
@@ -124,10 +127,8 @@ class PostDetail extends StatelessWidget {
 
           return SizedBox(
               width: width * .9,
-              height: 450,
               child: Scaffold(
                 body: SizedBox(
-                  height: 400,
                   child: Column(
                     children: [
                       Padding(
@@ -260,88 +261,106 @@ class PostComment extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          // FutureBuilder(
-          //     future: GetCommentList().getCommentList(postId),
-          //     builder: (context, snapshot) {
-          //       if (snapshot.connectionState == ConnectionState.waiting) {
-          //         return Center(
-          //           child: CircularProgressIndicator(
-          //             color: dynamicColor.primary,
-          //           ),
-          //         );
-          //       } else if (snapshot.connectionState == ConnectionState.done) {
-          //         if (snapshot.hasError) {
-
-          //         }
-          //         if (snapshot.hasData) {
-          //           return ListView.builder(
-          //           itemCount: snapshot.data,
-          //           itemBuilder: (context, index) {});
-          //         }
-          //       }
-          //     })
-          commentContainer(width, dynamicColor)
+          FutureBuilder(
+              future: GetCommentList.getCommentList(postId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: dynamicColor.primary,
+                    ),
+                  );
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: VariableText(
+                        value: "댓글을 불러오는 중 오류가 발생했어요!",
+                        size: 15,
+                        wght: 300,
+                      ),
+                    );
+                  } else {
+                    return SizedBox(
+                      height: 208,
+                      child: ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            var nickName = snapshot.data![index].nickname;
+                            var content = snapshot.data![index].content;
+                            return commentContainer(
+                                width, context, nickName, content);
+                          }),
+                    );
+                  }
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: dynamicColor.primary,
+                    ),
+                  );
+                }
+              }),
         ],
       ),
     );
   }
 }
 
-Widget commentContainer(width, dynamicColor) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 10.0),
-    child: Container(
-      width: width,
-      alignment: Alignment.centerLeft,
-      child: Row(
-        children: [
-          Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 1, color: dynamicColor.primary)),
-              child: Center(
-                child: FaIcon(
-                  FontAwesomeIcons.user,
-                  color: dynamicColor.primary,
+Widget commentContainer(width, context, nickName, commentContent) {
+  final dynamicColor = Theme.of(context).colorScheme;
+  return Container(
+    width: width,
+    alignment: Alignment.centerLeft,
+    padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
+    child: Row(
+      children: [
+        Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(width: 1, color: dynamicColor.primary)),
+            child: Center(
+              child: FaIcon(
+                FontAwesomeIcons.user,
+                color: dynamicColor.primary,
+              ),
+            )),
+        SizedBox(
+          width: 10,
+        ),
+        Container(
+          width: width * .9 - 60,
+          height: 50,
+          alignment: Alignment.centerLeft,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.topLeft,
+                  child: VariableText(
+                    value: "$nickName",
+                    size: 15,
+                    wght: 300,
+                  ),
                 ),
-              )),
-          SizedBox(
-            width: 10,
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: VariableText(
+                    value: "$commentContent",
+                    size: 12,
+                    wght: 300,
+                  ),
+                ),
+              ),
+            ],
           ),
-          Container(
-            height: 50,
-            alignment: Alignment.centerLeft,
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    alignment: Alignment.topLeft,
-                    child: VariableText(
-                      value: "작성자",
-                      size: 15,
-                      wght: 300,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: VariableText(
-                      value: "댓글 내용",
-                      size: 12,
-                      wght: 300,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     ),
   );
 }
