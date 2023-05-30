@@ -16,7 +16,7 @@ class GetChannelData extends ChangeNotifier {
 
   Future<void> getChannel() async {
     var accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NDgxMjI1NiwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.pEG7RJAy4CK7go9keWwaYDGiIePZm613hp-CLLVA8NucH1QKYs_RWNAenQNf_Nmq4uQB9m8MIJIRet4bk21IHA";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NjE5NDI0OCwiZW1haWwiOiJ0ZXN0MkBuYXZlci5jb20ifQ.wgfd8OpZcBmK2Wb983VXOe2otFqcPdEa0pkzqsX4ITV1yfDoqVq74pKh0ReCMSGSjCrtw5ejAfYDW8F1qRCCIA";
 
     try {
       final response = await dio.get(("http://petmily.duckdns.org/channel"),

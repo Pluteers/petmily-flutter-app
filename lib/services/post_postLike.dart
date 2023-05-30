@@ -2,7 +2,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:petmily/providers/detail_post_provider.dart';
+import 'package:petmily/services/detail_post_service.dart';
 
 final dio = Dio();
 
@@ -20,7 +20,7 @@ class PostLike {
       ),
     );
 
-    final responseData = response.data;
+    final responseData = response;
     var resData = responseData;
     log('LikePostSuccess : $resData');
   }
