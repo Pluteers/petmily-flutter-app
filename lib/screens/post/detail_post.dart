@@ -60,8 +60,10 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
               onPressed: () {
                 PostLike().postLike(widget.channelId, widget.postId);
                 setState(() {
-                  Provider.of<DetailPostProvider>(context, listen: false)
-                      .getDetailPostProvider(widget.channelId, widget.postId);
+                  Future.delayed(Duration(milliseconds: 15000), () {
+                    Provider.of<DetailPostProvider>(context, listen: false)
+                        .getDetailPostProvider(widget.channelId, widget.postId);
+                  });
                 });
               },
             ),
@@ -86,9 +88,9 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: dynamicColor.secondary,
         onPressed: () {
-          GetCommentList.getCommentList(widget.postId);
+          // GetCommentList.getCommentList(widget.postId);
         },
-        tooltip: 'Add',
+        tooltip: '댓글 등록',
         child: FaIcon(
           FontAwesomeIcons.comment,
           color: dynamicColor.onPrimary,
@@ -282,14 +284,22 @@ class PostComment extends StatelessWidget {
                   } else {
                     return SizedBox(
                       height: 208,
-                      child: ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            var nickName = snapshot.data![index].nickname;
-                            var content = snapshot.data![index].content;
-                            return commentContainer(
-                                width, context, nickName, content);
-                          }),
+                      child: snapshot.data!.isEmpty
+                          ? const Center(
+                              child: VariableText(
+                                value: "댓글이 없는 게시물이에요",
+                                size: 15,
+                                wght: 300,
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                var nickName = snapshot.data![index].nickname;
+                                var content = snapshot.data![index].content;
+                                return commentContainer(
+                                    width, context, nickName, content);
+                              }),
                     );
                   }
                 } else {
