@@ -31,9 +31,7 @@ class MainApp extends StatelessWidget {
         theme: DynamicTheme.lightTheme(lightColorScheme),
         darkTheme: DynamicTheme.darkTheme(darkColorScheme),
         themeMode: ThemeMode.light,
-        home: MyPageScreen(
-          accessToken: '',
-        ),
+        home: LoginView(),
         /*Scaffold(
          
           body: Center(

@@ -5,6 +5,8 @@ import 'package:petmily/main.dart';
 import 'package:petmily/signup/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
+import 'package:petmily/mypage/services/mypage_service.dart';
+
 class LoginPetmiliyView extends StatefulWidget {
   const LoginPetmiliyView({Key? key}) : super(key: key);
 
@@ -62,10 +64,10 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                         content: Text("로그인 성공"),
                       ));
 
-                      // HomePage로 이동
+                      // MyPage로 이동
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeWidget()),
+                        MaterialPageRoute(builder: (context) => MyPageScreen()),
                       );
                     },
                     onError: (err) {
