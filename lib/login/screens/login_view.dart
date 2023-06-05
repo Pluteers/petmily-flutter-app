@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:petmily/login/screens/login_petmiliy_view.dart';
 import 'package:petmily/main.dart';
 import 'package:petmily/signup/screens/signup_view.dart';
+import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 import 'package:petmily/login/services/login_viewmodel.dart';
 
@@ -12,7 +13,7 @@ class LoginView extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => LoginViewModel(),
       child: Scaffold(
-        appBar: AppBar(title: Text('Login')),
+        appBar: AppBar(),
         body: _LoginView(),
       ),
     );
@@ -24,7 +25,7 @@ class _LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<LoginViewModel>(context);
     final dynamicColor = Theme.of(context).colorScheme;
-
+    final width = MediaQuery.of(context).size.width;
     return Container(
       alignment: Alignment.center,
       child: Padding(
@@ -33,19 +34,23 @@ class _LoginView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Petmiliy',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 45.0,
-                  color: dynamicColor.primary),
+            VariableText(
+              value: "Petmiliy",
+              size: 45,
+              wght: 900,
+              color: dynamicColor.primary,
             ),
-            Text(
-              '우리가 만드는 반려동물 캔버스',
-              style: TextStyle(fontSize: 22.0, color: dynamicColor.primary),
+            const SizedBox(
+              height: 20,
             ),
-            SizedBox(
-              height: 60.0,
+            VariableText(
+              value: "우리가 만드는 반려동물 캠퍼스",
+              size: 22,
+              color: dynamicColor.primary,
+              wght: 400,
+            ),
+            const SizedBox(
+              height: 40.0,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +59,8 @@ class _LoginView extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeWidget()),
+                      MaterialPageRoute(
+                          builder: (context) => const HomeWidget()),
                     );
                   },
                   icon: Image.asset(
@@ -68,7 +74,7 @@ class _LoginView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => LoginPetmiliyView()),
+                          builder: (context) => const LoginPetmiliyView()),
                     );
                   },
                   icon: Image.asset(
@@ -82,7 +88,7 @@ class _LoginView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => LoginPetmiliyView()),
+                          builder: (context) => const LoginPetmiliyView()),
                     );
                   },
                   icon: Image.asset(
@@ -93,27 +99,68 @@ class _LoginView extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              child: Text("Petmiliy 계정으로 접속", style: TextStyle(fontSize: 21)),
-              onPressed: () {
+            const SizedBox(height: 20.0),
+            GestureDetector(
+              child: Container(
+                  width: width * .6,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: dynamicColor.primary.withOpacity(0.4),
+                          blurRadius: 5.0,
+                          spreadRadius: 0.0,
+                          offset: const Offset(0, 5),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(25)),
+                  child: VariableText(
+                    value: "Petmiliy 로그인",
+                    size: 19,
+                    wght: 400,
+                    color: dynamicColor.primary,
+                  )),
+              onTap: () {
                 // 회원가입 화면으로 이동
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPetmiliyView()),
+                  MaterialPageRoute(
+                      builder: (context) => const LoginPetmiliyView()),
                 );
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
-            ElevatedButton(
-              child: Text("Petmiliy 계정 만들기", style: TextStyle(fontSize: 21)),
-              onPressed: () {
+            GestureDetector(
+              child: Container(
+                  width: width * .6,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: dynamicColor.primary.withOpacity(0.4),
+                          blurRadius: 5.0,
+                          spreadRadius: 0.0,
+                          offset: const Offset(0, 5),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(25)),
+                  child: VariableText(
+                    value: "Petmiliy 계정 만들기",
+                    size: 19,
+                    wght: 400,
+                    color: dynamicColor.primary,
+                  )),
+              onTap: () {
                 // 회원가입 화면으로 이동
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignupView()),
+                  MaterialPageRoute(builder: (context) => const SignupView()),
                 );
               },
             ),
