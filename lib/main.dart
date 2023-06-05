@@ -1,12 +1,18 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+<<<<<<< HEAD
 import 'package:petmily/login/screens/login_view.dart';
 import 'package:petmily/mypage/services/mypage_service.dart';
 import 'package:petmily/signup/services/auth_service.dart';
+=======
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+
+import 'package:petmily/screens/initial_screen.dart';
+>>>>>>> 42ee48c7a00cdff834a2ab77bd15da578688c356
 import 'package:petmily/utilities/dynamic_theme.dart';
 import 'package:provider/provider.dart';
 
+<<<<<<< HEAD
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -18,10 +24,15 @@ void main() async {
       child: const MainApp(),
     ),
   );
+=======
+void main() {
+  KakaoSdk.init(nativeAppKey: 'c906dc51f4a859838fa4b82caae37a41');
+  runApp(const MainApp());
+>>>>>>> 42ee48c7a00cdff834a2ab77bd15da578688c356
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +42,7 @@ class MainApp extends StatelessWidget {
         theme: DynamicTheme.lightTheme(lightColorScheme),
         darkTheme: DynamicTheme.darkTheme(darkColorScheme),
         themeMode: ThemeMode.light,
+<<<<<<< HEAD
         home: LoginView(),
         /*Scaffold(
          
@@ -66,10 +78,14 @@ class MainApp extends StatelessWidget {
             ),
           ),
         ),*/
+=======
+        home: const InitialScreen(),
+>>>>>>> 42ee48c7a00cdff834a2ab77bd15da578688c356
       ),
     );
   }
 }
+<<<<<<< HEAD
 
 Widget testVariableFonts(String text, double wght, double wdth, double grad) {
   return Text(
@@ -98,3 +114,5 @@ class HomeWidget extends StatelessWidget {
     );
   }
 }
+=======
+>>>>>>> 42ee48c7a00cdff834a2ab77bd15da578688c356

@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   dynamic_color: ^1.6.2
   go_router: ^6.5.3
+<<<<<<< HEAD
   provider: ^6.0.1
   firebase_auth: ^4.4.0
   http: ^0.13.6
@@ -18,6 +19,13 @@ dependencies:
   shared_preferences: ^2.1.1
   logger: ^1.3.0
 
+=======
+  provider: ^6.0.5
+  kakao_flutter_sdk: ^1.4.2
+  dio: ^4.0.6
+  shared_preferences: ^2.1.1
+  http: ^0.13.6
+>>>>>>> 42ee48c7a00cdff834a2ab77bd15da578688c356
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +34,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/kakao_login_large_narrow.png
+
   # Variable 폰트를 사용합니다.
   fonts:
     - family: "PretendardVariation"

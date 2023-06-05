@@ -15,14 +15,10 @@
             "console": "debugConsole"
         },
         {
-            "name": "petmily (simulator)",
+            "name": "petmily",
             "request": "launch",
             "program": "lib/main.dart",
             "type": "dart",
-            "deviceId": "1F5BED5A-CD15-4434-8C59-E49778C771CE",
-            "args": ["--debug"],
-            "flutterMode": "debug",
-            "console": "debugConsole"
         },
         {
             "name": "petmily (profile mode)",
