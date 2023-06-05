@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -58,23 +57,33 @@ class AuthService extends ChangeNotifier {
     // 로그인 시도
     const url = 'http://petmily.duckdns.org/login';
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await dio.post(url, data: {
-      'email': email,
-      'password': password,
-    });
-    try {
-      if (response.statusCode == 200) {
-        onSuccess();
-        final token = response.data["Authorization"];
 
+    try {
+      final response = await dio.post(url, data: {
+        'email': email,
+        'password': password,
+      });
+      if (response.statusCode == 200) {
+        final token = response.data["Authorization"];
         await prefs.setString('token', token);
         log('set Token String : ${prefs.getString('token')!}');
         log('login success : $response');
-      } else {
-        log("login Error");
+        onSuccess();
       }
     } catch (e) {
-      log("$e");
+      if (e is DioError) {
+        final response = e.response;
+        if (response?.statusCode == 400) {
+          onError("아이디 또는 비밀번호를 확인해주세요");
+          log("400Error");
+        } else {
+          onError("네트워크 에러");
+          log("Network Error");
+        }
+      } else {
+        log("$e");
+        onError("오류 발생");
+      }
     }
   }
 }
