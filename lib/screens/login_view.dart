@@ -12,10 +12,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => LoginViewModel(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: _LoginView(),
-      ),
+      child: _LoginView(),
     );
   }
 }
@@ -26,9 +23,8 @@ class _LoginView extends StatelessWidget {
     final viewModel = Provider.of<LoginViewModel>(context);
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
-    return Container(
-      alignment: Alignment.center,
-      child: Padding(
+    return Scaffold(
+      body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
