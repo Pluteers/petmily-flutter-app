@@ -86,4 +86,9 @@ class AuthService extends ChangeNotifier {
       }
     }
   }
+
+  void signOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+  }
 }
