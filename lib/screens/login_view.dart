@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:petmily/login/screens/login_petmiliy_view.dart';
+import 'package:petmily/screens/login_petmiliy_view.dart';
 import 'package:petmily/main.dart';
-import 'package:petmily/signup/screens/signup_view.dart';
+import 'package:petmily/screens/signup_view.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
-import 'package:petmily/login/services/login_viewmodel.dart';
+import 'package:petmily/services/login_service.dart';
 
 class LoginView extends StatelessWidget {
   @override

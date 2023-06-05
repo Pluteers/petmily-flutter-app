@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:petmily/screens/login_view.dart';
 import 'package:petmily/main.dart';
+import 'package:petmily/screens/mypage_screens.dart';
 import 'package:petmily/services/auth_service.dart';
+import 'package:petmily/services/mypage_service.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
@@ -55,7 +57,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                           speed: const Duration(milliseconds: 100),
                         ),
                       ],
-                      totalRepeatCount: 1,
+                      totalRepeatCount: 2,
                     ),
                   ),
 
@@ -72,6 +74,8 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                       decoration: InputDecoration(
                         hintText: '이메일 형식 아이디를 입력하세요.',
                         labelText: '아이디',
+                        labelStyle: TextStyle(color: dynamicColor.primary),
+                        hintStyle: TextStyle(color: dynamicColor.primary),
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.close),
                           onPressed: () {
@@ -97,6 +101,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: '비밀번호',
+                        labelStyle: TextStyle(color: dynamicColor.primary),
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.close),
                           onPressed: () {
@@ -118,7 +123,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                         height: 40,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: dynamicColor.background,
                             boxShadow: [
                               BoxShadow(
                                 color: dynamicColor.primary.withOpacity(0.4),
@@ -149,7 +154,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeWidget()),
+                                builder: (context) => MyPageScreen()),
                           );
                         },
                         onError: (err) {
@@ -161,35 +166,6 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                       );
                     },
                   ),
-
-                  /// 로그인 버튼
-                  // ElevatedButton(
-                  //   child: Text("Log in", style: TextStyle(fontSize: 21)),
-                  //   onPressed: () {
-                  //     authService.signIn(
-                  //       email: emailController.text,
-                  //       password: passwordController.text,
-                  //       onSuccess: () {
-                  //         // 로그인 성공
-                  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //           content: Text("로그인 성공"),
-                  //         ));
-
-                  //         // HomePage로 이동
-                  //         Navigator.pushReplacement(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => HomeWidget()),
-                  //         );
-                  //       },
-                  //       onError: (err) {
-                  //         // 에러 발생
-                  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //           content: Text(err),
-                  //         ));
-                  //       },
-                  //     );
-                  //   },
-                  // ),
                 ],
               ),
             ),
