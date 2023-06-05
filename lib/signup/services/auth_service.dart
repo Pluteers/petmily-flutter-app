@@ -61,15 +61,19 @@ class AuthService extends ChangeNotifier {
       'email': email,
       'password': password,
     });
-    if (response.statusCode == 200) {
-      onSuccess();
-      final token = response.data["Authorization"];
+    try {
+      if (response.statusCode == 200) {
+        onSuccess();
+        final token = response.data["Authorization"];
 
-      await prefs.setString('token', token);
-      log(prefs.getString('token')!);
-      log('login success : ${response}');
-    } else {
-      log("login Error");
+        await prefs.setString('token', token);
+        log('set Token String : ${prefs.getString('token')!}');
+        log('login success : $response');
+      } else {
+        log("login Error");
+      }
+    } catch (e) {
+      log("$e");
     }
   }
 }
