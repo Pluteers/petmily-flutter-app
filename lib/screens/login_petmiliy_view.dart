@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:petmily/login/screens/login_view.dart';
+import 'package:petmily/screens/login_view.dart';
 import 'package:petmily/main.dart';
-import 'package:petmily/signup/services/auth_service.dart';
+import 'package:petmily/services/auth_service.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 

@@ -4,8 +4,8 @@ import 'package:petmily/utilities/dynamic_theme.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
-import 'package:petmily/signup/services/auth_service.dart';
-import 'package:petmily/login/screens/login_view.dart';
+import 'package:petmily/services/auth_service.dart';
+import 'package:petmily/screens/login_view.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({Key? key}) : super(key: key);
@@ -242,35 +242,6 @@ class _SignupViewState extends State<SignupView> {
                       }
                     },
                   ),
-                  // ElevatedButton(
-                  //   child: Text("가입 하기", style: TextStyle(fontSize: 21)),
-                  //   onPressed: () {
-                  //      else {
-                  //       authService.signUp(
-                  //         email: emailController.text,
-                  //         nickname: nicknameController.text,
-                  //         password: passwordController.text,
-                  //         onSuccess: () {
-                  //           // 회원가입 성공
-                  //           Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //                 builder: (context) => LoginView()),
-                  //           );
-                  //           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //             content: Text("Success!"),
-                  //           ));
-                  //         },
-                  //         onError: (err) {
-                  //           // 에러 발생
-                  //           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //             content: Text(err),
-                  //           ));
-                  //         },
-                  //       );
-                  //     }
-                  //   },
-                  // ),
                 ],
               ),
             ),
