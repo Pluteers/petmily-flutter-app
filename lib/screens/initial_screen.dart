@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petmily/utilities/ads.dart';
 import 'package:provider/provider.dart';
 
 import 'package:petmily/providers/login_provider.dart';
@@ -35,10 +36,16 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
   Image? kakaoNarrow;
 
   late LoginProvider loginProvider;
+  late AppLifecycleReactor appLifecycleReactor;
 
   @override
   void initState() {
     super.initState();
+
+    AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+    appLifecycleReactor =
+        AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+    appLifecycleReactor.listenToAppStateChanges();
   }
 
   @override
