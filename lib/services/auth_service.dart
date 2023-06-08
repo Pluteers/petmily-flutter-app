@@ -78,7 +78,7 @@ class AuthService extends ChangeNotifier {
           log("400Error");
         } else {
           onError("네트워크 에러");
-          log("Network Error");
+          log("Network Error : $e");
         }
       } else {
         log("$e");
