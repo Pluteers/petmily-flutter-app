@@ -41,6 +41,9 @@ class UserService {
     }
   }
 
+  TextEditingController editEmailController = TextEditingController();
+  TextEditingController editNicknameController = TextEditingController();
+  TextEditingController editPasswordController = TextEditingController();
   void editUserInfo({
     required Function() onSuccess,
     required Function(String err) onError,
@@ -48,9 +51,7 @@ class UserService {
     const url = "http://petmily.duckdns.org/user/update";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? accessToken = prefs.getString('token');
-    TextEditingController editEmailController = TextEditingController();
-    TextEditingController editNicknameController = TextEditingController();
-    TextEditingController editPasswordController = TextEditingController();
+
     try {
       final response = await dio.patch((url),
           options: Options(
@@ -59,19 +60,22 @@ class UserService {
             },
           ),
           data: {
-            "email": editEmailController,
-            "nickname": editNicknameController,
-            "password": editPasswordController
+            "email": editEmailController.text,
+            "nickname": editNicknameController.text,
+            "password": editPasswordController.text
           });
       if (response.statusCode == 200) {
         final responseData = response.data;
 
         log('Edit Info Success : $responseData');
+        onSuccess();
       } else {
         log("${response.statusCode}");
+        onError("${response.statusCode}");
       }
     } catch (e) {
       log("$e");
+      onError("$e");
     }
   }
 }
