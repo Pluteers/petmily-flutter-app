@@ -289,12 +289,121 @@ class UserFavoriteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: TextButton(
-          onPressed: () {
-            ScrapService().userScrapList();
-          },
-          child: Text("data")),
+    final dynamicColor = Theme.of(context).colorScheme;
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: FutureBuilder(
+        future: FavoriteService().userFavoriteList(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: dynamicColor.primary,
+              ),
+            );
+          } else {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: dynamicColor.primary,
+                ),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              return GridView.builder(
+                itemCount: snapshot.data!.data!.length,
+                itemBuilder: (context, index) {
+                  var channelName = snapshot.data!.data![index].channelName;
+                  var channelId = snapshot.data!.data![index].channelId;
+                  var categoryId = snapshot.data!.data![index].categoryId;
+                  var nickname = snapshot.data!.data![index].nickname;
+                  var url = snapshot.data!.data![index].url;
+                  return InkWell(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.topLeft,
+                                child: VariableText(
+                                  value: "$channelName",
+                                  size: 15,
+                                  wght: 500,
+                                ),
+                              ),
+                            ),
+                            url == null
+                                ? Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: dynamicColor.primary,
+                                          borderRadius:
+                                              BorderRadius.circular(25)),
+                                      child: VariableText(
+                                        value: "대표 이미지 없음",
+                                        size: 12,
+                                        wght: 300,
+                                        color: dynamicColor.onPrimary,
+                                      ),
+                                    ))
+                                : Expanded(flex: 2, child: SizedBox()),
+                            Expanded(
+                                flex: 1,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: VariableText(
+                                          value: "$nickname",
+                                          size: 12,
+                                          wght: 300,
+                                        )),
+                                    Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          alignment: Alignment.centerRight,
+                                          child: categoryId == 1
+                                              ? FaIcon(
+                                                  FontAwesomeIcons.bone,
+                                                  color: dynamicColor.primary,
+                                                )
+                                              : FaIcon(FontAwesomeIcons.cat,
+                                                  color: dynamicColor.primary),
+                                        )),
+                                  ],
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      /**채널 접근 메소드 추가 */
+                    },
+                  );
+                },
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+                  childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
+                  mainAxisSpacing: 10, //수평 Padding
+                  crossAxisSpacing: 10, //수직 Padding
+                ),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: dynamicColor.primary,
+                ),
+              );
+            }
+          }
+        },
+      ),
     );
   }
 }
