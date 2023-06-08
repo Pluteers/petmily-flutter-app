@@ -40,4 +40,38 @@ class UserService {
       return dataList;
     }
   }
+
+  void editUserInfo({
+    required Function() onSuccess,
+    required Function(String err) onError,
+  }) async {
+    const url = "http://petmily.duckdns.org/user/update";
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
+    TextEditingController editEmailController = TextEditingController();
+    TextEditingController editNicknameController = TextEditingController();
+    TextEditingController editPasswordController = TextEditingController();
+    try {
+      final response = await dio.patch((url),
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+            },
+          ),
+          data: {
+            "email": editEmailController,
+            "nickname": editNicknameController,
+            "password": editPasswordController
+          });
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        log('Edit Info Success : $responseData');
+      } else {
+        log("${response.statusCode}");
+      }
+    } catch (e) {
+      log("$e");
+    }
+  }
 }
