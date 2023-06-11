@@ -3,14 +3,13 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void addLikeChanel() async {
+void addLikeChanel(String channelId) async {
   Dio dio = Dio();
 
   String baseUrl = 'http://petmily.duckdns.org/channel/';
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? accessToken = prefs.getString('token');
 
-  String channelId = '';
   String url = baseUrl + channelId + '/bookmark';
 
   Options options = Options(
@@ -26,12 +25,11 @@ void addLikeChanel() async {
   });
 }
 
-void deleteLikeChanel() async {
+void deleteLikeChanel(String channelId) async {
   Dio dio = Dio();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? accessToken = prefs.getString('token');
   String baseUrl = 'http://petmily.duckdns.org/channel/';
-  String channelId = '';
   String url = baseUrl + channelId + '/bookmark';
 
   Options options = Options(
@@ -47,13 +45,13 @@ void deleteLikeChanel() async {
   });
 }
 
-void addScrap() async {
+void addScrap(String postId) async {
   Dio dio = Dio();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? accessToken = prefs.getString('token');
 
   String baseUrl = 'http://petmily.duckdns.org/post/';
-  String postId = 'YOUR_POST_ID';
+
   String url = baseUrl + postId + '/scrap';
 
   Options options = Options(
@@ -69,13 +67,13 @@ void addScrap() async {
   });
 }
 
-void cancelScrap() async {
+void cancelScrap(String scrapId) async {
   Dio dio = Dio();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? accessToken = prefs.getString('token');
 
   String baseUrl = 'http://petmily.duckdns.org/scrap/';
-  String scrapId = 'YOUR_SCRAP_ID';
+
   String url = baseUrl + scrapId + '/cancel';
 
   Options options = Options(
