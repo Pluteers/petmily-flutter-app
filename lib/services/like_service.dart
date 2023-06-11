@@ -1,32 +1,18 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void getLikeChanel() {
-  Dio dio = Dio();
-  String url = 'http://petmily.duckdns.org/bookmark';
-  String accessToken = '';
-  Options options = Options(
-    headers: {
-      'Authorization': 'Bearer $accessToken',
-    },
-  );
-
-  dio.get(url, options: options).then((response) {
-    log(response.data);
-  }).catchError((error) {
-    log('오류 발생: $error');
-  });
-}
-
-void addLikeChanel() {
+void addLikeChanel() async {
   Dio dio = Dio();
 
   String baseUrl = 'http://petmily.duckdns.org/channel/';
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? accessToken = prefs.getString('token');
+
   String channelId = '';
   String url = baseUrl + channelId + '/bookmark';
 
-  String accessToken = 'YOUR_ACCESS_TOKEN';
   Options options = Options(
     headers: {
       'Authorization': 'Bearer $accessToken',
@@ -40,13 +26,14 @@ void addLikeChanel() {
   });
 }
 
-void deleteLikeChanel() {
+void deleteLikeChanel() async {
   Dio dio = Dio();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? accessToken = prefs.getString('token');
   String baseUrl = 'http://petmily.duckdns.org/channel/';
   String channelId = '';
   String url = baseUrl + channelId + '/bookmark';
 
-  String accessToken = 'YOUR_ACCESS_TOKEN';
   Options options = Options(
     headers: {
       'Authorization': 'Bearer $accessToken',
@@ -60,14 +47,15 @@ void deleteLikeChanel() {
   });
 }
 
-void addScrap() {
+void addScrap() async {
   Dio dio = Dio();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? accessToken = prefs.getString('token');
 
   String baseUrl = 'http://petmily.duckdns.org/post/';
   String postId = 'YOUR_POST_ID';
   String url = baseUrl + postId + '/scrap';
 
-  String accessToken = 'YOUR_ACCESS_TOKEN';
   Options options = Options(
     headers: {
       'Authorization': 'Bearer $accessToken',
@@ -81,14 +69,15 @@ void addScrap() {
   });
 }
 
-void main() {
+void cancelScrap() async {
   Dio dio = Dio();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? accessToken = prefs.getString('token');
 
   String baseUrl = 'http://petmily.duckdns.org/scrap/';
   String scrapId = 'YOUR_SCRAP_ID';
   String url = baseUrl + scrapId + '/cancel';
 
-  String accessToken = 'YOUR_ACCESS_TOKEN';
   Options options = Options(
     headers: {
       'Authorization': 'Bearer $accessToken',
