@@ -11,6 +11,15 @@ dependencies:
     sdk: flutter
   dynamic_color: ^1.6.2
   go_router: ^6.5.3
+  dio: ^5.2.1
+  provider: ^6.0.5
+  font_awesome_flutter: ^10.4.0
+  http: ^0.13.6
+  image_picker: ^0.8.8
+  multiple_images_picker: ^1.0.1
+  carousel_slider: ^4.2.1
+  shared_preferences: ^2.1.2
+  path_provider: ^2.0.15
 
 dev_dependencies:
   flutter_test:
