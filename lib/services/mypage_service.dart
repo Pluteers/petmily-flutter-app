@@ -3,7 +3,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:petmily/models/mychannel_model.dart';
+import 'package:petmily/models/mycomment_model.dart';
 import 'package:petmily/models/mypage.dart';
+import 'package:petmily/models/mypost_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
@@ -76,6 +79,100 @@ class UserService {
     } catch (e) {
       log("$e");
       onError("$e");
+    }
+  }
+
+  Future<MyChannelModel?> myChannel() async {
+    const url = "http://petmily.duckdns.org/channel/mypage";
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
+    MyChannelModel? myChannelModel;
+
+    try {
+      final response = await dio.get(
+        (url),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        log('Get MyChannels Success : $responseData');
+        final myPageChannelData = MyChannelModel.fromJson(responseData);
+        myChannelModel = myPageChannelData;
+        return myChannelModel;
+      } else {
+        log("${response.statusCode}");
+        return myChannelModel;
+      }
+    } catch (e) {
+      log("$e");
+      return myChannelModel;
+    }
+  }
+
+  Future<MyPostModel?> myPost() async {
+    const url = "http://petmily.duckdns.org/post/mypage";
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
+    MyPostModel? myPostModel;
+
+    try {
+      final response = await dio.get(
+        (url),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        log('Get MyPost Success : $responseData');
+        myPostModel = MyPostModel.fromJson(responseData);
+        return myPostModel;
+      } else {
+        log("${response.statusCode}");
+        return myPostModel;
+      }
+    } catch (e) {
+      log("$e");
+      return myPostModel;
+    }
+  }
+
+  Future<MyCommentModel?> myComment() async {
+    const url = "http://petmily.duckdns.org/comment/mycomment";
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
+    MyCommentModel? myCommentModel;
+
+    try {
+      final response = await dio.get(
+        (url),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        log('Get MyComments Success : $responseData');
+        myCommentModel = MyCommentModel.fromJson(responseData);
+        return myCommentModel;
+      } else {
+        log("${response.statusCode}");
+        return myCommentModel;
+      }
+    } catch (e) {
+      log("$e");
+      return myCommentModel;
     }
   }
 }
