@@ -5,6 +5,8 @@ analyzer:
     avoid_print: error
     always_use_package_imports: error
     avoid_relative_lib_imports: error
+    non_constant_identifier_names: error
+    
 
 linter:
 
@@ -12,4 +14,5 @@ linter:
     - avoid_print
     - always_use_package_imports
     - avoid_relative_lib_imports
+    - non_constant_identifier_names
 
