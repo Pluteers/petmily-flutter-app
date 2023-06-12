@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+<<<<<<< HEAD
         ),
         backgroundColor: dynamicColor.background,
         body: const HomeGrideView(),
@@ -58,6 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Icon(
             Icons.add,
             color: dynamicColor.onSecondary,
+=======
+          HomeGrideView(
+            categoryDataList: categoryDataList,
+>>>>>>> main
           ),
         ),
       ),
@@ -138,6 +143,7 @@ void addChannel(_) async {
       });
 }
 
+<<<<<<< HEAD
 // 메인화면 그리드 뷰
 class HomeGrideView extends StatefulWidget {
   const HomeGrideView({super.key});
@@ -153,12 +159,19 @@ class _HomeGrideViewState extends State<HomeGrideView> {
     super.initState();
     Provider.of<GetChannelData>(context, listen: false).getChannel();
   }
+=======
+//메인화면 그리드 뷰
+class HomeGrideView extends StatelessWidget {
+  const HomeGrideView({super.key, required this.categoryDataList});
+  final dynamic categoryDataList;
+>>>>>>> main
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final dynamicColor = Theme.of(context).colorScheme;
+<<<<<<< HEAD
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -234,6 +247,54 @@ class _HomeGrideViewState extends State<HomeGrideView> {
                     ],
                   ),
                 );
+=======
+    return SizedBox(
+      height: height * 0.7,
+      child: GridView.count(
+        crossAxisCount: 2, //한 줄에 들어가는 컨텐츠 숫자
+        children: List.generate(categoryDataList.length, (index) {
+          return Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: GestureDetector(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image: AssetImage(
+                        categoryDataList[index].imagePath), // 이미지 파일 경로
+                    fit: BoxFit.cover, // 이미지 채우는 방법
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                        width: width,
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
+                          color: dynamicColor.primary.withOpacity(0.9),
+                        ),
+                        child: VariableText(
+                          value: categoryDataList[index].name,
+                          size: 18,
+                          color: dynamicColor.onPrimary,
+                          wght: 500,
+                        )),
+                  ],
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChannelScreen(
+                              channelId: categoryDataList[index].name,
+                            )));
+>>>>>>> main
               },
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
