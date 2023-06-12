@@ -342,14 +342,16 @@ class UserFavoriteList extends StatelessWidget {
                                     child: Container(
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                          color: dynamicColor.primary,
+                                          color:
+                                              dynamicColor.secondaryContainer,
                                           borderRadius:
                                               BorderRadius.circular(25)),
                                       child: VariableText(
                                         value: "대표 이미지 없음",
                                         size: 12,
                                         wght: 300,
-                                        color: dynamicColor.onPrimary,
+                                        color:
+                                            dynamicColor.onSecondaryContainer,
                                       ),
                                     ))
                                 : Expanded(flex: 2, child: SizedBox()),
@@ -373,7 +375,7 @@ class UserFavoriteList extends StatelessWidget {
                                                   FontAwesomeIcons.bone,
                                                   color: dynamicColor.primary,
                                                 )
-                                              : FaIcon(FontAwesomeIcons.cat,
+                                              : FaIcon(FontAwesomeIcons.fish,
                                                   color: dynamicColor.primary),
                                         )),
                                   ],
@@ -558,56 +560,13 @@ class MyChannelPostView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-              flex: 1,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      child: VariableText(
-                        value: "채널",
-                        size: 15,
-                        wght: 500,
-                        color: dynamicColor.onBackground,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      flex: 3,
-                      child: Container(
-                        decoration: BoxDecoration(color: dynamicColor.primary),
-                      ))
-                ],
-              )),
-          Expanded(
-              flex: 1,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      child: VariableText(
-                        value: "채널",
-                        size: 15,
-                        wght: 500,
-                        color: dynamicColor.onBackground,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      flex: 3,
-                      child: Container(
-                        decoration: BoxDecoration(color: dynamicColor.primary),
-                      ))
-                ],
-              ))
-        ],
+    return SizedBox.expand(
+      child: Center(
+        child: TextButton(
+            onPressed: () {
+              UserService().myComment();
+            },
+            child: Text("data")),
       ),
     );
   }
