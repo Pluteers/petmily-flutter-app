@@ -1,4 +1,5 @@
 class User {
+
   User({
     required this.email,
     required this.password,
@@ -6,4 +7,5 @@ class User {
 
   final String email;
   final String password;
+
 }
