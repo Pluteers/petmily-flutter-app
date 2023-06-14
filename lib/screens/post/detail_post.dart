@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:petmily/services/detail_post_service.dart';
 import 'package:petmily/services/get_commentList.dart';
@@ -126,6 +127,7 @@ class PostDetail extends StatelessWidget {
           var postContent = snapshot.data!.content;
           var postLike = snapshot.data!.likePost;
           var postWriter = snapshot.data!.nickname;
+          var imagePath = snapshot.data!.imagePath;
 
           return SizedBox(
               width: width * .9,
@@ -173,19 +175,50 @@ class PostDetail extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      Container(
-                        width: width * .9,
-                        height: 80,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 1,
-                                color: dynamicColor.primaryContainer)),
-                        child: Text('imageArea'),
+                      imagePath == "www.imagepath.com"
+                          ? Container(
+                              width: width * .9,
+                              height: 80,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2,
+                                      color: dynamicColor.primaryContainer),
+                                  borderRadius: BorderRadius.circular(25)),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Lottie.network(
+                                        "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"),
+                                  ),
+                                  const Expanded(
+                                      flex: 3,
+                                      child: VariableText(
+                                        value: "이미지가 없는 게시물이에요!",
+                                        size: 19,
+                                        wght: 400,
+                                      ))
+                                ],
+                              ),
+                            )
+                          : Container(
+                              width: width * .9,
+                              height: 80,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage("$imagePath")),
+                              ),
+                              child: Text("$imagePath"),
+                            ),
+                      SizedBox(
+                        height: 20,
                       ),
                       Container(
                           width: width,
                           height: 30,
+                          margin: const EdgeInsets.only(left: 10),
                           alignment: Alignment.centerLeft,
                           child: VariableText(
                             value: "좋아요 $postLike 개",
@@ -264,7 +297,7 @@ class PostComment extends StatelessWidget {
             height: 20,
           ),
           FutureBuilder(
-              future: GetCommentList.getCommentList(postId),
+              future: GetCommentList().getCommentList(postId),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -284,7 +317,7 @@ class PostComment extends StatelessWidget {
                   } else {
                     return SizedBox(
                       height: 208,
-                      child: snapshot.data!.isEmpty
+                      child: snapshot.data!.comment!.isEmpty
                           ? const Center(
                               child: VariableText(
                                 value: "댓글이 없는 게시물이에요",
@@ -293,12 +326,60 @@ class PostComment extends StatelessWidget {
                               ),
                             )
                           : ListView.builder(
-                              itemCount: snapshot.data!.length,
+                              itemCount: snapshot.data!.comment!.length,
                               itemBuilder: (context, index) {
-                                var nickName = snapshot.data![index].nickname;
-                                var content = snapshot.data![index].content;
-                                return commentContainer(
-                                    width, context, nickName, content);
+                                var nickName =
+                                    snapshot.data!.comment![index].nickname;
+                                var content =
+                                    snapshot.data!.comment![index].content;
+                                return Card(
+                                  child: SizedBox(
+                                    height: 80,
+                                    child: Row(
+                                      children: [
+                                        const Expanded(
+                                            flex: 1,
+                                            child: Center(
+                                                child: FaIcon(
+                                                    FontAwesomeIcons.user))),
+                                        Expanded(
+                                            flex: 3,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: VariableText(
+                                                        value: "$nickName",
+                                                        size: 15,
+                                                        wght: 500,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      child: VariableText(
+                                                        value: "$content",
+                                                        size: 12,
+                                                        wght: 300,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                );
                               }),
                     );
                   }
@@ -321,53 +402,60 @@ Widget commentContainer(width, context, nickName, commentContent) {
   return Container(
     width: width,
     alignment: Alignment.centerLeft,
-    padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
+    padding: const EdgeInsets.only(left: 10.0, bottom: 10.0, right: 10),
+    decoration: BoxDecoration(
+        border: Border.all(width: 1, color: dynamicColor.secondary)),
     child: Row(
       children: [
-        Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(width: 1, color: dynamicColor.primary)),
-            child: Center(
-              child: FaIcon(
-                FontAwesomeIcons.user,
-                color: dynamicColor.primary,
-              ),
-            )),
+        Expanded(
+          flex: 1,
+          child: Container(
+              width: width,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 1, color: dynamicColor.primary)),
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.userAstronaut,
+                  color: dynamicColor.primary,
+                ),
+              )),
+        ),
         SizedBox(
           width: 10,
         ),
-        Container(
-          width: width * .9 - 60,
-          height: 50,
-          alignment: Alignment.centerLeft,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.topLeft,
-                  child: VariableText(
-                    value: "$nickName",
-                    size: 15,
-                    wght: 300,
+        Expanded(
+          flex: 3,
+          child: Container(
+            width: width * .9,
+            height: 50,
+            alignment: Alignment.centerLeft,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: VariableText(
+                      value: "$nickName",
+                      size: 15,
+                      wght: 300,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: VariableText(
-                    value: "$commentContent",
-                    size: 12,
-                    wght: 300,
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: VariableText(
+                      value: "$commentContent",
+                      size: 12,
+                      wght: 300,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         )
       ],
