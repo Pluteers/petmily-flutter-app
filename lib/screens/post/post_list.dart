@@ -161,18 +161,25 @@ class ChannelScreen extends StatelessWidget {
                                                     height: 150,
                                                   ),
                                             Container(
-                                              width: width,
-                                              alignment: Alignment.topLeft,
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, bottom: 10),
-                                              child: Text('$postTitle'),
-                                            ),
+                                                width: width,
+                                                alignment: Alignment.topLeft,
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, bottom: 10),
+                                                child: VariableText(
+                                                  value: "$postTitle",
+                                                  size: 17,
+                                                  wght: 500,
+                                                )),
                                             Container(
                                               width: width,
                                               alignment: Alignment.topLeft,
                                               padding: const EdgeInsets.only(
                                                   left: 10, bottom: 10),
-                                              child: Text('$postContent'),
+                                              child: VariableText(
+                                                value: "$postContent",
+                                                size: 15,
+                                                wght: 300,
+                                              ),
                                             ),
                                             Container(
                                               padding: const EdgeInsets.only(
