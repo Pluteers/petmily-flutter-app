@@ -332,9 +332,12 @@ class PostComment extends StatelessWidget {
                                     snapshot.data!.comment![index].nickname;
                                 var content =
                                     snapshot.data!.comment![index].content;
+                                var like =
+                                    snapshot.data!.comment![index].commentLike;
+
                                 return Card(
                                   child: SizedBox(
-                                    height: 80,
+                                    height: 90,
                                     child: Row(
                                       children: [
                                         const Expanded(
@@ -350,7 +353,7 @@ class PostComment extends StatelessWidget {
                                               child: Column(
                                                 children: [
                                                   Expanded(
-                                                    flex: 1,
+                                                    flex: 2,
                                                     child: Container(
                                                       alignment:
                                                           Alignment.centerLeft,
@@ -362,7 +365,7 @@ class PostComment extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Expanded(
-                                                    flex: 1,
+                                                    flex: 2,
                                                     child: Container(
                                                       alignment:
                                                           Alignment.topLeft,
@@ -370,6 +373,38 @@ class PostComment extends StatelessWidget {
                                                         value: "$content",
                                                         size: 12,
                                                         wght: 300,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 8.0),
+                                                            child: Icon(
+                                                              Icons.favorite,
+                                                              size: 15,
+                                                              color:
+                                                                  dynamicColor
+                                                                      .primary,
+                                                            ),
+                                                          ),
+                                                          VariableText(
+                                                            value: "$like",
+                                                            size: 12,
+                                                            wght: 300,
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   )
