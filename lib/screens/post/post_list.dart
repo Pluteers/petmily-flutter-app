@@ -152,13 +152,23 @@ class ChannelScreen extends StatelessWidget {
                                                           ))
                                                     ]))
                                                 : Container(
-                                                    margin:
-                                                        const EdgeInsets.all(
-                                                            10),
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    width: width,
+                                                    width: width * .9,
                                                     height: 150,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 2,
+                                                          color: dynamicColor
+                                                              .onSurfaceVariant),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              "$imagePath"),
+                                                          fit:
+                                                              BoxFit.fitHeight),
+                                                    ),
                                                   ),
                                             Container(
                                                 width: width,
