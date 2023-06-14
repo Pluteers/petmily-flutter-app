@@ -7,6 +7,7 @@ import 'package:multiple_images_picker/multiple_images_picker.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:petmily/providers/upload_image.dart';
+import 'package:petmily/widgets/variable_text.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key, required this.channelId});
@@ -19,6 +20,7 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   List<Asset> images = <Asset>[];
   XFile? _pickedFile;
+  String? imageString;
 
   List<String>? imagePaths;
   _getCameraImage() async {
@@ -26,10 +28,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
       maxImages: 300,
       enableCamera: true,
       selectedAssets: images,
-      cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+      cupertinoOptions: CupertinoOptions(takePhotoIcon: "추가"),
       materialOptions: MaterialOptions(
         actionBarColor: "#abcdef",
-        actionBarTitle: "Example App",
+        actionBarTitle: "이미지 추가하기",
         allViewTitle: "All Photos",
         useDetailsView: false,
         selectCircleStrokeColor: "#000000",
@@ -57,103 +59,122 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final height = MediaQuery.of(context).size.height;
     final dynamicColor = Theme.of(context).colorScheme;
     return Scaffold(
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Container(
+            width: width,
+            alignment: Alignment.centerLeft,
+            child: VariableText(
+              value: "게시글 추가",
+              size: 20,
+              wght: 500,
+              color: dynamicColor.surfaceTint,
+            ),
+          )),
       body: SafeArea(
           child: SizedBox(
         width: width,
         height: height,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
             Expanded(
               flex: 1,
-              child: Container(
-                width: width,
-                height: 80,
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: dynamicColor.primaryContainer,
-                    borderRadius: BorderRadius.circular(15)),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                      controller: AddPost.postTitleController,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        labelText: '게시글 제목',
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                        ),
-                      )),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
+                child: TextFormField(
+                  controller: AddPost.postTitleController,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    labelText: '게시물 제목',
+                    labelStyle: TextStyle(color: dynamicColor.primary),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        AddPost.postTitleController.clear();
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide:
+                            BorderSide(width: 1, color: dynamicColor.primary)),
+                  ),
                 ),
               ),
             ),
             Expanded(
                 flex: 1,
-                child: Container(
-                  width: width,
-                  height: 100,
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: dynamicColor.primaryContainer,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          child: IconButton(
-                              onPressed: () {
-                                _getCameraImage();
-                              },
-                              icon: const FaIcon(FontAwesomeIcons.images)),
-                        ),
-                        Expanded(
-                          child: images.isEmpty
-                              ? const SizedBox()
-                              : SizedBox(
-                                  height: 100,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: images.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        Asset asset = images[index];
-                                        return AssetThumb(
-                                            asset: asset,
-                                            width: 80,
-                                            height: 80);
-                                      }),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(
+                            width: 1, color: dynamicColor.onBackground)),
+                    child: images.isEmpty
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: IconButton(
+                                    onPressed: () {
+                                      _getCameraImage();
+                                    },
+                                    icon: const FaIcon(
+                                        FontAwesomeIcons.solidImages)),
+                              ),
+                              Expanded(
+                                  child: const SizedBox(
+                                child: VariableText(
+                                  value: "게시글에 이미지를 추가해보세요",
+                                  size: 12,
+                                  wght: 300,
                                 ),
-                        )
-                      ],
-                    ),
+                              ))
+                            ],
+                          )
+                        : Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: images.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      Asset asset = images[index];
+                                      return GestureDetector(
+                                        child: AssetThumb(
+                                            asset: asset,
+                                            width: 500,
+                                            height: 500),
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                width: width * .5,
+                                                height: height * .5,
+                                                child: AssetThumb(
+                                                  asset: asset,
+                                                  width: 500,
+                                                  height: 500,
+                                                  quality: 100,
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }),
+                              ),
+                            ),
+                          ),
                   ),
-                  // child: Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: Column(
-                  //         children: [
-                  //           Container(
-                  //             width: width,
-                  //             margin: const EdgeInsets.all(10),
-                  //             alignment: Alignment.centerLeft,
-                  //             child: const Text('이미지를 추가해보세요'),
-                  //           ),
-                  //           Container(
-                  //               alignment: Alignment.center,
-                  //               child: IconButton(
-                  //                 onPressed: () {},
-                  //                 icon: const Icon(Icons.photo_camera),
-                  //               )),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     Expanded(child: Text('이미지 미리보기 공간'))
-                  //   ],
-                  // ),
                 )),
             Expanded(
                 flex: 4,
@@ -161,22 +182,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   width: width,
                   margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      color: dynamicColor.primaryContainer,
-                      borderRadius: BorderRadius.circular(15)),
+                      border: Border.all(
+                          width: 1, color: dynamicColor.onBackground),
+                      borderRadius: BorderRadius.circular(25)),
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 10.0, right: 10.0, top: 8.0),
                     child: TextFormField(
-                        controller: AddPost.postContentController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: '게시글 제목',
-                          labelStyle: TextStyle(
-                            color: Colors.black,
-                          ),
-                        )),
+                      controller: AddPost.postContentController,
+                      obscureText: false,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                          labelText: '게시물 내용',
+                          labelStyle: TextStyle(color: dynamicColor.primary),
+                          border: InputBorder.none),
+                    ),
                   ),
                 )),
             const Expanded(flex: 1, child: SizedBox())
@@ -185,13 +205,44 @@ class _AddPostScreenState extends State<AddPostScreen> {
       )),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // AddPost.addPost(widget.channelId);
-          UploadImage.uploadImage(images);
+          fetchData(images);
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: VariableText(
+                  value: "게시글을 등록하시겠습니까?",
+                  size: 20,
+                  wght: 300,
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        AddPost.addPost(widget.channelId, imageString);
+                      },
+                      child: VariableText(
+                        value: "등록",
+                        size: 20,
+                        wght: 300,
+                      ))
+                ],
+              );
+            },
+          );
         },
         label: const Text('게시글 등록하기'),
         icon: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  void fetchData(image) async {
+    String? value = await UploadImage().uploadImage(images);
+    setState(() {
+      UploadImage().uploadImage(image).then((value) {
+        imageString = value;
+      });
+    });
   }
 }
