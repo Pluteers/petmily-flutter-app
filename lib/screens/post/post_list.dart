@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:petmily/providers/get_postlist.dart';
 import 'package:petmily/screens/post/add_post.dart';
 import 'package:petmily/screens/post/detail_post.dart';
@@ -15,29 +17,6 @@ class ChannelScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<PostData> channelPostList = [
-      PostData(
-          postWriter: "user01",
-          postImagePath: "assets/images/image1.png",
-          postTitle: "postTitle",
-          postSubTitle: "postSubTitle",
-          postFavoriteCount: 3,
-          postCommentCount: 2),
-      PostData(
-          postWriter: "user02",
-          postImagePath: "assets/images/image1.png",
-          postTitle: "postTitle",
-          postSubTitle: "postSubTitle",
-          postFavoriteCount: 5,
-          postCommentCount: 6),
-      PostData(
-          postWriter: "user98",
-          postImagePath: "assets/images/image1.png",
-          postTitle: "postTitle",
-          postSubTitle: "postSubTitle",
-          postFavoriteCount: 12,
-          postCommentCount: 5),
-    ];
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -97,6 +76,9 @@ class ChannelScreen extends StatelessWidget {
                                         snapshot.data![index].content;
                                     var postFavorite =
                                         snapshot.data![index].likePost;
+                                    var imagePath =
+                                        snapshot.data![index].imagePath;
+
                                     // var postCreatday = getPostList
                                     //     .data[index].createDate!
                                     //     .substring(0, 10);
@@ -124,26 +106,60 @@ class ChannelScreen extends StatelessWidget {
                                                     height: 40,
                                                     child: Row(
                                                       children: [
-                                                        const Icon(
-                                                            Icons.person),
-                                                        Text('$postWriter'),
+                                                        const Icon(Icons.person,
+                                                            size: 25),
+                                                        VariableText(
+                                                          value: "$postWriter",
+                                                          size: 23,
+                                                          wght: 300,
+                                                          color: dynamicColor
+                                                              .onSurfaceVariant,
+                                                        )
                                                       ],
                                                     ))),
-                                            Container(
-                                              margin: const EdgeInsets.all(10),
-                                              alignment: Alignment.centerLeft,
-                                              width: width,
-                                              height: 150,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      channelPostList[0]
-                                                          .postImagePath), // 이미지 파일 경로
-                                                  fit: BoxFit
-                                                      .fitHeight, // 이미지 채우는 방법
-                                                ),
-                                              ),
-                                            ),
+                                            imagePath == "www.imagepath.com"
+                                                ? Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10,
+                                                            bottom: 10),
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    width: width,
+                                                    height: 150,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 2,
+                                                            color: dynamicColor
+                                                                .onSurfaceVariant),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25)),
+                                                    child: Row(children: [
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Lottie.network(
+                                                            "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"),
+                                                      ),
+                                                      const Expanded(
+                                                          flex: 3,
+                                                          child: VariableText(
+                                                            value:
+                                                                "이미지가 없는 게시물이에요!",
+                                                            size: 19,
+                                                            wght: 400,
+                                                          ))
+                                                    ]))
+                                                : Container(
+                                                    margin:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    width: width,
+                                                    height: 150,
+                                                  ),
                                             Container(
                                               width: width,
                                               alignment: Alignment.topLeft,
@@ -161,33 +177,26 @@ class ChannelScreen extends StatelessWidget {
                                             Container(
                                               padding: const EdgeInsets.only(
                                                   bottom: 10, right: 10),
+                                              alignment: Alignment.bottomRight,
+                                              width: width,
                                               child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
                                                 children: [
-                                                  const Expanded(
-                                                    flex: 2,
-                                                    child: SizedBox(),
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 8.0),
+                                                    child: FaIcon(
+                                                        FontAwesomeIcons.heart),
                                                   ),
-                                                  Expanded(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        Text("$postFavorite"),
-                                                        const Text("Favorites"),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        Text(
-                                                            "${channelPostList[0].postCommentCount}"),
-                                                        const Text("Comments"),
-                                                      ],
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10.0),
+                                                    child: VariableText(
+                                                      value: "$postFavorite",
+                                                      size: 15,
+                                                      wght: 500,
                                                     ),
                                                   ),
                                                 ],
