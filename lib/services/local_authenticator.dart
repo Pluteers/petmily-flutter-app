@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:petmily/utilities/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalAuthenticator {
   final domain = Constants.domain;
@@ -33,6 +34,7 @@ class LocalAuthenticator {
     required String email,
     required String password,
   }) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       final response = await local.post(domain + Constants.signin, data: {
         "email": email,
@@ -40,6 +42,8 @@ class LocalAuthenticator {
       });
 
       if (response.statusCode == 200) {
+        final token = response.data["Authorization"];
+        await prefs.setString('token', token);
         log("로그인에 성공했습니다.");
       } else {
         log("${response.statusMessage}");

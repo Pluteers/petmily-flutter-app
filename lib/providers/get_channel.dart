@@ -1,22 +1,16 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
 
 class GetChannelData extends ChangeNotifier {
-  static List<Data> _dataList = [];
+  GetChannel? getChannelModel;
 
-  List<Data> get data => _dataList;
-
-  void setData(List<Data> dataList) {
-    _dataList = dataList;
-    notifyListeners();
-  }
-
-  Future<void> getChannel() async {
-    var accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NjE5NDI0OCwiZW1haWwiOiJ0ZXN0MkBuYXZlci5jb20ifQ.wgfd8OpZcBmK2Wb983VXOe2otFqcPdEa0pkzqsX4ITV1yfDoqVq74pKh0ReCMSGSjCrtw5ejAfYDW8F1qRCCIA";
+  Future<GetChannel?> getChannel() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
 
     try {
       final response = await dio.get(("http://petmily.duckdns.org/channel"),
@@ -28,15 +22,17 @@ class GetChannelData extends ChangeNotifier {
           ));
       if (response.statusCode == 200) {
         final responseData = response.data;
-        final getChannelModel = GetChannel.fromJson(responseData);
-        _dataList = getChannelModel.data!;
+        getChannelModel = GetChannel.fromJson(responseData);
+
         notifyListeners();
         log('ChannelList Success');
+        return getChannelModel;
       } else {
-        throw Exception('Failed to load data');
+        return getChannelModel;
       }
     } catch (e) {
       log("ChannelList Get Error : $e");
+      return getChannelModel;
     }
   }
 }

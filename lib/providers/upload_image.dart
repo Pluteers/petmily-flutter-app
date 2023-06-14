@@ -11,22 +11,25 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multiple_images_picker/multiple_images_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:petmily/models/uploadImage_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
 
 class UploadImage {
-  static Future<void> uploadImage(List<Asset> files) async {
-    var accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NjA0MjgzOSwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.svOFWFpDQvIT0XPqf4D5fvBFIqULVE5hL_LaaNl3bC1AQ103lz9xtCofr_kbufXMi7CbNtyPG9feEOTUTbLIsw";
+  Future<String?> uploadImage(List<Asset> files) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
+    // UploadImageModel? uploadImageModel;
+    // List<dynamic>? dataList;
+    String? dataList;
+
     var request = http.MultipartRequest(
         'POST', Uri.parse('http://petmily.duckdns.org/image/upload'));
     for (int i = 0; i < files.length; i++) {
       var asset = files[i];
       XFile xFile = await convertAssetToXFile(asset);
       request.files.add(await http.MultipartFile.fromPath('file', xFile.path));
-
-      // List<int> imageData = await xFile.readAsBytes();
-      // String fileName = path.basename(xFile.path);
     }
 
     var headers = {'Authorization': 'Bearer $accessToken'};
@@ -35,9 +38,17 @@ class UploadImage {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      log(await response.stream.bytesToString());
+      final responseData = await response.stream.bytesToString();
+      log("image upload$responseData");
+      final Map<String, dynamic> json = jsonDecode(responseData);
+      // uploadImageModel = UploadImageModel.fromJson(json);
+      dataList = json['data'][0];
+
+      log("이미지 패스 받아오는지 확인 ");
+      return dataList;
     } else {
       log("${response.reasonPhrase}");
+      return dataList;
     }
   }
 }

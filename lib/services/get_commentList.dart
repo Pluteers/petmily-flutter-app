@@ -5,13 +5,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:petmily/models/commentList_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
 
 class GetCommentList {
-  static Future<List<CommentListModel>> getCommentList(postId) async {
-    var accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NjA0MjgzOSwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.svOFWFpDQvIT0XPqf4D5fvBFIqULVE5hL_LaaNl3bC1AQ103lz9xtCofr_kbufXMi7CbNtyPG9feEOTUTbLIsw";
+  Future<CommentListModel?> getCommentList(postId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
+    CommentListModel? commentListModel;
 
     final response =
         await dio.get(("http://petmily.duckdns.org/post/$postId/comment"),
@@ -22,16 +24,16 @@ class GetCommentList {
               },
             ));
     if (response.statusCode == 200) {
-      final responseData = jsonEncode(response.data);
+      final responseData = response.data;
 
       log('GetComment Success : $responseData');
 
-      // final getCommentList = CommentListModel.fromJson(responseData);
-      final getCommentList = CommentsList(responseData);
+      commentListModel = CommentListModel.fromJson(responseData);
+      // final getCommentList = commentsList(responseData);
 
-      return getCommentList;
+      return commentListModel;
     } else {
-      throw Exception('Failed to load data');
+      return commentListModel;
     }
   }
 }
