@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:petmily/services/comment_service.dart';
 
 import 'package:petmily/services/detail_post_service.dart';
 import 'package:petmily/services/get_commentList.dart';
@@ -263,15 +264,21 @@ class PostDetail extends StatelessWidget {
   }
 }
 
-class PostComment extends StatelessWidget {
+class PostComment extends StatefulWidget {
   const PostComment({super.key, required this.postId});
   final postId;
 
+  @override
+  State<PostComment> createState() => _PostCommentState();
+}
+
+class _PostCommentState extends State<PostComment> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final dynamicColor = Theme.of(context).colorScheme;
+    var commentFuture = GetCommentList().getCommentList(widget.postId);
     return Container(
       width: width * .9,
       height: 200,
@@ -297,7 +304,7 @@ class PostComment extends StatelessWidget {
             height: 20,
           ),
           FutureBuilder(
-              future: GetCommentList().getCommentList(postId),
+              future: commentFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -334,86 +341,98 @@ class PostComment extends StatelessWidget {
                                     snapshot.data!.comment![index].content;
                                 var like =
                                     snapshot.data!.comment![index].commentLike;
+                                var commentId =
+                                    snapshot.data!.comment![index].commentId;
 
-                                return Card(
-                                  child: SizedBox(
-                                    height: 90,
-                                    child: Row(
-                                      children: [
-                                        const Expanded(
-                                            flex: 1,
-                                            child: Center(
-                                                child: FaIcon(
-                                                    FontAwesomeIcons.user))),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Container(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: VariableText(
-                                                        value: "$nickName",
-                                                        size: 15,
-                                                        wght: 500,
+                                return InkWell(
+                                  child: Card(
+                                    child: SizedBox(
+                                      height: 90,
+                                      child: Row(
+                                        children: [
+                                          const Expanded(
+                                              flex: 1,
+                                              child: Center(
+                                                  child: FaIcon(
+                                                      FontAwesomeIcons.user))),
+                                          Expanded(
+                                              flex: 3,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: Column(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Container(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: VariableText(
+                                                          value: "$nickName",
+                                                          size: 15,
+                                                          wght: 500,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Container(
-                                                      alignment:
-                                                          Alignment.topLeft,
-                                                      child: VariableText(
-                                                        value: "$content",
-                                                        size: 12,
-                                                        wght: 300,
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                        child: VariableText(
+                                                          value: "$content",
+                                                          size: 12,
+                                                          wght: 300,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Container(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    right: 8.0),
-                                                            child: Icon(
-                                                              Icons.favorite,
-                                                              size: 15,
-                                                              color:
-                                                                  dynamicColor
-                                                                      .primary,
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          8.0),
+                                                              child: Icon(
+                                                                Icons.favorite,
+                                                                size: 15,
+                                                                color:
+                                                                    dynamicColor
+                                                                        .primary,
+                                                              ),
                                                             ),
-                                                          ),
-                                                          VariableText(
-                                                            value: "$like",
-                                                            size: 12,
-                                                            wght: 300,
-                                                          ),
-                                                        ],
+                                                            VariableText(
+                                                              value: "$like",
+                                                              size: 12,
+                                                              wght: 300,
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            )),
-                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              )),
+                                        ],
+                                      ),
                                     ),
                                   ),
+                                  onDoubleTap: () async {
+                                    CommentService().likeComment(commentId!);
+                                    setState(() {
+                                      commentFuture = GetCommentList()
+                                          .getCommentList(widget.postId);
+                                    });
+                                  },
                                 );
                               }),
                     );
