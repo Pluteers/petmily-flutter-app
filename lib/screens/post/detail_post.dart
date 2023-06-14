@@ -136,40 +136,43 @@ class PostDetail extends StatelessWidget {
                 body: SizedBox(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: width,
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                            children: [
-                              Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          width: 1,
-                                          color: dynamicColor.primary)),
-                                  child: Center(
-                                    child: FaIcon(
-                                      FontAwesomeIcons.user,
-                                      color: dynamicColor.primary,
-                                    ),
-                                  )),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 40,
-                                alignment: Alignment.center,
-                                child: VariableText(
-                                  value: "$postWriter",
-                                  size: 20,
-                                  wght: 600,
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: width,
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              children: [
+                                Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            width: 1,
+                                            color: dynamicColor.primary)),
+                                    child: Center(
+                                      child: FaIcon(
+                                        FontAwesomeIcons.user,
+                                        color: dynamicColor.primary,
+                                      ),
+                                    )),
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                              )
-                            ],
+                                Container(
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  child: VariableText(
+                                    value: "$postWriter",
+                                    size: 20,
+                                    wght: 600,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -177,85 +180,93 @@ class PostDetail extends StatelessWidget {
                         height: 20,
                       ),
                       imagePath == "www.imagepath.com"
-                          ? Container(
-                              width: width * .9,
-                              height: 80,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
+                          ? Expanded(
+                              flex: 2,
+                              child: Container(
+                                width: width * .9,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2,
+                                        color: dynamicColor.primaryContainer),
+                                    borderRadius: BorderRadius.circular(25)),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Lottie.network(
+                                          "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"),
+                                    ),
+                                    const Expanded(
+                                        flex: 3,
+                                        child: VariableText(
+                                          value: "이미지가 없는 게시물이에요!",
+                                          size: 19,
+                                          wght: 400,
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              flex: 2,
+                              child: Container(
+                                width: width * .9,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
                                   border: Border.all(
                                       width: 2,
                                       color: dynamicColor.primaryContainer),
-                                  borderRadius: BorderRadius.circular(25)),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Lottie.network(
-                                        "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"),
-                                  ),
-                                  const Expanded(
-                                      flex: 3,
-                                      child: VariableText(
-                                        value: "이미지가 없는 게시물이에요!",
-                                        size: 19,
-                                        wght: 400,
-                                      ))
-                                ],
+                                  borderRadius: BorderRadius.circular(25),
+                                  image: DecorationImage(
+                                      image: NetworkImage("$imagePath"),
+                                      fit: BoxFit.fitHeight),
+                                ),
                               ),
-                            )
-                          : Container(
-                              width: width * .9,
-                              height: 80,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage("$imagePath")),
-                              ),
-                              child: Text("$imagePath"),
                             ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Container(
-                          width: width,
-                          height: 30,
-                          margin: const EdgeInsets.only(left: 10),
-                          alignment: Alignment.centerLeft,
-                          child: VariableText(
-                            value: "좋아요 $postLike 개",
-                            size: 15,
-                            wght: 400,
-                          )),
-                      Container(
-                          width: width * .9,
-                          height: 150,
-                          margin: const EdgeInsets.all(10),
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              Container(
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            Container(
                                 width: width,
+                                height: 30,
+                                margin: const EdgeInsets.only(left: 10),
                                 alignment: Alignment.centerLeft,
                                 child: VariableText(
-                                  value: "$postTitle",
+                                  value: "좋아요 $postLike 개",
                                   size: 15,
-                                  wght: 300,
-                                ),
+                                  wght: 400,
+                                )),
+                            Container(
+                              width: width,
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(left: 10),
+                              child: VariableText(
+                                value: "$postTitle",
+                                size: 15,
+                                wght: 300,
                               ),
-                              const SizedBox(
-                                height: 10,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: width,
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(left: 10),
+                              child: VariableText(
+                                value: "$postContent",
+                                size: 15,
+                                wght: 200,
                               ),
-                              Container(
-                                width: width,
-                                alignment: Alignment.centerLeft,
-                                child: VariableText(
-                                  value: "$postContent",
-                                  size: 15,
-                                  wght: 200,
-                                ),
-                              )
-                            ],
-                          ))
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
