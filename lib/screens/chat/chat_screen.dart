@@ -170,7 +170,7 @@ class _ChatContentWidgetState extends State<ChatContentWidget> {
             VariableText(
               value: "팁: 부적절한 단어나 다른 주제의 질문은 답변하지 않습니다.",
               color: dynamicColor.tertiary,
-              size: 14.0,
+              size: 13.0,
               wght: 500.0,
             ),
           ],

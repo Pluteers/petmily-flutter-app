@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
 
@@ -9,16 +10,16 @@ class AddPost {
   static TextEditingController postTitleController = TextEditingController();
   static TextEditingController postContentController = TextEditingController();
 
-  static Future<void> addPost(channelId) async {
-    var accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY4NjA0MjgzOSwiZW1haWwiOiJ0ZXN0NEBuYXZlci5jb20ifQ.svOFWFpDQvIT0XPqf4D5fvBFIqULVE5hL_LaaNl3bC1AQ103lz9xtCofr_kbufXMi7CbNtyPG9feEOTUTbLIsw";
-
+  static Future<void> addPost(channelId, image) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
     try {
       final response = await dio.post(
         "http://petmily.duckdns.org/channel/${channelId}/post/write",
         data: {
           "title": postTitleController.text,
           "content": postContentController.text,
+          "imagePath": image.toString()
         },
         options: Options(
           headers: {
@@ -39,12 +40,3 @@ class AddPost {
     }
   }
 }
-//Header : {   Authorization: Bearer (Access Token필요) }
-
-// {
-// "title" :"우리 귀염둥이의 일상5",
-// "content" :"귀염둥이의 일상을 보러 떠납시다4",
-
-// }
-
-// 나중에 이미지 경로,카테고리 아이디(이름) 추가예정s

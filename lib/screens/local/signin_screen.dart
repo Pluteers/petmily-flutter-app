@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petmily/screens/home.dart';
 import 'package:provider/provider.dart';
 
 import 'package:petmily/providers/login_provider.dart';
@@ -110,27 +111,27 @@ class _SignInScreenState extends State<SignInScreen> {
                         passwordController.text,
                       );
                       // HomeScreen 추가하고 해당 주석 영역 해제하면 됩니다.
-                      // if (loginProvider.loginStatus == LoginStatus.success) {
-                      //   Theme.of(context).platform == TargetPlatform.iOS
-                      //     ? Navigator.push(
-                      //         context,
-                      //         CupertinoPageRoute(
-                      //           builder: (context) => ChangeNotifierProvider(
-                      //             create: (context) => LoginProvider(),
-                      //             child: const HomeScreen(),
-                      //           ),
-                      //         ),
-                      //       )
-                      //     : Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (context) => ChangeNotifierProvider(
-                      //             create: (context) => LoginProvider(),
-                      //             child: const HomeScreen(),
-                      //           ),
-                      //         ),
-                      //       );
-                      // }
+                      if (loginProvider.loginStatus == LoginStatus.success) {
+                        Theme.of(context).platform == TargetPlatform.iOS
+                            ? Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => ChangeNotifierProvider(
+                                    create: (context) => LoginProvider(),
+                                    child: const HomeScreen(),
+                                  ),
+                                ),
+                              )
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangeNotifierProvider(
+                                    create: (context) => LoginProvider(),
+                                    child: const HomeScreen(),
+                                  ),
+                                ),
+                              );
+                      }
                     },
                     child: loginProvider.loginStatus == LoginStatus.loading
                         ? const CircularProgressIndicator()

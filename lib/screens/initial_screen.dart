@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petmily/screens/login_petmiliy_view.dart';
 import 'package:provider/provider.dart';
 
 import 'package:petmily/providers/login_provider.dart';
@@ -109,7 +110,7 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
                         CupertinoPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                             create: (context) => LoginProvider(),
-                            child: const SignInScreen(),
+                            child: const LoginPetmiliyView(),
                           ),
                         ),
                       )
@@ -118,7 +119,7 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
                         MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                             create: (context) => LoginProvider(),
-                            child: const SignInScreen(),
+                            child: const LoginPetmiliyView(),
                           ),
                         ),
                       );

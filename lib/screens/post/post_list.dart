@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:petmily/providers/get_postlist.dart';
 import 'package:petmily/screens/post/add_post.dart';
 import 'package:petmily/screens/post/detail_post.dart';
+import 'package:petmily/services/favorite_service.dart';
+import 'package:petmily/widgets/snackbar_widget.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
@@ -15,29 +19,6 @@ class ChannelScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<PostData> channelPostList = [
-      PostData(
-          postWriter: "user01",
-          postImagePath: "assets/images/image1.png",
-          postTitle: "postTitle",
-          postSubTitle: "postSubTitle",
-          postFavoriteCount: 3,
-          postCommentCount: 2),
-      PostData(
-          postWriter: "user02",
-          postImagePath: "assets/images/image1.png",
-          postTitle: "postTitle",
-          postSubTitle: "postSubTitle",
-          postFavoriteCount: 5,
-          postCommentCount: 6),
-      PostData(
-          postWriter: "user98",
-          postImagePath: "assets/images/image1.png",
-          postTitle: "postTitle",
-          postSubTitle: "postSubTitle",
-          postFavoriteCount: 12,
-          postCommentCount: 5),
-    ];
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -48,7 +29,7 @@ class ChannelScreen extends StatelessWidget {
             appBar: AppBar(
               automaticallyImplyLeading: false,
               title: Container(
-                  margin: const EdgeInsets.only(left: 10),
+                  margin: const EdgeInsets.only(left: 8),
                   width: width,
                   height: 80,
                   alignment: Alignment.centerLeft,
@@ -58,6 +39,21 @@ class ChannelScreen extends StatelessWidget {
                     wght: 300,
                     color: dynamicColor.primary,
                   )),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: IconButton(
+                      onPressed: () {
+                        FavoriteService().addFavorite(channelId);
+                        snackBar(context, "즐겨찾기에 추가했어요!");
+                      },
+                      icon: Icon(
+                        Icons.favorite_border,
+                        color: dynamicColor.primary,
+                        size: 35,
+                      )),
+                )
+              ],
             ),
             body: SingleChildScrollView(
                 child: Column(children: [
@@ -97,12 +93,10 @@ class ChannelScreen extends StatelessWidget {
                                         snapshot.data![index].content;
                                     var postFavorite =
                                         snapshot.data![index].likePost;
-                                    // var postCreatday = getPostList
-                                    //     .data[index].createDate!
-                                    //     .substring(0, 10);
-                                    // var postModiday = getPostList
-                                    //     .data[index].lastModifiedDate!
-                                    //     .substring(0, 10);
+                                    var imagePath =
+                                        snapshot.data![index].imagePath;
+                                    var hit = snapshot.data![index].hit;
+
                                     var postWriter =
                                         snapshot.data![index].nickname;
                                     var postId = snapshot.data![index].id;
@@ -124,73 +118,157 @@ class ChannelScreen extends StatelessWidget {
                                                     height: 40,
                                                     child: Row(
                                                       children: [
-                                                        const Icon(
-                                                            Icons.person),
-                                                        Text('$postWriter'),
+                                                        const Icon(Icons.person,
+                                                            size: 25),
+                                                        VariableText(
+                                                          value: "$postWriter",
+                                                          size: 23,
+                                                          wght: 300,
+                                                          color: dynamicColor
+                                                              .onSurfaceVariant,
+                                                        )
                                                       ],
                                                     ))),
+                                            imagePath == "www.imagepath.com"
+                                                ? Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10,
+                                                            bottom: 10),
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    width: width,
+                                                    height: 150,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 2,
+                                                            color: dynamicColor
+                                                                .onSurfaceVariant),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25)),
+                                                    child: Row(children: [
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Lottie.network(
+                                                            "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"),
+                                                      ),
+                                                      const Expanded(
+                                                          flex: 3,
+                                                          child: VariableText(
+                                                            value:
+                                                                "이미지가 없는 게시물이에요!",
+                                                            size: 19,
+                                                            wght: 400,
+                                                          ))
+                                                    ]))
+                                                : Container(
+                                                    width: width * .9,
+                                                    height: 150,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 2,
+                                                          color: dynamicColor
+                                                              .onSurfaceVariant),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              "$imagePath"),
+                                                          fit:
+                                                              BoxFit.fitHeight),
+                                                    ),
+                                                  ),
                                             Container(
-                                              margin: const EdgeInsets.all(10),
-                                              alignment: Alignment.centerLeft,
+                                                width: width,
+                                                alignment: Alignment.topLeft,
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, bottom: 10),
+                                                child: VariableText(
+                                                  value: "$postTitle",
+                                                  size: 17,
+                                                  wght: 500,
+                                                )),
+                                            Container(
                                               width: width,
-                                              height: 150,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      channelPostList[0]
-                                                          .postImagePath), // 이미지 파일 경로
-                                                  fit: BoxFit
-                                                      .fitHeight, // 이미지 채우는 방법
-                                                ),
+                                              alignment: Alignment.topLeft,
+                                              padding: const EdgeInsets.only(
+                                                  left: 10, bottom: 10),
+                                              child: VariableText(
+                                                value: "$postContent",
+                                                size: 15,
+                                                wght: 300,
                                               ),
                                             ),
                                             Container(
                                               width: width,
-                                              alignment: Alignment.topLeft,
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, bottom: 10),
-                                              child: Text('$postTitle'),
-                                            ),
-                                            Container(
-                                              width: width,
-                                              alignment: Alignment.topLeft,
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, bottom: 10),
-                                              child: Text('$postContent'),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 10, right: 10),
-                                              child: Row(
-                                                children: [
-                                                  const Expanded(
-                                                    flex: 2,
-                                                    child: SizedBox(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        Text("$postFavorite"),
-                                                        const Text("Favorites"),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        Text(
-                                                            "${channelPostList[0].postCommentCount}"),
-                                                        const Text("Comments"),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
+                                              alignment: Alignment.bottomRight,
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 10, right: 10),
+                                                width: width * .4,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .heart,
+                                                              size: 12,
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          5.0),
+                                                              child:
+                                                                  VariableText(
+                                                                value:
+                                                                    "$postFavorite",
+                                                                size: 12,
+                                                                wght: 500,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .eye,
+                                                              size: 12,
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          5.0),
+                                                              child:
+                                                                  VariableText(
+                                                                value: "$hit",
+                                                                size: 12,
+                                                                wght: 500,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ],
+                                                ),
                                               ),
                                             )
                                           ],
@@ -235,6 +313,8 @@ class ChannelScreen extends StatelessWidget {
                         builder: (context) => AddPostScreen(
                               channelId: channelId,
                             )));
+
+                snackBar(context, "게시물 추가 성공!");
               },
               tooltip: 'Add',
               child: Icon(

@@ -1,6 +1,27 @@
-import 'dart:convert';
-
 class CommentListModel {
+  List<Comment>? comment;
+
+  CommentListModel({this.comment});
+
+  CommentListModel.fromJson(Map<String, dynamic> json) {
+    if (json['comment'] != null) {
+      comment = <Comment>[];
+      json['comment'].forEach((v) {
+        comment!.add(new Comment.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.comment != null) {
+      data['comment'] = this.comment!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Comment {
   String? createDate;
   String? lastModifiedDate;
   int? commentId;
@@ -11,7 +32,7 @@ class CommentListModel {
   String? postTitle;
   int? postId;
 
-  CommentListModel(
+  Comment(
       {this.createDate,
       this.lastModifiedDate,
       this.commentId,
@@ -22,7 +43,7 @@ class CommentListModel {
       this.postTitle,
       this.postId});
 
-  CommentListModel.fromJson(Map<String, dynamic> json) {
+  Comment.fromJson(Map<String, dynamic> json) {
     createDate = json['createDate'];
     lastModifiedDate = json['lastModifiedDate'];
     commentId = json['commentId'];
@@ -47,11 +68,4 @@ class CommentListModel {
     data['postId'] = this.postId;
     return data;
   }
-}
-
-List<CommentListModel> CommentsList(String jsonString) {
-  final parsed = jsonDecode(jsonString).cast<Map<String, dynamic>>();
-  return parsed
-      .map<CommentListModel>((json) => CommentListModel.fromJson(json))
-      .toList();
 }
