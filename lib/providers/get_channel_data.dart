@@ -1,6 +1,7 @@
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
@@ -48,14 +49,14 @@ class GetChannel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -79,11 +80,11 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['channelId'] = this.channelId;
-    data['channelName'] = this.channelName;
-    data['categoryName'] = this.categoryName;
-    data['categoryId'] = this.categoryId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['channelId'] = channelId;
+    data['channelName'] = channelName;
+    data['categoryName'] = categoryName;
+    data['categoryId'] = categoryId;
     return data;
   }
 }

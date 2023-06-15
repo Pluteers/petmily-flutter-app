@@ -1,17 +1,13 @@
-// //http://petmily.duckdns.org/image/upload
+import 'dart:io';
 import 'dart:convert';
 import 'dart:developer';
-// import 'package:flutter/material.dart';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:multiple_images_picker/multiple_images_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
-import 'package:petmily/models/uploadImage_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
@@ -20,8 +16,6 @@ class UploadImage {
   Future<String?> uploadImage(List<Asset> files) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? accessToken = prefs.getString('token');
-    // UploadImageModel? uploadImageModel;
-    // List<dynamic>? dataList;
     String? dataList;
 
     var request = http.MultipartRequest(

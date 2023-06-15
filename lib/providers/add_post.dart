@@ -1,7 +1,7 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
@@ -15,7 +15,7 @@ class AddPost {
     final String? accessToken = prefs.getString('token');
     try {
       final response = await dio.post(
-        "http://petmily.duckdns.org/channel/${channelId}/post/write",
+        "http://petmily.duckdns.org/channel/$channelId/post/write",
         data: {
           "title": postTitleController.text,
           "content": postContentController.text,
