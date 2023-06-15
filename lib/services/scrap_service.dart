@@ -1,31 +1,29 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:petmily/models/scrap_model.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:petmily/models/scrap_model.dart';
 
 final dio = Dio();
 
 class ScrapService {
-  //http://petmily.duckdns.org/scrap/list
   Future<ScrapListModel?> userScrapList() async {
     const url = "http://petmily.duckdns.org/scrap/list";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
+    final String? accessToken = prefs.getString("token");
     ScrapListModel? scrapModel;
     try {
       final response = await dio.get((url),
           options: Options(
             headers: {
-              'Authorization': 'Bearer $accessToken',
-              'Content-Type': 'application/json'
+              "Authorization": "Bearer $accessToken",
+              "Content-Type": "application/json"
             },
           ));
       if (response.statusCode == 200) {
         final responseData = response.data;
-
-        log('ScrapList Success : $responseData');
+        log("ScrapList Success : $responseData");
         final userScrapData = ScrapListModel.fromJson(responseData);
         scrapModel = userScrapData;
         return scrapModel;
@@ -48,14 +46,13 @@ class ScrapService {
       final response = await dio.post((url),
           options: Options(
             headers: {
-              'Authorization': 'Bearer $accessToken',
-              'Content-Type': 'application/json'
+              "Authorization": "Bearer $accessToken",
+              "Content-Type": "application/json"
             },
           ));
       if (response.statusCode == 200) {
         final responseData = response.data;
-
-        log('Scrap add Success : $responseData');
+        log("Scrap add Success : $responseData");
       } else {
         log("${response.statusCode}");
       }
@@ -67,20 +64,20 @@ class ScrapService {
   Future<void> deleteScrap(postId) async {
     var url = "http://petmily.duckdns.org/post/$postId/scrap";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
+    final String? accessToken = prefs.getString("token");
 
     try {
       final response = await dio.delete((url),
           options: Options(
             headers: {
-              'Authorization': 'Bearer $accessToken',
-              'Content-Type': 'application/json'
+              "Authorization": "Bearer $accessToken",
+              "Content-Type": "application/json"
             },
           ));
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        log('Scrap add Success : $responseData');
+        log("Scrap add Success : $responseData");
       } else {
         log("${response.statusCode}");
       }
