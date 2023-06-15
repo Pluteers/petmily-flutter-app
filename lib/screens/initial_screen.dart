@@ -110,7 +110,7 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
                         CupertinoPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                             create: (context) => LoginProvider(),
-                            child: const LoginPetmiliyView(),
+                            child: const SignInScreen(),
                           ),
                         ),
                       )
@@ -119,7 +119,7 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
                         MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                             create: (context) => LoginProvider(),
-                            child: const LoginPetmiliyView(),
+                            child: const SignInScreen(),
                           ),
                         ),
                       );
