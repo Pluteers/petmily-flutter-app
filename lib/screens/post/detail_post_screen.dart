@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:petmily/screens/post/edit_post_screen.dart';
 import 'package:petmily/services/comment_service.dart';
 import 'package:petmily/services/detail_post_service.dart';
-import 'package:petmily/services/get_commentList.dart';
-import 'package:petmily/services/post_postLike.dart';
+import 'package:petmily/services/comment_list_service.dart';
+import 'package:petmily/services/post_like_service.dart';
 import 'package:petmily/services/post_service.dart';
 import 'package:petmily/services/scrap_service.dart';
 import 'package:petmily/widgets/snackbar_widget.dart';
@@ -69,7 +69,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 color: dynamicColor.primary,
               ),
               onPressed: () {
-                PostLike().postLike(widget.channelId, widget.postId);
+                PostLikeService().postLike(widget.channelId, widget.postId);
                 setState(
                   () {
                     Future.delayed(
@@ -457,7 +457,7 @@ class _PostCommentState extends State<PostComment> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final dynamicColor = Theme.of(context).colorScheme;
-    var commentFuture = GetCommentList().getCommentList(widget.postId);
+    var commentFuture = CommentListService().getCommentList(widget.postId);
     return SizedBox(
       width: width * .9,
       height: 200,
@@ -607,7 +607,7 @@ class _PostCommentState extends State<PostComment> {
                                   CommentService().likeComment(commentId!);
                                   setState(
                                     () {
-                                      commentFuture = GetCommentList()
+                                      commentFuture = CommentListService()
                                           .getCommentList(widget.postId);
                                     },
                                   );
