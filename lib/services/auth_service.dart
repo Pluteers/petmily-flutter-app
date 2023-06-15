@@ -71,7 +71,7 @@ class AuthService extends ChangeNotifier {
         onSuccess();
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         final response = e.response;
         if (response?.statusCode == 400) {
           onError("아이디 또는 비밀번호를 확인해주세요");
