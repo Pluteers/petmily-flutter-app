@@ -8,6 +8,7 @@ import 'package:petmily/services/detail_post_service.dart';
 import 'package:petmily/services/get_commentList.dart';
 import 'package:petmily/services/post_postLike.dart';
 import 'package:petmily/services/post_service.dart';
+import 'package:petmily/services/scrap_service.dart';
 import 'package:petmily/widgets/snackbar_widget.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
@@ -246,32 +247,54 @@ class PostDetail extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: Row(
                               children: [
-                                Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            width: 1,
-                                            color: dynamicColor.primary)),
-                                    child: Center(
-                                      child: FaIcon(
-                                        FontAwesomeIcons.user,
-                                        color: dynamicColor.primary,
+                                Expanded(
+                                  flex: 1,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: dynamicColor.primary)),
+                                          child: Center(
+                                            child: FaIcon(
+                                              FontAwesomeIcons.user,
+                                              color: dynamicColor.primary,
+                                            ),
+                                          )),
+                                      const SizedBox(
+                                        width: 10,
                                       ),
-                                    )),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  height: 40,
-                                  alignment: Alignment.center,
-                                  child: VariableText(
-                                    value: "$postWriter",
-                                    size: 20,
-                                    wght: 600,
+                                      Container(
+                                        height: 40,
+                                        alignment: Alignment.center,
+                                        child: VariableText(
+                                          value: "$postWriter",
+                                          size: 20,
+                                          wght: 600,
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
+                                ),
+                                Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            ScrapService().addScrap(postId);
+                                            snackBar(context, "스크랩을 추가했어요!");
+                                          },
+                                          icon: Icon(
+                                            Icons.post_add,
+                                            size: 32,
+                                            color: dynamicColor.primary,
+                                          )),
+                                    ))
                               ],
                             ),
                           ),

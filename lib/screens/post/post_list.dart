@@ -4,6 +4,8 @@ import 'package:lottie/lottie.dart';
 import 'package:petmily/providers/get_postlist.dart';
 import 'package:petmily/screens/post/add_post.dart';
 import 'package:petmily/screens/post/detail_post.dart';
+import 'package:petmily/services/favorite_service.dart';
+import 'package:petmily/widgets/snackbar_widget.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +29,7 @@ class ChannelScreen extends StatelessWidget {
             appBar: AppBar(
               automaticallyImplyLeading: false,
               title: Container(
-                  margin: const EdgeInsets.only(left: 10),
+                  margin: const EdgeInsets.only(left: 8),
                   width: width,
                   height: 80,
                   alignment: Alignment.centerLeft,
@@ -37,6 +39,21 @@ class ChannelScreen extends StatelessWidget {
                     wght: 300,
                     color: dynamicColor.primary,
                   )),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: IconButton(
+                      onPressed: () {
+                        FavoriteService().addFavorite(channelId);
+                        snackBar(context, "즐겨찾기에 추가했어요!");
+                      },
+                      icon: Icon(
+                        Icons.favorite_border,
+                        color: dynamicColor.primary,
+                        size: 35,
+                      )),
+                )
+              ],
             ),
             body: SingleChildScrollView(
                 child: Column(children: [
@@ -78,13 +95,8 @@ class ChannelScreen extends StatelessWidget {
                                         snapshot.data![index].likePost;
                                     var imagePath =
                                         snapshot.data![index].imagePath;
+                                    var hit = snapshot.data![index].hit;
 
-                                    // var postCreatday = getPostList
-                                    //     .data[index].createDate!
-                                    //     .substring(0, 10);
-                                    // var postModiday = getPostList
-                                    //     .data[index].lastModifiedDate!
-                                    //     .substring(0, 10);
                                     var postWriter =
                                         snapshot.data![index].nickname;
                                     var postId = snapshot.data![index].id;
@@ -192,31 +204,71 @@ class ChannelScreen extends StatelessWidget {
                                               ),
                                             ),
                                             Container(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 10, right: 10),
-                                              alignment: Alignment.bottomRight,
                                               width: width,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 8.0),
-                                                    child: FaIcon(
-                                                        FontAwesomeIcons.heart),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10.0),
-                                                    child: VariableText(
-                                                      value: "$postFavorite",
-                                                      size: 15,
-                                                      wght: 500,
-                                                    ),
-                                                  ),
-                                                ],
+                                              alignment: Alignment.bottomRight,
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 10, right: 10),
+                                                width: width * .4,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .heart,
+                                                              size: 12,
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          5.0),
+                                                              child:
+                                                                  VariableText(
+                                                                value:
+                                                                    "$postFavorite",
+                                                                size: 12,
+                                                                wght: 500,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .eye,
+                                                              size: 12,
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          5.0),
+                                                              child:
+                                                                  VariableText(
+                                                                value: "$hit",
+                                                                size: 12,
+                                                                wght: 500,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ],
+                                                ),
                                               ),
                                             )
                                           ],
@@ -261,6 +313,8 @@ class ChannelScreen extends StatelessWidget {
                         builder: (context) => AddPostScreen(
                               channelId: channelId,
                             )));
+
+                snackBar(context, "게시물 추가 성공!");
               },
               tooltip: 'Add',
               child: Icon(

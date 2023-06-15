@@ -421,9 +421,14 @@ class UserFavoriteList extends StatelessWidget {
   }
 }
 
-class UserScrapList extends StatelessWidget {
+class UserScrapList extends StatefulWidget {
   const UserScrapList({super.key});
 
+  @override
+  State<UserScrapList> createState() => _UserScrapListState();
+}
+
+class _UserScrapListState extends State<UserScrapList> {
   @override
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
@@ -460,89 +465,125 @@ class UserScrapList extends StatelessWidget {
                   var postHit = snapshot.data!.data![index].post!.hit;
                   var postLike = snapshot.data!.data![index].post!.likePost;
                   return InkWell(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: VariableText(
-                                value: "$postTitle",
-                                size: 15,
-                                wght: 500,
+                    child: Dismissible(
+                      key: ValueKey(snapshot.data?.data![index]),
+                      onDismissed: (direction) {
+                        setState(() {
+                          snapshot.data?.data!.removeAt(index);
+                          ChannelService().deleteChannel(channelId);
+                        });
+                      },
+                      background: Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: dynamicColor.error),
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.delete,
+                          size: 35,
+                          color: Colors.white,
+                        ),
+                      ),
+                      secondaryBackground: Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: dynamicColor.error),
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.delete,
+                          size: 35,
+                          color: Colors.white,
+                        ),
+                      ),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: VariableText(
+                                  value: "$postTitle",
+                                  size: 15,
+                                  wght: 500,
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10.0, bottom: 10),
-                              child: Row(
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            FaIcon(
+                                              FontAwesomeIcons.heart,
+                                              size: 12,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5.0),
+                                              child: VariableText(
+                                                value: "$postLike",
+                                                size: 12,
+                                                wght: 300,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                    Expanded(
+                                        flex: 1,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            FaIcon(
+                                              FontAwesomeIcons.eye,
+                                              size: 12,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5.0),
+                                              child: VariableText(
+                                                value: "$postHit",
+                                                size: 12,
+                                                wght: 300,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Expanded(
                                       flex: 1,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          FaIcon(
-                                            FontAwesomeIcons.heart,
-                                            size: 12,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 5.0),
-                                            child: VariableText(
-                                              value: "$postLike",
-                                              size: 12,
-                                              wght: 300,
-                                            ),
-                                          ),
-                                        ],
+                                      child: VariableText(
+                                        value: "$channelName",
+                                        size: 12,
+                                        wght: 300,
                                       )),
                                   Expanded(
                                       flex: 1,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          FaIcon(
-                                            FontAwesomeIcons.eye,
-                                            size: 12,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 5.0),
-                                            child: VariableText(
-                                              value: "$postHit",
-                                              size: 12,
-                                              wght: 300,
-                                            ),
-                                          ),
-                                        ],
+                                      child: VariableText(
+                                        value: "$nickname",
+                                        size: 12,
+                                        wght: 300,
                                       )),
                                 ],
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: VariableText(
-                                      value: "$channelName",
-                                      size: 12,
-                                      wght: 300,
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: VariableText(
-                                      value: "$nickname",
-                                      size: 12,
-                                      wght: 300,
-                                    )),
-                              ],
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -637,10 +678,10 @@ class _MyChannelPostViewState extends State<MyChannelPostView> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25),
                                       color: dynamicColor.error),
-                                  alignment: Alignment.centerRight,
+                                  alignment: Alignment.center,
                                   child: const Icon(
                                     Icons.delete,
-                                    size: 15,
+                                    size: 25,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -651,10 +692,10 @@ class _MyChannelPostViewState extends State<MyChannelPostView> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25),
                                       color: dynamicColor.error),
-                                  alignment: Alignment.centerRight,
+                                  alignment: Alignment.center,
                                   child: const Icon(
                                     Icons.delete,
-                                    size: 15,
+                                    size: 25,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -744,10 +785,10 @@ class _MyChannelPostViewState extends State<MyChannelPostView> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25),
                                       color: dynamicColor.error),
-                                  alignment: Alignment.centerRight,
+                                  alignment: Alignment.center,
                                   child: const Icon(
                                     Icons.delete,
-                                    size: 15,
+                                    size: 25,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -758,10 +799,10 @@ class _MyChannelPostViewState extends State<MyChannelPostView> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25),
                                       color: dynamicColor.error),
-                                  alignment: Alignment.centerRight,
+                                  alignment: Alignment.center,
                                   child: const Icon(
                                     Icons.delete,
-                                    size: 15,
+                                    size: 25,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -849,10 +890,10 @@ class _MyChannelPostViewState extends State<MyChannelPostView> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: dynamicColor.error),
-                                alignment: Alignment.centerRight,
+                                alignment: Alignment.center,
                                 child: const Icon(
                                   Icons.delete,
-                                  size: 15,
+                                  size: 25,
                                   color: Colors.white,
                                 ),
                               ),
@@ -863,10 +904,10 @@ class _MyChannelPostViewState extends State<MyChannelPostView> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: dynamicColor.error),
-                                alignment: Alignment.centerRight,
+                                alignment: Alignment.center,
                                 child: const Icon(
                                   Icons.delete,
-                                  size: 15,
+                                  size: 25,
                                   color: Colors.white,
                                 ),
                               ),
