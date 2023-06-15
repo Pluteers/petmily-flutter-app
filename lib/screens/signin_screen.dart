@@ -1,26 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:petmily/providers/login_provider.dart';
-import 'package:petmily/screens/home.dart';
-import 'package:petmily/screens/login_view.dart';
-import 'package:petmily/main.dart';
-import 'package:petmily/screens/mypage_screens.dart';
-import 'package:petmily/screens/signup_view.dart';
-import 'package:petmily/services/auth_service.dart';
-import 'package:petmily/services/mypage_service.dart';
-import 'package:petmily/widgets/snackbar_widget.dart';
-import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
-class LoginPetmiliyView extends StatefulWidget {
-  const LoginPetmiliyView({Key? key}) : super(key: key);
+import 'package:petmily/providers/login_provider.dart';
+import 'package:petmily/screens/home.dart';
+import 'package:petmily/screens/signup_view.dart';
+import 'package:petmily/widgets/snackbar_widget.dart';
+import 'package:petmily/widgets/variable_text.dart';
+
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginPetmiliyView> createState() => _LoginPetmiliyViewState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
+class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   Color? primaryColor;
@@ -63,7 +60,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 VariableText(
-                  value: "Petmiliy",
+                  value: "Petmily",
                   size: 50,
                   wght: 700,
                   color: dynamicColor.primary,
@@ -76,7 +73,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                   child: AnimatedTextKit(
                     animatedTexts: [
                       TyperAnimatedText(
-                        '우리가 만드는 반려동물 캠퍼스',
+                        '우리가 만드는 반려동물 캔버스',
                         textStyle: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w300,
@@ -100,8 +97,8 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                     controller: emailController,
                     obscureText: false,
                     decoration: InputDecoration(
-                      hintText: '이메일 형식 아이디를 입력하세요.',
-                      labelText: '아이디',
+                      hintText: "이메일 형식 아이디를 입력하세요.",
+                      labelText: "아이디",
                       labelStyle: TextStyle(color: dynamicColor.primary),
                       hintStyle: TextStyle(color: dynamicColor.primary),
                       suffixIcon: IconButton(
@@ -117,11 +114,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-
-                /// PW 입력 Form
+                const SizedBox(height: 10),
                 SizedBox(
                   width: width * .9,
                   child: TextFormField(
@@ -137,14 +130,15 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                         },
                       ),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(
-                              width: 1, color: dynamicColor.primary)),
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide:
+                            BorderSide(width: 1, color: dynamicColor.primary),
+                      ),
                     ),
                   ),
                 ),
 
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 GestureDetector(
                   child: Container(
                     width: width * .9,
@@ -187,7 +181,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                                   builder: (context) => const HomeScreen(),
                                 ),
                               ),
-                              snackBar(context, "로그인 성공!")
+                              snackBar(context, "로그인 되었습니다.")
                             }
                           : {
                               Navigator.push(
@@ -196,67 +190,43 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                                   builder: (context) => const HomeScreen(),
                                 ),
                               ),
-                              snackBar(context, "로그인 성공!")
+                              snackBar(context, "로그인 되었습니다.")
                             };
                     }
-
-                    // 회원가입 화면으로 이동
-                    // authService.signIn(
-                    //   email: emailController.text,
-                    //   password: passwordController.text,
-                    //   onSuccess: () {
-                    //     // 로그인 성공
-                    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //       content: Text("로그인 성공"),
-                    //     ));
-
-                    //     // HomePage로 이동
-                    //     Navigator.pushReplacement(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => MyPageScreen()),
-                    //     );
-                    //   },
-                    //   onError: (err) {
-                    //     // 에러 발생
-                    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //       content: Text(err),
-                    //     ));
-                    //   },
-                    // );
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 GestureDetector(
                   child: Container(
-                      width: width * .9,
-                      height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: dynamicColor.background,
-                          boxShadow: [
-                            BoxShadow(
-                              color: dynamicColor.primary.withOpacity(0.4),
-                              blurRadius: 5.0,
-                              spreadRadius: 0.0,
-                              offset: const Offset(0, 5),
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(25)),
-                      child: VariableText(
-                        value: "Petmiliy 계정 만들기",
-                        size: 19,
-                        wght: 400,
-                        color: dynamicColor.primary,
-                      )),
+                    width: width * .9,
+                    height: 40,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: dynamicColor.background,
+                      boxShadow: [
+                        BoxShadow(
+                          color: dynamicColor.primary.withOpacity(0.4),
+                          blurRadius: 5.0,
+                          spreadRadius: 0.0,
+                          offset: const Offset(0, 5),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: VariableText(
+                      value: "Petmily 계정 만들기",
+                      size: 19,
+                      wght: 400,
+                      color: dynamicColor.primary,
+                    ),
+                  ),
                   onTap: () {
                     // 회원가입 화면으로 이동
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SignupView()),
+                        builder: (context) => const SignUpScreen(),
+                      ),
                     );
                   },
                 ),
