@@ -7,13 +7,13 @@ class MyPostModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -37,21 +37,22 @@ class Data {
   String? channelName;
   int? commentCount;
 
-  Data(
-      {this.createDate,
-      this.lastModifiedDate,
-      this.id,
-      this.title,
-      this.content,
-      this.url,
-      this.likePost,
-      this.hit,
-      this.imagePath,
-      this.memberId,
-      this.nickname,
-      this.channelId,
-      this.channelName,
-      this.commentCount});
+  Data({
+    this.createDate,
+    this.lastModifiedDate,
+    this.id,
+    this.title,
+    this.content,
+    this.url,
+    this.likePost,
+    this.hit,
+    this.imagePath,
+    this.memberId,
+    this.nickname,
+    this.channelId,
+    this.channelName,
+    this.commentCount,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     createDate = json['createDate'];
@@ -71,21 +72,21 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['createDate'] = this.createDate;
-    data['lastModifiedDate'] = this.lastModifiedDate;
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['url'] = this.url;
-    data['likePost'] = this.likePost;
-    data['hit'] = this.hit;
-    data['imagePath'] = this.imagePath;
-    data['memberId'] = this.memberId;
-    data['nickname'] = this.nickname;
-    data['channelId'] = this.channelId;
-    data['channelName'] = this.channelName;
-    data['commentCount'] = this.commentCount;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['createDate'] = createDate;
+    data['lastModifiedDate'] = lastModifiedDate;
+    data['id'] = id;
+    data['title'] = title;
+    data['content'] = content;
+    data['url'] = url;
+    data['likePost'] = likePost;
+    data['hit'] = hit;
+    data['imagePath'] = imagePath;
+    data['memberId'] = memberId;
+    data['nickname'] = nickname;
+    data['channelId'] = channelId;
+    data['channelName'] = channelName;
+    data['commentCount'] = commentCount;
     return data;
   }
 }

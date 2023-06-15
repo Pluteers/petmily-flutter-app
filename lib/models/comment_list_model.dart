@@ -7,15 +7,15 @@ class CommentListModel {
     if (json['comment'] != null) {
       comment = <Comment>[];
       json['comment'].forEach((v) {
-        comment!.add(new Comment.fromJson(v));
+        comment!.add(Comment.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.comment != null) {
-      data['comment'] = this.comment!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (comment != null) {
+      data['comment'] = comment!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -32,16 +32,17 @@ class Comment {
   String? postTitle;
   int? postId;
 
-  Comment(
-      {this.createDate,
-      this.lastModifiedDate,
-      this.commentId,
-      this.content,
-      this.commentLike,
-      this.nickname,
-      this.memberId,
-      this.postTitle,
-      this.postId});
+  Comment({
+    this.createDate,
+    this.lastModifiedDate,
+    this.commentId,
+    this.content,
+    this.commentLike,
+    this.nickname,
+    this.memberId,
+    this.postTitle,
+    this.postId,
+  });
 
   Comment.fromJson(Map<String, dynamic> json) {
     createDate = json['createDate'];
@@ -56,16 +57,16 @@ class Comment {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['createDate'] = this.createDate;
-    data['lastModifiedDate'] = this.lastModifiedDate;
-    data['commentId'] = this.commentId;
-    data['content'] = this.content;
-    data['commentLike'] = this.commentLike;
-    data['nickname'] = this.nickname;
-    data['memberId'] = this.memberId;
-    data['postTitle'] = this.postTitle;
-    data['postId'] = this.postId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['createDate'] = createDate;
+    data['lastModifiedDate'] = lastModifiedDate;
+    data['commentId'] = commentId;
+    data['content'] = content;
+    data['commentLike'] = commentLike;
+    data['nickname'] = nickname;
+    data['memberId'] = memberId;
+    data['postTitle'] = postTitle;
+    data['postId'] = postId;
     return data;
   }
 }

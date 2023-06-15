@@ -1,19 +1,21 @@
 class MyChannelModel {
   List<Data>? data;
 
-  MyChannelModel({this.data});
+  MyChannelModel({
+    this.data,
+  });
 
   MyChannelModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -30,14 +32,15 @@ class Data {
   String? nickname;
   String? url;
 
-  Data(
-      {this.channelId,
-      this.channelName,
-      this.categoryName,
-      this.categoryId,
-      this.memberId,
-      this.nickname,
-      this.url});
+  Data({
+    this.channelId,
+    this.channelName,
+    this.categoryName,
+    this.categoryId,
+    this.memberId,
+    this.nickname,
+    this.url,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     channelId = json['channelId'];
@@ -50,14 +53,14 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['channelId'] = this.channelId;
-    data['channelName'] = this.channelName;
-    data['categoryName'] = this.categoryName;
-    data['categoryId'] = this.categoryId;
-    data['memberId'] = this.memberId;
-    data['nickname'] = this.nickname;
-    data['url'] = this.url;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['channelId'] = channelId;
+    data['channelName'] = channelName;
+    data['categoryName'] = categoryName;
+    data['categoryId'] = categoryId;
+    data['memberId'] = memberId;
+    data['nickname'] = nickname;
+    data['url'] = url;
     return data;
   }
 }

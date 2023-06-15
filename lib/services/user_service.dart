@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:petmily/models/mychannel_model.dart';
-import 'package:petmily/models/mycomment_model.dart';
-import 'package:petmily/models/mypage.dart';
-import 'package:petmily/models/mypost_model.dart';
+import 'package:petmily/models/my_channel_model.dart';
+import 'package:petmily/models/my_comment_model.dart';
+import 'package:petmily/models/my_page_model.dart';
+import 'package:petmily/models/my_post_model.dart';
 
 final dio = Dio();
 
 class UserService {
-  Future<MyPageData?> userInfo() async {
+  Future<MyPageModel?> userInfo() async {
     const url = "http://petmily.duckdns.org/user/info";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? accessToken = prefs.getString("token");
-    MyPageData? dataList;
+    MyPageModel? dataList;
     try {
       final response = await dio.get((url),
           options: Options(
@@ -30,7 +30,7 @@ class UserService {
 
         log("userInfo Success : $responseData");
 
-        final mypageData = MyPageData.fromJson(responseData);
+        final mypageData = MyPageModel.fromJson(responseData);
         dataList = mypageData;
         return dataList;
       } else {
