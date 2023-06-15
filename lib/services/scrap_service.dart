@@ -38,4 +38,54 @@ class ScrapService {
       return scrapModel;
     }
   }
+
+  Future<void> addScrap(postId) async {
+    var url = "http://petmily.duckdns.org/post/$postId/scrap";
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
+
+    try {
+      final response = await dio.post((url),
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+              'Content-Type': 'application/json'
+            },
+          ));
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        log('Scrap add Success : $responseData');
+      } else {
+        log("${response.statusCode}");
+      }
+    } catch (e) {
+      log("$e");
+    }
+  }
+
+  Future<void> deleteScrap(postId) async {
+    var url = "http://petmily.duckdns.org/post/$postId/scrap";
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('token');
+
+    try {
+      final response = await dio.delete((url),
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+              'Content-Type': 'application/json'
+            },
+          ));
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        log('Scrap add Success : $responseData');
+      } else {
+        log("${response.statusCode}");
+      }
+    } catch (e) {
+      log("$e");
+    }
+  }
 }
