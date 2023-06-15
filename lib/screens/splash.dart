@@ -37,48 +37,45 @@ class _SplashScreenState extends State<SplashScreen> {
     final dynamicColor = Theme.of(context).colorScheme;
     return Scaffold(
       body: SizedBox.expand(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              VariableText(
-                value: "Petmily",
-                size: 50.0,
-                wght: 700.0,
-                color: dynamicColor.primary,
-              ),
-              SizedBox(
-                height: 30,
-                child: AnimatedTextKit(
-                  totalRepeatCount: 1,
-                  animatedTexts: [
-                    TyperAnimatedText(
-                      "우리가 만드는 반려동물 캔버스",
-                      speed: const Duration(milliseconds: 100),
-                      textStyle: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w300,
-                        color: dynamicColor.primary,
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    VariableText(
+                      value: "Petmiliy",
+                      size: 50.0,
+                      wght: 700.0,
+                      color: dynamicColor.primary,
+                    ),
+                    SizedBox(
+                      height: 30,
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            '우리가 만드는 반려동물 캠퍼스',
+                            textStyle: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w300,
+                              color: dynamicColor.primary,
+                            ),
+                            speed: const Duration(milliseconds: 100),
+                          ),
+                        ],
+                        totalRepeatCount: 1,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 200,
-                child: Lottie.network(
-                    "https://assets9.lottiefiles.com/packages/lf20_syqnfe7c.json"),
-              )
-            ],
-          ),
-        ),
-      ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 200,
+                      child: Lottie.network(
+                          "https://assets9.lottiefiles.com/packages/lf20_syqnfe7c.json"),
+                    )
+                  ]))),
     );
   }
 }
