@@ -1,11 +1,11 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:petmily/screens/login_petmiliy_view.dart';
+
 import 'package:provider/provider.dart';
 
+import 'package:petmily/screens/login_petmiliy_view.dart';
 import 'package:petmily/providers/login_provider.dart';
-import 'package:petmily/screens/local/signin_screen.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
 class InitialScreen extends StatelessWidget {
