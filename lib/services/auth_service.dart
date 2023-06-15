@@ -1,12 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
-
-import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class AuthService extends ChangeNotifier {
   final dio = Dio();
@@ -18,7 +14,7 @@ class AuthService extends ChangeNotifier {
     required Function() onSuccess,
     required Function(String err) onError,
   }) async {
-    final url = 'http://petmily.duckdns.org/sign-up';
+    const url = 'http://petmily.duckdns.org/sign-up';
     final response = await dio.post(url, data: {
       'email': email,
       'nickname': nickname,

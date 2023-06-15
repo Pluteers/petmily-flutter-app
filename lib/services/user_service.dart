@@ -1,36 +1,36 @@
-import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:petmily/models/mychannel_model.dart';
-import 'package:petmily/models/mycomment_model.dart';
-import 'package:petmily/models/mypage.dart';
-import 'package:petmily/models/mypost_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:petmily/models/my_channel_model.dart';
+import 'package:petmily/models/my_comment_model.dart';
+import 'package:petmily/models/my_page_model.dart';
+import 'package:petmily/models/my_post_model.dart';
 
 final dio = Dio();
 
 class UserService {
-  Future<MyPageData?> userInfo() async {
+  Future<MyPageModel?> userInfo() async {
     const url = "http://petmily.duckdns.org/user/info";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
-    MyPageData? dataList;
+    final String? accessToken = prefs.getString("token");
+    MyPageModel? dataList;
     try {
       final response = await dio.get((url),
           options: Options(
             headers: {
-              'Authorization': 'Bearer $accessToken',
-              'Content-Type': 'application/json'
+              "Authorization": "Bearer $accessToken",
+              "Content-Type": "application/json"
             },
           ));
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        log('userInfo Success : $responseData');
+        log("userInfo Success : $responseData");
 
-        final mypageData = MyPageData.fromJson(responseData);
+        final mypageData = MyPageModel.fromJson(responseData);
         dataList = mypageData;
         return dataList;
       } else {
@@ -53,13 +53,13 @@ class UserService {
   }) async {
     const url = "http://petmily.duckdns.org/user/update";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
+    final String? accessToken = prefs.getString("token");
 
     try {
       final response = await dio.patch((url),
           options: Options(
             headers: {
-              'Authorization': 'Bearer $accessToken',
+              "Authorization": "Bearer $accessToken",
             },
           ),
           data: {
@@ -70,7 +70,7 @@ class UserService {
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        log('Edit Info Success : $responseData');
+        log("Edit Info Success : $responseData");
         onSuccess();
       } else {
         log("${response.statusCode}");
@@ -85,7 +85,7 @@ class UserService {
   Future<MyChannelModel?> myChannel() async {
     const url = "http://petmily.duckdns.org/channel/mypage";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
+    final String? accessToken = prefs.getString("token");
     MyChannelModel? myChannelModel;
 
     try {
@@ -93,14 +93,14 @@ class UserService {
         (url),
         options: Options(
           headers: {
-            'Authorization': 'Bearer $accessToken',
+            "Authorization": "Bearer $accessToken",
           },
         ),
       );
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        log('Get MyChannels Success : $responseData');
+        log("Get MyChannels Success : $responseData");
         final myPageChannelData = MyChannelModel.fromJson(responseData);
         myChannelModel = myPageChannelData;
         return myChannelModel;
@@ -117,7 +117,7 @@ class UserService {
   Future<MyPostModel?> myPost() async {
     const url = "http://petmily.duckdns.org/post/mypage";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
+    final String? accessToken = prefs.getString("token");
     MyPostModel? myPostModel;
 
     try {
@@ -125,14 +125,14 @@ class UserService {
         (url),
         options: Options(
           headers: {
-            'Authorization': 'Bearer $accessToken',
+            "Authorization": "Bearer $accessToken",
           },
         ),
       );
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        log('Get MyPost Success : $responseData');
+        log("Get MyPost Success : $responseData");
         myPostModel = MyPostModel.fromJson(responseData);
         return myPostModel;
       } else {
@@ -148,7 +148,7 @@ class UserService {
   Future<MyCommentModel?> myComment() async {
     const url = "http://petmily.duckdns.org/comment/mycomment";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
+    final String? accessToken = prefs.getString("token");
     MyCommentModel? myCommentModel;
 
     try {
@@ -156,14 +156,14 @@ class UserService {
         (url),
         options: Options(
           headers: {
-            'Authorization': 'Bearer $accessToken',
+            "Authorization": "Bearer $accessToken",
           },
         ),
       );
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        log('Get MyComments Success : $responseData');
+        log("Get MyComments Success : $responseData");
         myCommentModel = MyCommentModel.fromJson(responseData);
         return myCommentModel;
       } else {

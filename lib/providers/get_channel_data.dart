@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final dio = Dio();
@@ -21,7 +23,7 @@ class GetChannelData extends ChangeNotifier {
             },
           ));
       if (response.statusCode == 200) {
-        final responseData = response.data;
+        final responseData = jsonDecode(response.data);
         getChannelModel = GetChannel.fromJson(responseData);
 
         notifyListeners();
@@ -48,14 +50,14 @@ class GetChannel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -72,18 +74,18 @@ class Data {
   Data({this.channelId, this.channelName, this.categoryName, this.categoryId});
 
   Data.fromJson(Map<String, dynamic> json) {
-    channelId = json['channelId'];
-    channelName = json['channelName'];
-    categoryName = json['categoryName'];
-    categoryId = json['categoryId'];
+    channelId = json['channelId'] as int?;
+    channelName = json['channelName'] as String?;
+    categoryName = json['categoryName'] as String?;
+    categoryId = json['categoryId'] as int?;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['channelId'] = this.channelId;
-    data['channelName'] = this.channelName;
-    data['categoryName'] = this.categoryName;
-    data['categoryId'] = this.categoryId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['channelId'] = channelId;
+    data['channelName'] = channelName;
+    data['categoryName'] = categoryName;
+    data['categoryId'] = categoryId;
     return data;
   }
 }

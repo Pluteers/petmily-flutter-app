@@ -5,27 +5,28 @@ class DetailPostModel {
   String? channelCreaterName;
   Data? data;
 
-  DetailPostModel(
-      {this.success,
-      this.message,
-      this.channelName,
-      this.channelCreaterName,
-      this.data});
+  DetailPostModel({
+    this.success,
+    this.message,
+    this.channelName,
+    this.channelCreaterName,
+    this.data,
+  });
 
   DetailPostModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     channelName = json['channelName'];
     channelCreaterName = json['channelCreaterName'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
-    data['channelName'] = this.channelName;
-    data['channelCreaterName'] = this.channelCreaterName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
+    data['channelName'] = channelName;
+    data['channelCreaterName'] = channelCreaterName;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -47,19 +48,20 @@ class Data {
   int? channelId;
   String? channelName;
 
-  Data(
-      {this.createDate,
-      this.lastModifiedDate,
-      this.id,
-      this.title,
-      this.content,
-      this.likePost,
-      this.hit,
-      this.imagePath,
-      this.memberId,
-      this.nickname,
-      this.channelId,
-      this.channelName});
+  Data({
+    this.createDate,
+    this.lastModifiedDate,
+    this.id,
+    this.title,
+    this.content,
+    this.likePost,
+    this.hit,
+    this.imagePath,
+    this.memberId,
+    this.nickname,
+    this.channelId,
+    this.channelName,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     createDate = json['createDate'];
@@ -77,19 +79,19 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['createDate'] = this.createDate;
-    data['lastModifiedDate'] = this.lastModifiedDate;
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['likePost'] = this.likePost;
-    data['hit'] = this.hit;
-    data['imagePath'] = this.imagePath;
-    data['memberId'] = this.memberId;
-    data['nickname'] = this.nickname;
-    data['channelId'] = this.channelId;
-    data['channelName'] = this.channelName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['createDate'] = createDate;
+    data['lastModifiedDate'] = lastModifiedDate;
+    data['id'] = id;
+    data['title'] = title;
+    data['content'] = content;
+    data['likePost'] = likePost;
+    data['hit'] = hit;
+    data['imagePath'] = imagePath;
+    data['memberId'] = memberId;
+    data['nickname'] = nickname;
+    data['channelId'] = channelId;
+    data['channelName'] = channelName;
     return data;
   }
 }

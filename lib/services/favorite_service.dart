@@ -1,19 +1,18 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:petmily/models/favorite_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:petmily/models/favorite_model.dart';
 
 final dio = Dio();
 
 class FavoriteService {
-  // http://petmily.duckdns.org/bookmark
   Future<FavoriteListModel?> userFavoriteList() async {
     const url = "http://petmily.duckdns.org/bookmark";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
+    final String? accessToken = prefs.getString("token");
     FavoriteListModel? favoriteListModel;
-
     try {
       final response = await dio.get((url),
           options: Options(
@@ -25,7 +24,7 @@ class FavoriteService {
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        log('FavoriteList Success : $responseData');
+        log("FavoriteList Success : $responseData");
         final favoriteListData = FavoriteListModel.fromJson(responseData);
         favoriteListModel = favoriteListData;
         return favoriteListModel;
@@ -42,8 +41,8 @@ class FavoriteService {
   Future<void> addFavorite(channelId) async {
     var url = "http://petmily.duckdns.org/channel/$channelId/bookmark";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('token');
-    FavoriteListModel? favoriteListModel;
+    final String? accessToken = prefs.getString("token");
+    // FavoriteListModel? favoriteListModel;
 
     try {
       final response = await dio.post((url),
@@ -69,7 +68,7 @@ class FavoriteService {
     var url = "http://petmily.duckdns.org/channel/$channelId/bookmark";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? accessToken = prefs.getString('token');
-    FavoriteListModel? favoriteListModel;
+    // FavoriteListModel? favoriteListModel;
 
     try {
       final response = await dio.delete((url),

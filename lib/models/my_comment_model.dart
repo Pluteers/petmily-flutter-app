@@ -13,16 +13,16 @@ class MyCommentModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    data['commentWriter'] = this.commentWriter;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    data['commentWriter'] = commentWriter;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -41,16 +41,17 @@ class Data {
   String? postTitle;
   int? postId;
 
-  Data(
-      {this.createDate,
-      this.lastModifiedDate,
-      this.commentId,
-      this.content,
-      this.commentLike,
-      this.nickname,
-      this.memberId,
-      this.postTitle,
-      this.postId});
+  Data({
+    this.createDate,
+    this.lastModifiedDate,
+    this.commentId,
+    this.content,
+    this.commentLike,
+    this.nickname,
+    this.memberId,
+    this.postTitle,
+    this.postId,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     createDate = json['createDate'];
@@ -65,16 +66,16 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['createDate'] = this.createDate;
-    data['lastModifiedDate'] = this.lastModifiedDate;
-    data['commentId'] = this.commentId;
-    data['content'] = this.content;
-    data['commentLike'] = this.commentLike;
-    data['nickname'] = this.nickname;
-    data['memberId'] = this.memberId;
-    data['postTitle'] = this.postTitle;
-    data['postId'] = this.postId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['createDate'] = createDate;
+    data['lastModifiedDate'] = lastModifiedDate;
+    data['commentId'] = commentId;
+    data['content'] = content;
+    data['commentLike'] = commentLike;
+    data['nickname'] = nickname;
+    data['memberId'] = memberId;
+    data['postTitle'] = postTitle;
+    data['postId'] = postId;
     return data;
   }
 }

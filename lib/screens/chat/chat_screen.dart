@@ -113,9 +113,7 @@ class _ChatContentWidgetState extends State<ChatContentWidget> {
           child: Row(
             children: <Widget>[
               IconButton(
-                onPressed: () {
-                  //TODO: 이전 화면(홈)으로 이동하도록 구성해야 합니다.
-                },
+                onPressed: () {},
                 icon: Icon(
                   Icons.arrow_back_rounded,
                   color: dynamicColor.onSurfaceVariant,

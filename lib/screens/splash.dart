@@ -1,11 +1,12 @@
 import 'dart:async';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+
 import 'package:lottie/lottie.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:transition/transition.dart';
+
 import 'package:petmily/screens/initial_screen.dart';
 import 'package:petmily/widgets/variable_text.dart';
-import 'package:transition/transition.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,13 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(milliseconds: 5000), () {
-      Navigator.pushReplacement(
+    Timer(
+      const Duration(milliseconds: 5000),
+      () {
+        Navigator.pushReplacement(
           context,
           Transition(
               child: const InitialScreen(),
-              transitionEffect: TransitionEffect.FADE));
-    });
+              transitionEffect: TransitionEffect.FADE),
+        );
+      },
+    );
   }
 
   @override
@@ -39,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     VariableText(
-                      value: "Petmily",
+                      value: "Petmiliy",
                       size: 50.0,
                       wght: 700.0,
                       color: dynamicColor.primary,
@@ -49,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: AnimatedTextKit(
                         animatedTexts: [
                           TyperAnimatedText(
-                            '우리가 만드는 반려동물 캔버스',
+                            '우리가 만드는 반려동물 캠퍼스',
                             textStyle: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w300,

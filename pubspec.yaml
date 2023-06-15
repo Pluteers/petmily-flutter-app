@@ -24,6 +24,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   lottie: ^2.4.0
   transition: ^2.0.2
+  path: ^1.8.3
   google_mobile_ads: ^3.0.0
 
 dev_dependencies:
