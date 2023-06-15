@@ -63,7 +63,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 VariableText(
-                  value: "Petmiliy",
+                  value: "Petmily",
                   size: 50,
                   wght: 700,
                   color: dynamicColor.primary,
@@ -76,7 +76,7 @@ class _LoginPetmiliyViewState extends State<LoginPetmiliyView> {
                   child: AnimatedTextKit(
                     animatedTexts: [
                       TyperAnimatedText(
-                        '우리가 만드는 반려동물 캠퍼스',
+                        '우리가 만드는 반려동물 캔버스',
                         textStyle: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w300,

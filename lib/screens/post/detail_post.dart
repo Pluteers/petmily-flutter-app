@@ -416,7 +416,7 @@ class _PostCommentState extends State<PostComment> {
     var commentFuture = GetCommentList().getCommentList(widget.postId);
     return Container(
       width: width * .9,
-      height: 200,
+      height: 180,
       child: Column(
         children: [
           Container(
@@ -458,7 +458,7 @@ class _PostCommentState extends State<PostComment> {
                     );
                   } else {
                     return SizedBox(
-                      height: 208,
+                      height: 200,
                       child: snapshot.data!.comment!.isEmpty
                           ? const Center(
                               child: VariableText(

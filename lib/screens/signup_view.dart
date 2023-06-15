@@ -41,7 +41,7 @@ class _SignupViewState extends State<SignupView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     VariableText(
-                      value: "Petmiliy",
+                      value: "Petmily",
                       size: 45,
                       wght: 900,
                       color: dynamicColor.primary,
@@ -51,7 +51,7 @@ class _SignupViewState extends State<SignupView> {
                       child: AnimatedTextKit(
                         animatedTexts: [
                           TyperAnimatedText(
-                            '우리가 만드는 반려동물 캠퍼스',
+                            '우리가 만드는 반려동물 캔버스',
                             textStyle: TextStyle(
                               fontSize: 22.0,
                               fontWeight: FontWeight.w400,

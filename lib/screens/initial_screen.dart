@@ -66,7 +66,7 @@ class _InitialContentWidgetState extends State<InitialContentWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             VariableText(
-              value: "Petmiliy",
+              value: "Petmily",
               size: 50.0,
               wght: 700.0,
               color: primaryColor,

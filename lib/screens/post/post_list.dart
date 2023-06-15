@@ -5,17 +5,34 @@ import 'package:petmily/providers/get_postlist.dart';
 import 'package:petmily/screens/post/add_post.dart';
 import 'package:petmily/screens/post/detail_post.dart';
 import 'package:petmily/services/favorite_service.dart';
+import 'package:petmily/utilities/ads.dart';
 import 'package:petmily/widgets/snackbar_widget.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
-class ChannelScreen extends StatelessWidget {
+class ChannelScreen extends StatefulWidget {
   ChannelScreen(
       {super.key, required this.channelId, required this.channelTitle});
   final channelId;
   final channelTitle;
 
+  @override
+  State<ChannelScreen> createState() => _ChannelScreenState();
+}
+
+class _ChannelScreenState extends State<ChannelScreen> {
   final getPostList = GetPostData();
+
+  late AppLifecycleReactor appLifecycleReactor;
+
+  @override
+  void initState() {
+    super.initState();
+    AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+    appLifecycleReactor =
+        AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+    appLifecycleReactor.listenToAppStateChanges();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +51,7 @@ class ChannelScreen extends StatelessWidget {
                   height: 80,
                   alignment: Alignment.centerLeft,
                   child: VariableText(
-                    value: "$channelTitle",
+                    value: "${widget.channelTitle}",
                     size: 40,
                     wght: 300,
                     color: dynamicColor.primary,
@@ -44,7 +61,7 @@ class ChannelScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: IconButton(
                       onPressed: () {
-                        FavoriteService().addFavorite(channelId);
+                        FavoriteService().addFavorite(widget.channelId);
                         snackBar(context, "즐겨찾기에 추가했어요!");
                       },
                       icon: Icon(
@@ -60,7 +77,7 @@ class ChannelScreen extends StatelessWidget {
               SizedBox(
                   height: height - 180,
                   child: FutureBuilder(
-                    future: getPostList.getPost(channelId),
+                    future: getPostList.getPost(widget.channelId),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
@@ -280,7 +297,8 @@ class ChannelScreen extends StatelessWidget {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     DetailPostScreen(
-                                                      channelId: channelId,
+                                                      channelId:
+                                                          widget.channelId,
                                                       postId: postId!,
                                                     )));
                                       },
@@ -311,7 +329,7 @@ class ChannelScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => AddPostScreen(
-                              channelId: channelId,
+                              channelId: widget.channelId,
                             )));
 
                 snackBar(context, "게시물 추가 성공!");

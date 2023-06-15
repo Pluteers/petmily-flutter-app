@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     VariableText(
-                      value: "Petmiliy",
+                      value: "Petmily",
                       size: 50.0,
                       wght: 700.0,
                       color: dynamicColor.primary,
@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: AnimatedTextKit(
                         animatedTexts: [
                           TyperAnimatedText(
-                            '우리가 만드는 반려동물 캠퍼스',
+                            '우리가 만드는 반려동물 캔버스',
                             textStyle: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w300,
