@@ -8,10 +8,10 @@ updates:
     schedule:
       interval: weekly
       time: "10:00"
-      timezone: Aisa/Tokyo
+      timezone: Asia/Tokyo
   - directory: /android
     package-ecosystem: "gradle"
     schedule:
       interval: weekly
       time: "10:00"
-      timezone: Aisa/Tokyo
+      timezone: Asia/Tokyo
