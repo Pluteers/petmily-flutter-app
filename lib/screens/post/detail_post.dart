@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:petmily/screens/post/edit_post.dart';
 import 'package:petmily/services/comment_service.dart';
 
 import 'package:petmily/services/detail_post_service.dart';
 import 'package:petmily/services/get_commentList.dart';
 import 'package:petmily/services/post_postLike.dart';
+import 'package:petmily/services/post_service.dart';
+import 'package:petmily/widgets/snackbar_widget.dart';
 import 'package:petmily/widgets/variable_text.dart';
 import 'package:provider/provider.dart';
 
@@ -74,14 +77,59 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 FontAwesomeIcons.penToSquare,
                 color: dynamicColor.primary,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditPostScreen(
+                            channelId: widget.channelId,
+                            postId: widget.postId)));
+              },
             ),
             IconButton(
               icon: FaIcon(
                 FontAwesomeIcons.trash,
                 color: dynamicColor.primary,
               ),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: dynamicColor.secondaryContainer,
+                      title: VariableText(
+                        value: "게시글을 삭제하시겠어요?",
+                        size: 19,
+                        wght: 500,
+                        color: dynamicColor.onSecondaryContainer,
+                      ),
+                      actions: [
+                        GestureDetector(
+                          child: Container(
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 5, bottom: 5),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: dynamicColor.secondary),
+                              child: VariableText(
+                                value: "삭제",
+                                size: 12,
+                                wght: 400,
+                                color: dynamicColor.onSecondary,
+                              )),
+                          onTap: () {
+                            PostService()
+                                .deletePost(widget.channelId, widget.postId);
+                            snackBar(context, "게시글을 삭제했어요!");
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    );
+                  },
+                );
+              },
             )
           ],
         ),
@@ -90,7 +138,60 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: dynamicColor.secondary,
         onPressed: () {
-          // GetCommentList.getCommentList(widget.postId);
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                backgroundColor: dynamicColor.secondaryContainer,
+                title: VariableText(
+                  value: "댓글 추가",
+                  size: 19,
+                  wght: 500,
+                  color: dynamicColor.onSecondaryContainer,
+                ),
+                content: TextFormField(
+                  controller: CommentService().addCommentContent,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    labelText: '댓글',
+                    labelStyle:
+                        TextStyle(color: dynamicColor.onSecondaryContainer),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        CommentService().addCommentContent.clear();
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: dynamicColor.onSecondaryContainer)),
+                  ),
+                ),
+                actions: [
+                  GestureDetector(
+                    child: Container(
+                        padding: EdgeInsets.only(
+                            left: 10, right: 10, top: 5, bottom: 5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: dynamicColor.secondary),
+                        child: VariableText(
+                          value: "등록",
+                          size: 12,
+                          wght: 400,
+                          color: dynamicColor.onSecondary,
+                        )),
+                    onTap: () {
+                      snackBar(context, "댓글을 추가했어요!");
+                      CommentService().addComment(widget.postId);
+                    },
+                  )
+                ],
+              );
+            },
+          );
         },
         tooltip: '댓글 등록',
         child: FaIcon(
@@ -104,8 +205,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
 
 class PostDetail extends StatelessWidget {
   const PostDetail({super.key, required this.channelId, required this.postId});
-  final channelId;
-  final postId;
+  final int channelId;
+  final int postId;
 
   @override
   Widget build(BuildContext context) {
