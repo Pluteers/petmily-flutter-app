@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class GetChannelData extends ChangeNotifier {
             },
           ));
       if (response.statusCode == 200) {
-        final responseData = response.data;
+        final responseData = jsonDecode(response.data);
         getChannelModel = GetChannel.fromJson(responseData);
 
         notifyListeners();
@@ -73,10 +74,10 @@ class Data {
   Data({this.channelId, this.channelName, this.categoryName, this.categoryId});
 
   Data.fromJson(Map<String, dynamic> json) {
-    channelId = json['channelId'];
-    channelName = json['channelName'];
-    categoryName = json['categoryName'];
-    categoryId = json['categoryId'];
+    channelId = json['channelId'] as int?;
+    channelName = json['channelName'] as String?;
+    categoryName = json['categoryName'] as String?;
+    categoryId = json['categoryId'] as int?;
   }
 
   Map<String, dynamic> toJson() {

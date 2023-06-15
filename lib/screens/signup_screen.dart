@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
 
-import 'package:petmily/screens/login_view.dart';
+//import 'package:petmily/screens/login_view.dart';
+import 'package:petmily/screens/initial_screen.dart';
 import 'package:petmily/services/auth_service.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
@@ -241,7 +242,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => LoginView(),
+                                    builder: (context) => const InitialScreen(),
                                   ),
                                 );
                               },

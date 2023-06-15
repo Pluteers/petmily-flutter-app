@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 
-import 'package:petmily/providers/get_channel.dart';
+import 'package:petmily/providers/get_channel_data.dart';
 import 'package:petmily/providers/post_channel.dart';
 import 'package:petmily/screens/chat/chat_screen.dart';
 import 'package:petmily/screens/mypage_screens.dart';
-import 'package:petmily/screens/post/post_list.dart';
+import 'package:petmily/screens/post/channel_screen.dart';
 import 'package:petmily/widgets/snackbar_widget.dart';
 import 'package:petmily/widgets/variable_text.dart';
 

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:petmily/providers/login_provider.dart';
 import 'package:petmily/screens/home.dart';
-import 'package:petmily/screens/signup_view.dart';
+import 'package:petmily/screens/signup_screen.dart';
 import 'package:petmily/widgets/snackbar_widget.dart';
 import 'package:petmily/widgets/variable_text.dart';
 

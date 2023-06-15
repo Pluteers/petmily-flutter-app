@@ -5,13 +5,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:petmily/screens/initial_screen.dart';
 
 import 'package:petmily/screens/signin_screen.dart';
-import 'package:petmily/screens/post/detail_post.dart';
-import 'package:petmily/screens/post/post_list.dart';
+import 'package:petmily/screens/post/detail_post_screen.dart';
+import 'package:petmily/screens/post/channel_screen.dart';
 import 'package:petmily/services/auth_service.dart';
 import 'package:petmily/services/chnnel_service.dart';
 import 'package:petmily/services/comment_service.dart';
 import 'package:petmily/services/favorite_service.dart';
-import 'package:petmily/services/mypage_service.dart';
+import 'package:petmily/services/user_service.dart';
 import 'package:petmily/services/post_service.dart';
 import 'package:petmily/services/scrap_service.dart';
 import 'package:petmily/widgets/variable_text.dart';

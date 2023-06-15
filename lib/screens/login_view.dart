@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:petmily/screens/login_petmiliy_view.dart';
-import 'package:petmily/main.dart';
-import 'package:petmily/screens/signup_view.dart';
-import 'package:petmily/widgets/variable_text.dart';
+
 import 'package:provider/provider.dart';
+
+import 'package:petmily/screens/signin_screen.dart';
+import 'package:petmily/screens/signup_screen.dart';
+import 'package:petmily/widgets/variable_text.dart';
 import 'package:petmily/services/login_service.dart';
 
 class LoginView extends StatelessWidget {
+  const LoginView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -37,7 +40,7 @@ class _LoginViewState extends State<_LoginView> {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,7 +71,7 @@ class _LoginViewState extends State<_LoginView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginPetmiliyView()),
+                          builder: (context) => const SignInScreen()),
                     );
                   },
                   icon: Image.asset(
@@ -82,7 +85,7 @@ class _LoginViewState extends State<_LoginView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginPetmiliyView()),
+                          builder: (context) => const SignInScreen()),
                     );
                   },
                   icon: Image.asset(
@@ -96,7 +99,7 @@ class _LoginViewState extends State<_LoginView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginPetmiliyView()),
+                          builder: (context) => const SignInScreen()),
                     );
                   },
                   icon: Image.asset(
@@ -135,8 +138,7 @@ class _LoginViewState extends State<_LoginView> {
                 // 회원가입 화면으로 이동
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const LoginPetmiliyView()),
+                  MaterialPageRoute(builder: (context) => const SignInScreen()),
                 );
               },
             ),
@@ -169,7 +171,7 @@ class _LoginViewState extends State<_LoginView> {
                 // 회원가입 화면으로 이동
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignupView()),
+                  MaterialPageRoute(builder: (context) => const SignUpScreen()),
                 );
               },
             ),

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:petmily/models/scrap_model.dart';
+import 'package:petmily/models/scrap_list_model.dart';
 
 final dio = Dio();
 
