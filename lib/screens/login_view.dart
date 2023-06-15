@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:petmily/screens/login_petmiliy_view.dart';
 import 'package:petmily/main.dart';
@@ -17,12 +16,25 @@ class LoginView extends StatelessWidget {
   }
 }
 
-class _LoginView extends StatelessWidget {
+class _LoginView extends StatefulWidget {
+  @override
+  State<_LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<_LoginView> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<LoginViewModel>(context);
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
+    Color buttonColor = dynamicColor.background;
+
+    void changeButtonColor() {
+      setState(() {
+        buttonColor = dynamicColor.primary; // 원하는 색상으로 변경
+      });
+    }
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -56,7 +68,7 @@ class _LoginView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomeWidget()),
+                          builder: (context) => const LoginPetmiliyView()),
                     );
                   },
                   icon: Image.asset(
@@ -96,13 +108,14 @@ class _LoginView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20.0),
-            GestureDetector(
+            InkWell(
+              focusColor: dynamicColor.error,
               child: Container(
                   width: width * .6,
                   height: 40,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: dynamicColor.background,
                       boxShadow: [
                         BoxShadow(
                           color: dynamicColor.primary.withOpacity(0.4),
@@ -136,7 +149,7 @@ class _LoginView extends StatelessWidget {
                   height: 40,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: dynamicColor.background,
                       boxShadow: [
                         BoxShadow(
                           color: dynamicColor.primary.withOpacity(0.4),

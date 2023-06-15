@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:petmily/screens/login_petmiliy_view.dart';
 
 import 'package:petmily/screens/login_view.dart';
+import 'package:petmily/screens/post/detail_post.dart';
+import 'package:petmily/screens/post/post_list.dart';
 import 'package:petmily/services/auth_service.dart';
+import 'package:petmily/services/chnnel_service.dart';
+import 'package:petmily/services/comment_service.dart';
 import 'package:petmily/services/favorite_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:petmily/services/mypage_service.dart';
+import 'package:petmily/services/post_service.dart';
 import 'package:petmily/services/scrap_service.dart';
 import 'package:petmily/widgets/variable_text.dart';
 
@@ -15,7 +22,7 @@ class MyPageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
-
+    final height = MediaQuery.of(context).size.height;
     String userId = "";
     String userNickname = "";
 
@@ -42,7 +49,7 @@ class MyPageScreen extends StatelessWidget {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LoginView(),
+                      builder: (context) => const LoginPetmiliyView(),
                     ));
                 AuthService().signOut();
               },
@@ -74,6 +81,7 @@ class MyPageScreen extends StatelessWidget {
                         snapshot.data!.createDate!.substring(0, 10);
                     userId = email!;
                     userNickname = nickname!;
+                    var lottieValue = 0;
                     return Column(
                       children: [
                         Expanded(
@@ -83,12 +91,16 @@ class MyPageScreen extends StatelessWidget {
                                 Expanded(
                                     flex: 1,
                                     child: Container(
-                                      margin: const EdgeInsets.all(20),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          color: dynamicColor.primary),
-                                    )),
+                                        height: height,
+                                        margin: const EdgeInsets.all(20),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            border: Border.all(
+                                                width: 1,
+                                                color: dynamicColor.primary)),
+                                        child: Lottie.network(
+                                            "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"))),
                                 Expanded(
                                   flex: 1,
                                   child: Column(
@@ -318,7 +330,7 @@ class UserFavoriteList extends StatelessWidget {
                   var channelId = snapshot.data!.data![index].channelId;
                   var categoryId = snapshot.data!.data![index].categoryId;
                   var nickname = snapshot.data!.data![index].nickname;
-                  var url = snapshot.data!.data![index].url;
+
                   return InkWell(
                     child: Card(
                       child: Padding(
@@ -336,25 +348,17 @@ class UserFavoriteList extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            url == null
+                            categoryId == 1
                                 ? Expanded(
                                     flex: 2,
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              dynamicColor.secondaryContainer,
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
-                                      child: VariableText(
-                                        value: "대표 이미지 없음",
-                                        size: 12,
-                                        wght: 300,
-                                        color:
-                                            dynamicColor.onSecondaryContainer,
-                                      ),
-                                    ))
-                                : Expanded(flex: 2, child: SizedBox()),
+                                    child: Lottie.network(
+                                        "https://assets9.lottiefiles.com/packages/lf20_syqnfe7c.json"),
+                                  )
+                                : Expanded(
+                                    flex: 2,
+                                    child: Lottie.network(
+                                        "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"),
+                                  ),
                             Expanded(
                                 flex: 1,
                                 child: Row(
@@ -386,6 +390,13 @@ class UserFavoriteList extends StatelessWidget {
                     ),
                     onTap: () {
                       /**채널 접근 메소드 추가 */
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChannelScreen(
+                                    channelId: channelId,
+                                    channelTitle: channelName,
+                                  )));
                     },
                   );
                 },
@@ -444,6 +455,7 @@ class UserScrapList extends StatelessWidget {
                   var channelName =
                       snapshot.data!.data![index].post!.channelName;
                   var id = snapshot.data!.data![index].post!.id;
+                  var channelId = snapshot.data!.data![index].post!.channelId;
                   var nickname = snapshot.data!.data![index].post!.nickname;
                   var postHit = snapshot.data!.data![index].post!.hit;
                   var postLike = snapshot.data!.data![index].post!.likePost;
@@ -536,6 +548,11 @@ class UserScrapList extends StatelessWidget {
                     ),
                     onTap: () {
                       /** 게시물 이동 추가 */
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailPostScreen(
+                                  channelId: channelId!, postId: id!)));
                     },
                   );
                 },
@@ -554,21 +571,329 @@ class UserScrapList extends StatelessWidget {
   }
 }
 
-class MyChannelPostView extends StatelessWidget {
+class MyChannelPostView extends StatefulWidget {
   const MyChannelPostView({super.key});
 
+  @override
+  State<MyChannelPostView> createState() => _MyChannelPostViewState();
+}
+
+class _MyChannelPostViewState extends State<MyChannelPostView> {
   @override
   Widget build(BuildContext context) {
     final dynamicColor = Theme.of(context).colorScheme;
     return SizedBox.expand(
-      child: Center(
-        child: TextButton(
-            onPressed: () {
-              UserService().myComment();
-            },
-            child: Text("data")),
-      ),
-    );
+        child: Column(
+      children: [
+        Expanded(
+            flex: 1,
+            child: SizedBox(
+              child: FutureBuilder(
+                future: UserService().myChannel(),
+                builder: (context, snapshot) {
+                  return Column(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: dynamicColor.secondaryContainer),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: VariableText(
+                                value: "채널",
+                                size: 15,
+                                wght: 500,
+                                color: dynamicColor.onBackground,
+                              ),
+                            ),
+                          )),
+                      Expanded(
+                        flex: 3,
+                        child: ListView.builder(
+                          itemCount: snapshot.data?.data!.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            var title = snapshot.data?.data![index].channelName;
+
+                            var channelId =
+                                snapshot.data?.data![index].channelId;
+
+                            return InkWell(
+                              child: Dismissible(
+                                key: ValueKey(snapshot.data?.data![index]),
+                                onDismissed: (direction) {
+                                  setState(() {
+                                    snapshot.data?.data!.removeAt(index);
+                                    ChannelService().deleteChannel(channelId);
+                                  });
+                                },
+                                background: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: dynamicColor.error),
+                                  alignment: Alignment.centerRight,
+                                  child: const Icon(
+                                    Icons.delete,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                secondaryBackground: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: dynamicColor.error),
+                                  alignment: Alignment.centerRight,
+                                  child: const Icon(
+                                    Icons.delete,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: VariableText(
+                                        value: "$title",
+                                        size: 13,
+                                        wght: 500,
+                                        color: dynamicColor.onBackground,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChannelScreen(
+                                          channelId: channelId,
+                                          channelTitle: title),
+                                    ));
+                              },
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                },
+              ),
+            )),
+        Expanded(
+            flex: 1,
+            child: SizedBox(
+              child: FutureBuilder(
+                future: UserService().myPost(),
+                builder: (context, snapshot) {
+                  return Column(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: dynamicColor.secondaryContainer),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: VariableText(
+                                value: "게시물",
+                                size: 15,
+                                wght: 500,
+                                color: dynamicColor.onBackground,
+                              ),
+                            ),
+                          )),
+                      Expanded(
+                        flex: 3,
+                        child: ListView.builder(
+                          itemCount: snapshot.data?.data!.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            var title = snapshot.data?.data![index].title;
+                            var hit = snapshot.data?.data![index].hit;
+                            var likePost = snapshot.data?.data![index].likePost;
+                            var channelId =
+                                snapshot.data?.data![index].channelId;
+                            var postId = snapshot.data?.data![index].id;
+                            return InkWell(
+                              child: Dismissible(
+                                key: ValueKey(snapshot.data?.data![index]),
+                                onDismissed: (direction) {
+                                  setState(() {
+                                    snapshot.data?.data!.removeAt(index);
+                                    PostService()
+                                        .deletePost(channelId!, postId!);
+                                  });
+                                },
+                                background: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: dynamicColor.error),
+                                  alignment: Alignment.centerRight,
+                                  child: const Icon(
+                                    Icons.delete,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                secondaryBackground: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: dynamicColor.error),
+                                  alignment: Alignment.centerRight,
+                                  child: const Icon(
+                                    Icons.delete,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: VariableText(
+                                        value: "$title",
+                                        size: 13,
+                                        wght: 500,
+                                        color: dynamicColor.onBackground,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailPostScreen(
+                                          channelId: channelId!,
+                                          postId: postId!),
+                                    ));
+                              },
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                },
+              ),
+            )),
+        Expanded(
+            flex: 1,
+            child: SizedBox(
+              child: FutureBuilder(
+                future: UserService().myComment(),
+                builder: (context, snapshot) {
+                  return Column(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: dynamicColor.secondaryContainer),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: VariableText(
+                                value: "댓글",
+                                size: 15,
+                                wght: 500,
+                                color: dynamicColor.onBackground,
+                              ),
+                            ),
+                          )),
+                      // Expanded(flex: 3, child: SizedBox()),
+                      Expanded(
+                        flex: 3,
+                        child: ListView.builder(
+                          itemCount: snapshot.data?.data!.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            var title = snapshot.data?.data![index].content;
+
+                            var commentId =
+                                snapshot.data?.data![index].commentId;
+
+                            return Dismissible(
+                              key: ValueKey(snapshot.data?.data![index]),
+                              onDismissed: (direction) {
+                                setState(() {
+                                  CommentService().deleteComment(commentId!);
+                                  snapshot.data?.data!.removeAt(index);
+                                });
+                              },
+                              background: Container(
+                                margin: const EdgeInsets.all(8),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: dynamicColor.error),
+                                alignment: Alignment.centerRight,
+                                child: const Icon(
+                                  Icons.delete,
+                                  size: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              secondaryBackground: Container(
+                                margin: const EdgeInsets.all(8),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: dynamicColor.error),
+                                alignment: Alignment.centerRight,
+                                child: const Icon(
+                                  Icons.delete,
+                                  size: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: VariableText(
+                                      value: "$title",
+                                      size: 13,
+                                      wght: 500,
+                                      color: dynamicColor.onBackground,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                },
+              ),
+            )),
+      ],
+    ));
   }
 }
 

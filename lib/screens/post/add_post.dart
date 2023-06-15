@@ -40,17 +40,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       images.addAll(pickedFile);
     });
-    // imagePaths = pickedFile.map((file) => file.path).cast<String>().toList();
-    // List<String> imagePaths = pickedFile.map((file) => file.path).toList();
-    // List<String> imagePaths =
-    //     pickedFile.map((file) => file).cast<String>().toList();
-    // if (pickedFile != null) {
-    //   setState(() {
-    //     _pickedFile = pickedFile;
-    //   });
-    // } else {
-    //   log('message');
-    // }
   }
 
   @override
