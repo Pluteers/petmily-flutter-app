@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const _seedColor = Color(0X52489C);
+const _seedColor = Color(0xff52489C);
 
 class DynamicTheme {
   static ThemeData lightTheme(ColorScheme? lightColorScheme) {

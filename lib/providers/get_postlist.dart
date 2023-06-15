@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final dio = Dio();
 
 class GetPostData extends ChangeNotifier {
-  static List<Data> _dataList = [];
+  static final List<Data> _dataList = [];
   List<Data> post = [];
   List<Data> get data => _dataList;
 
