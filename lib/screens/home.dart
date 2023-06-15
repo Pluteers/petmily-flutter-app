@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:petmily/providers/get_channel.dart';
+import 'package:petmily/screens/chat/chat_screen.dart';
+import 'package:petmily/screens/mypage_screens.dart';
 import 'package:petmily/screens/post/post_list.dart';
+import 'package:petmily/widgets/snackbar_widget.dart';
 
 import 'package:petmily/widgets/variable_text.dart';
 
@@ -23,58 +26,128 @@ class _HomeScreenState extends State<HomeScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return ChangeNotifierProvider(
-      create: (context) => GetChannelData(),
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Container(
-              width: width,
-              height: 80,
-              alignment: Alignment.centerLeft,
-              child: VariableText(
-                value: "채널",
-                color: dynamicColor.primary,
-                size: 40.0,
-                wght: 300.0,
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: Container(
+            width: width,
+            height: 80,
+            alignment: Alignment.centerLeft,
+            child: VariableText(
+              value: "채널",
+              color: dynamicColor.primary,
+              size: 40.0,
+              wght: 300.0,
             ),
           ),
         ),
-        backgroundColor: dynamicColor.background,
-        body: const HomeGrideView(),
-        bottomNavigationBar: BottomAppBar(
-          height: 80,
-          color: dynamicColor.surfaceVariant,
+      ),
+      backgroundColor: dynamicColor.background,
+      body: const HomeGrideView(),
+      bottomNavigationBar: BottomAppBar(
+        height: 80,
+        color: dynamicColor.surfaceVariant,
+        child: Row(
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.person,
+                size: 30,
+                color: dynamicColor.primary,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyPageScreen()));
+              },
+            ),
+            IconButton(
+              icon: FaIcon(
+                FontAwesomeIcons.comment,
+                color: dynamicColor.primary,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChatScreen()));
+              },
+            ),
+            // IconButton(
+            //   icon: FaIcon(
+            //     FontAwesomeIcons.search,
+            //     color: dynamicColor.primary,
+            //   ),
+            //   onPressed: () {
+            //     // showSearch(context: context, delegate: searchBar());
+            //   },
+            // ),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: dynamicColor.secondary,
-          elevation: 0,
-          onPressed: () {
-            addChannel(context); //카테고리 추가
-          },
-          tooltip: 'Add',
-          child: Icon(
-            Icons.add,
-            color: dynamicColor.onSecondary,
-          ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: dynamicColor.secondary,
+        elevation: 0,
+        onPressed: () {
+          addChannel(context, dynamicColor); //카테고리 추가
+        },
+        tooltip: 'Add',
+        child: Icon(
+          Icons.add,
+          color: dynamicColor.onSecondary,
         ),
       ),
     );
   }
 }
 
+/**검색 기능 */
+// class searchBar extends SearchDelegate {
+//   @override
+//   List<Widget>? buildActions(BuildContext context) {
+//     // TODO: implement buildActions
+//     IconButton(
+//       icon: Icon(Icons.arrow_back),
+//       onPressed: () => close(context, null),
+//     );
+//   }
+
+//   @override
+//   Widget? buildLeading(BuildContext context) {
+//     // TODO: implement buildLeading
+//     throw UnimplementedError();
+//   }
+
+//   @override
+//   Widget buildResults(BuildContext context) {
+//     // TODO: implement buildResults
+//     throw UnimplementedError();
+//   }
+
+//   @override
+//   Widget buildSuggestions(BuildContext context) {
+//     // TODO: implement buildSuggestions
+//     throw UnimplementedError();
+//   }
+// }
+
 /**카테고리 추가 메소드 */
-void addChannel(_) async {
+void addChannel(_, dynamicColor) async {
   String selectedDropdown = "1";
+
   return await showDialog(
       context: _,
       builder: (_) {
         return AlertDialog(
-          title: const Text('채널 생성'),
+          title: const VariableText(
+            value: "채널 추가",
+            size: 19,
+            wght: 500,
+          ),
           content: StatefulBuilder(
             builder: (context, setState) {
               return SizedBox(
@@ -82,16 +155,33 @@ void addChannel(_) async {
                 child: Column(
                   children: [
                     TextFormField(
-                        controller: PostChannel.channelTitleController,
-                        decoration: const InputDecoration(
-                          labelText: '채널 이름',
-                          labelStyle: TextStyle(
-                            color: Colors.black,
-                          ),
-                        )),
+                      controller: PostChannel.channelTitleController,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        labelText: '채널 제목',
+                        labelStyle:
+                            TextStyle(color: dynamicColor.onSecondaryContainer),
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            PostChannel.channelTitleController.clear();
+                          },
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: dynamicColor.onSecondaryContainer)),
+                      ),
+                    ),
                     Row(
                       children: [
-                        const Expanded(child: Text("카테고리")),
+                        const Expanded(
+                            child: VariableText(
+                          value: "카테고리",
+                          size: 15,
+                          wght: 300,
+                        )),
                         Expanded(
                           child: DropdownButton(
                             value: selectedDropdown,
@@ -103,15 +193,19 @@ void addChannel(_) async {
                             items: const [
                               DropdownMenuItem(
                                 value: "1",
-                                child: Text("강아지의 일상"),
+                                child: VariableText(
+                                  value: "강아지 일상",
+                                  size: 15,
+                                  wght: 300,
+                                ),
                               ),
                               DropdownMenuItem(
                                 value: "2",
-                                child: Text("고양이의 일상"),
-                              ),
-                              DropdownMenuItem(
-                                value: "3",
-                                child: Text("일상"),
+                                child: VariableText(
+                                  value: "고양이 일상",
+                                  size: 15,
+                                  wght: 300,
+                                ),
                               ),
                             ],
                           ),
@@ -128,6 +222,8 @@ void addChannel(_) async {
                 onPressed: () {
                   PostChannel.postChannel(selectedDropdown);
                   Navigator.pop(_);
+
+                  snackBar(_, "채널 추가 성공!");
                 },
                 child: const Text('채널 추가')),
             TextButton(
@@ -180,18 +276,6 @@ class _HomeGrideViewState extends State<HomeGrideView> {
                     var channelTitle = snapshot.data!.data![index].channelName;
                     var channelId = snapshot.data!.data![index].channelId;
                     var categoryId = snapshot.data!.data![index].categoryId;
-                    // var categoryIcon;
-                    // if (categoryId == 1) {
-                    //   categoryIcon = FaIcon(
-                    //     FontAwesomeIcons.dog,
-                    //     color: dynamicColor.onPrimary,
-                    //   );
-                    // } else {
-                    //   categoryIcon = FaIcon(
-                    //     FontAwesomeIcons.cat,
-                    //     color: dynamicColor.secondary,
-                    //   );
-                    // }
                     return InkWell(
                       child: Container(
                         decoration: BoxDecoration(
@@ -223,19 +307,13 @@ class _HomeGrideViewState extends State<HomeGrideView> {
                                 ? Expanded(
                                     flex: 2,
                                     child: Lottie.network(
-                                        "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"),
+                                        "https://assets9.lottiefiles.com/packages/lf20_syqnfe7c.json"),
                                   )
                                 : Expanded(
                                     flex: 2,
                                     child: Lottie.network(
-                                        "https://assets9.lottiefiles.com/packages/lf20_syqnfe7c.json"),
+                                        "https://assets4.lottiefiles.com/packages/lf20_OT15QW.json"),
                                   )
-                            // Container(
-                            //   width: width,
-                            //   alignment: Alignment.bottomRight,
-                            //   margin: EdgeInsets.only(bottom: 10, right: 10),
-                            //   child: categoryIcon,
-                            // )
                           ],
                         ),
                       ),
@@ -252,7 +330,7 @@ class _HomeGrideViewState extends State<HomeGrideView> {
                   },
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-                    childAspectRatio: 1 / 1.3, //item 의 가로 1, 세로 1.5 의 비율
+                    childAspectRatio: 2 / 2.5, //item 의 가로 1, 세로 1.5 의 비율
                     mainAxisSpacing: 10, //수평 Padding
                     crossAxisSpacing: 10, //수직 Padding
                   ),
